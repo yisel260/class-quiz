@@ -75,4 +75,22 @@ class Student(db.Model, SerializerMixin):
     
 
     def __repr__(self):
-        return f"student:{self.name} password:{self.points} "
+        return f"student:{self.name} password:{self.password} "
+    
+class Quiz(db.Model,SerializerMixin):
+    __tablename__ ="quizzes"
+
+    id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String)
+    description=db.Column(db.String)
+    category=db.Column(db.String)
+    point_value=db.Column(db.Integer)
+    passing_score=db.Column(db.Integer)
+    retry = db.Column(db.Boolean) 
+    teacher_id=db.Column(db.Integer, db.ForeignKey("teachers.id"))
+    #teacher=db.relationship("Teacher", back_populates="prizes")
+    #orders = db.relationship('Order', back_populates='prize', cascade='all, delete-orphan')
+
+    # serialize_rules = ('-teacher','-orders.prize',)
+    def _repr_(self):
+        return f"{self.title} , {self.description}"

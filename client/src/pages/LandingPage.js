@@ -2,7 +2,7 @@
 import React from 'react';
 // import Header from '../components/Header';
 //import SignUpForm from '../components/SignUpForm';
-//import Login from'../components/Login';
+import TeacherLogin from'../components/TeacherLogin';
 import { useFormik } from 'formik';
 //import { useOutletContext } from 'react-router-dom';
 
@@ -46,9 +46,7 @@ function LandingPage(){
           </header> */}
           <main>
             <h1>Welcome to Class Quiz! </h1>
-            <div>
-                <h2 className='section-banner'>I am a student:</h2> 
-            </div>
+            <h2 className='section-banner'>I am a student:</h2> 
                <div id="student-section">
                   <form onSubmit={formik.handleSubmit}>
                     <label>Class code:</label>
@@ -61,21 +59,12 @@ function LandingPage(){
                     placeholder=""></input>
                     <input className="action-button" type="submit" value = "Go!"/>
                   </form>
-            </div>
-            <div>
+                </div>
             <h2 className='section-banner'>I am a teacher:</h2> 
-            </div>
             <div id="teacher-section">
-                  <div id="log-in-form" className="section">
-                      {/* <Login onLogin={handleLogin}/> */}
-                  </div>
-                  <div id= "or">
-                  <h3>Or</h3>
-                  </div>
-                  <div id="sign-up-form"className="section">
-                      {/* <SignUpForm onLogin={handleLogin}/> */}
-                  </div>
-              </div>
+                <TeacherLogin />
+                <p>I don't have an account</p> 
+            </div>
             </main>
           </>
     

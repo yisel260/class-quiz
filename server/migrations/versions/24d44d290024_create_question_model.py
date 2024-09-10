@@ -1,8 +1,8 @@
 """create Question  model
 
-Revision ID: 024ce30b8ec6
+Revision ID: 24d44d290024
 Revises: 627aded3f0cf
-Create Date: 2024-09-10 17:59:39.309297
+Create Date: 2024-09-10 18:10:53.495143
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = '024ce30b8ec6'
+revision = '24d44d290024'
 down_revision = '627aded3f0cf'
 branch_labels = None
 depends_on = None

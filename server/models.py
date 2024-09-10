@@ -96,7 +96,7 @@ class Quiz(db.Model,SerializerMixin):
         return f"{self.title} , {self.description}"
     
 
-class Questin(db.Model, SerializerMixin): 
+class Question(db.Model, SerializerMixin): 
     __tablename__ = 'questions'
 
     id = db.Column(db.Integer, primary_key=True) 
@@ -108,3 +108,10 @@ class Questin(db.Model, SerializerMixin):
 
     def __repr__ (self):
         return f"{self.question}" 
+
+class Assignment(db.Model,SerializerMixin):
+    id = db.Column(db.Integer,primary_key=True)
+    student_id =db.Column(db.Integer, db.ForeignKey("students.id"))
+    quiz_id = db.Column(db.Integer,db.ForeignKey("quizzes.id"))
+    status = db.Column(db.String)
+    score =db.Column(db.Integer)

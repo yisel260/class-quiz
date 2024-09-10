@@ -94,3 +94,17 @@ class Quiz(db.Model,SerializerMixin):
     # serialize_rules = ('-teacher','-orders.prize',)
     def _repr_(self):
         return f"{self.title} , {self.description}"
+    
+
+class Questin(db.Model, SerializerMixin): 
+    __tablename__ = 'questions'
+
+    id = db.Column(db.Integer, primary_key=True) 
+    question= db.Column(db.String)
+    type = db.Column(db.String) 
+    options = db.Column(db.String) 
+    correct_answer = db.Column(db.String)
+    quiz_id = db.Column(db.Integer, db.ForeignKey("quizzes.id"))
+
+    def __repr__ (self):
+        return f"{self.question}" 

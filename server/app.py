@@ -5,7 +5,7 @@
 # Remote library imports
 from flask import request
 from flask_restful import Resource
-from models import Teacher
+from models import Teacher, Section , Student
 
 
 # Local imports

@@ -56,6 +56,23 @@ class Section(db.Model, SerializerMixin):
     teacher_id= db.Column(db.Integer, db.ForeignKey("teachers.id"))
     teacher = db.relationship("Teacher",back_populates ="sections")
     students = db.relationship('Student', back_populates="section", cascade='all, delete-orphan')
-    
+
     def __repr__(self):
         return f"{self.name} class code: {self.section_code}"
+
+
+class Student(db.Model, SerializerMixin):
+    __tablename__ ="students"
+
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String, nullable=False)
+    password = db.Column(db.String, nullable=False)
+    role  = db.Column(db.String)
+    section_id= db.Column(db.Integer, db.ForeignKey("sections.id"))
+    section = db.relationship("Section",back_populates ="students")
+    #serialize_rules = ('-section.students','-orders.student',)
+    #orders = db.relationship('Order', back_populates='student', cascade='all, delete-orphan')
+    
+
+    def __repr__(self):
+        return f"student:{self.name} password:{self.points} "

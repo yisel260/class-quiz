@@ -15,8 +15,9 @@ class Teacher(db.Model, SerializerMixin):
     school=db.Column(db.String)
     role=db.Column(db.String)
     # sections=db.relationship('Section', back_populates="teacher", cascade='all, delete-orphan')
-    # prizes=db.relationship('Prize', back_populates="teacher", cascade='all, delete-orphan')
-    # serialize_rules = ('-prizes','-sections.teacher',)
+    # quizzes=db.relationship('Prize', back_populates="teacher", cascade='all, delete-orphan')
+
+    # serialize_rules = ('-quizzes.teacher','-sections.teacher',)
 
     def __repr__(self):
         return f"{self.fname}{self.lname} from {self.school}"
@@ -48,14 +49,17 @@ class Teacher(db.Model, SerializerMixin):
 class Section(db.Model, SerializerMixin):
     __tablename__ ="sections"
 
-    #serialize_rules = ("-students.section",)
 
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String)
     section_code = db.Column(db.String, nullable=False, unique=True)
     teacher_id= db.Column(db.Integer, db.ForeignKey("teachers.id"))
-    teacher = db.relationship("Teacher",back_populates ="sections")
-    students = db.relationship('Student', back_populates="section", cascade='all, delete-orphan')
+   
+    # teacher = db.relationship("Teacher",back_populates ="sections", cascade='all, delete-orphan')
+    # students = db.relationship('Student', back_populates="section", cascade='all, delete-orphan')
+
+    # serialize_rules = ("-students.section",)
+
 
     def __repr__(self):
         return f"{self.name} class code: {self.section_code}"
@@ -69,9 +73,11 @@ class Student(db.Model, SerializerMixin):
     password = db.Column(db.String, nullable=False)
     role  = db.Column(db.String)
     section_id= db.Column(db.Integer, db.ForeignKey("sections.id"))
-    section = db.relationship("Section",back_populates ="students")
-    #serialize_rules = ('-section.students','-orders.student',)
-    #orders = db.relationship('Order', back_populates='student', cascade='all, delete-orphan')
+
+    # section = db.relationship("Section",back_populates ="students")
+    # assignments = db.relationship('Assignment', back_populates='students', cascade='all, delete-orphan')
+
+    # serialize_rules = ('-section.students','-assignments.student', "-quizzes.student",)
     
 
     def __repr__(self):
@@ -88,10 +94,14 @@ class Quiz(db.Model,SerializerMixin):
     passing_score=db.Column(db.Integer)
     retry = db.Column(db.Boolean) 
     teacher_id=db.Column(db.Integer, db.ForeignKey("teachers.id"))
-    #teacher=db.relationship("Teacher", back_populates="prizes")
-    #orders = db.relationship('Order', back_populates='prize', cascade='all, delete-orphan')
+    
+    # teacher=db.relationship("Teacher", back_populates="quizzes")
+    # assignments = db.relationship('Assignment', back_populates='quizzes', cascade='all, delete-orphan')
+    # questions =db.relationship('Question', back_populates='quizzes', cascade='all, delete-orphan')
 
-    # serialize_rules = ('-teacher','-orders.prize',)
+    # serialize_rules = ('-teacher.quiz','-assignments.quiz','questions.quiz',)
+
+
     def _repr_(self):
         return f"{self.title} , {self.description}"
     
@@ -106,6 +116,7 @@ class Question(db.Model, SerializerMixin):
     correct_answer = db.Column(db.String)
     quiz_id = db.Column(db.Integer, db.ForeignKey("quizzes.id"))
 
+
     def __repr__ (self):
         return f"{self.question}" 
 
@@ -115,3 +126,4 @@ class Assignment(db.Model,SerializerMixin):
     quiz_id = db.Column(db.Integer,db.ForeignKey("quizzes.id"))
     status = db.Column(db.String)
     score =db.Column(db.Integer)
+    # student=db.relationship('Student',back_populates="assignments", cascade='all,delete-orphan')

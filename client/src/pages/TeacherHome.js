@@ -1,14 +1,16 @@
-import React from "react";
+import React,{useContext}from "react";
 import Header from "../components/Header"
 import NavBar from "../components/NavBar";
 // import StudentCard from "../components/StudentCard";
 import {useOutletContext} from "react-router-dom"
 // import "./pages.css"
-// import SectionSelector from "../components/SectionSelector";
+import SectionSelector from "../components/SectionSelector";
+import UserContext from '../UserContext'
+
 
 function TeacherHome(){
 
-  const context = useOutletContext()
+  const user = useContext(UserContext)
 
     return (
         <>
@@ -18,7 +20,7 @@ function TeacherHome(){
           </header>
           <br/>
           <main>
-           {/* <SectionSelector/> */}
+           <SectionSelector/>
             <br/><br/>
           {/* <div id="student-card-container">
             {context.students?(context.students.map(student =>{

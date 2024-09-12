@@ -18,8 +18,13 @@ class Teacher(db.Model, SerializerMixin):
 
     sections=db.relationship('Section', back_populates="teacher", cascade='all, delete-orphan')
     # quizzes = db.relationship('Quiz', back_populates="teacher", cascade='all, delete-orphan')
+    students = association_proxy('sections', 'students',
+                                 creator=lambda student_obj: Student(student=student_obj))
+
 
     serialize_rules = ('-quizzes.teacher','-sections.teacher',)
+
+    
 
     def __repr__(self):
         return f"{self.fname}{self.lname} from {self.school}"
@@ -77,6 +82,8 @@ class Student(db.Model, SerializerMixin):
 
     section = db.relationship("Section",back_populates ="students")
     assignments = db.relationship('Assignment', back_populates='student', cascade='all, delete-orphan')
+    teacher = association_proxy('section', 'teacher',
+                                  creator=lambda teacher_obj: Teacher(teacher=teacher_obj))
 
     serialize_rules = ('-section.students', '-assignments.student')
 

@@ -93,5 +93,18 @@ if __name__ == '__main__':
             db.session.add_all(questions)
             db.session.commit()
 
+        assignments=[]
+        for student in students:   
+            for n in range(2):
+                assignment=Assignment(
+                    student_id = student.id,
+                    quiz_id = rc(quizzes).id,
+                    status = 'assigned',
+                    score = randint(1, 10)
+                                )
+                assignments.append(assignment)
+            db.session.add_all(assignments)
+            db.session.commit()
+
 
         print("Seeding completed...")

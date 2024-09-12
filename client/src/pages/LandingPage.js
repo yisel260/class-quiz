@@ -1,6 +1,6 @@
 
 import React from 'react';
-// import Header from '../components/Header';
+//import Header from '../components/Header';
 //import SignUpForm from '../components/SignUpForm';
 import TeacherLogin from'../components/TeacherLogin';
 import { useFormik } from 'formik';
@@ -37,7 +37,6 @@ function LandingPage(){
           }
         }
       )
-
     return (
         <>
         <p>This is the landing page</p>

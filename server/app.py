@@ -15,6 +15,7 @@ class Teachers(Resource):
 
     def get(self):
         response_dict_list = [n.to_dict() for n in Teacher.query.all()]
+        print(response_dict_list)
         response = make_response(
             response_dict_list,
             200, )
@@ -50,26 +51,30 @@ class TeacherByID(Resource):
 
 
 
-# class TeacherLogin(Resource):
+class TeacherLogin(Resource):
 
-#     def post(self):
-#         user = Teacher.query.filter(Teacher.email == request.get_json("username")).first()
-#         print(user.id)
-#         session['user_id'] = user.id
-#         return user.to_dict()
+    def post(self):
+        user = Teacher.query.filter(Teacher.email == request.get_json("username")).first()
+        print(user.id)
+        session['user_id'] = user.id
+        return user.to_dict()
     
 # class Logout(Resource):
 #     def delete(self):
 #         session['user_id'] = None
 #         return {'message': '204: No Content'}, 204
     
-# class CheckSession(Resource):
-#     def get(self):
-#         user = Teacher.query.filter(Teacher.id == session.get('user_id')).first()
-#         if user:
-#             return user.to_dict()
-#         else:
-#             return {}, 401
+class CheckSession(Resource):
+    def get(self):
+        
+        teacherUser = Teacher.query.filter(Teacher.id == session.get('teacheruser_id')).first()
+        studentUser =Student.query.filter(Student.id == session.get('studentuser_id')).first()
+        if teacherUser:
+            return teacherUser.to_dict()
+        else: 
+            if studentUser:
+                return studentUser.to_dict()
+            return {}, 401
 
 
 class Sections(Resource):
@@ -137,27 +142,27 @@ class Students(Resource):
             200, )
         return response
     
-    def post(self):
-        data = request.get_json()
-        new_section = Student(
-            name=data.get('name'),
-            password=data.get('password'),
-            points=data.get('points'),
-            section_id=data.get('section_id'),
-        )
-        db.session.add(new_section)
-        db.session.commit()
-        response_dict = jsonify(new_section.to_dict())
-        response = make_response(
-             response_dict,
-            201,
-        )
-        return response
+    # def post(self):
+    #     data = request.get_json()
+    #     new_section = Student(
+    #         name=data.get('name'),
+    #         password=data.get('password'),
+    #         points=data.get('points'),
+    #         section_id=data.get('section_id'),
+    #     )
+    #     db.session.add(new_section)
+    #     db.session.commit()
+    #     response_dict = jsonify(new_section.to_dict())
+    #     response = make_response(
+    #          response_dict,
+    #         201,
+    #     )
+    #     return response
     
 class StudentsById(Resource):
 
     def get(self,student_id):
-        response_dict = Student.query.filter_by(id=student_id).first().to_dict( only={"name","password","points","section_id"})
+        response_dict = Student.query.filter_by(id=student_id).first().to_dict()
         response = make_response(
             response_dict,
             200,
@@ -168,8 +173,6 @@ class StudentsById(Resource):
 
         student = Student.query.filter_by(id = student_id).first()
         
-        student.points = request.get_json().get('points')
-
         db.session.add(student)
         db.session.commit()
 
@@ -313,7 +316,7 @@ class QuizById(Resource):
 
 
 
-class Assigments(Resource):
+class Assignments(Resource):
 
     def get(self):
         response_dict_list = [n.to_dict() for n in Assignment.query.all()]
@@ -339,7 +342,7 @@ class Assigments(Resource):
         )
         return response
     
-class AssignmentByID(Resource):
+class AssignmentById(Resource):
 
     def get(self,assignment_id):
         response_dict = Assignment.query.filter_by(id=assignment_id).first().to_dict()
@@ -356,12 +359,12 @@ class AssignmentByID(Resource):
 
         assignment.status = data.get('status')
 
-        db.session.add(order)
+        db.session.add(assignment)
         db.session.commit()
 
-        order_dict = order.to_dict()
+        assignment_dict = assignment.to_dict()
 
-        response = make_response(order_dict, 200)
+        response = make_response(assignment_dict, 200)
         return response
 
 
@@ -393,16 +396,18 @@ api.add_resource(Teachers, '/teachers')
 # api.add_resource(Login,'/login')
 # api.add_resource(Logout,'/logout')
 # api.add_resource(CheckSession, '/check_session')
+api.add_resource(Quizzes,'/quizzes')
+api.add_resource(QuizById,'/quizzes/<int:quiz_id>')
 api.add_resource(Sections,'/sections')
 api.add_resource(SectionBySectionCode, '/sections/<string:section_code>')
 api.add_resource(SectionById, '/sections/<int:section_id>')
 api.add_resource(Students, '/students')
-api.add_resource(StudentsById, '/studentsById/<int:student_id>')
+api.add_resource(StudentsById, '/students/<int:student_id>')
 api.add_resource(StudentsBySection,"/studentsbysection/<int:section_id>")
 # api.add_resource(StudentLogIn, '/studentlogin')
-# api.add_resource(Prizes, '/prizes')
+api.add_resource(Assignments,'/assignments')
 # api.add_resource(PrizesByTeacher, '/prizesbyteacher/<int:teacher_id>')
-# api.add_resource(PrizesById,"/prizesById/<int:prize_id>")
+api.add_resource(AssignmentById,"/assignments/<int:assignment_id>")
 api.add_resource(SectionsByTeacher,"/sectionsbyteacher/<int:teacher_id>")
 # api.add_resource(Orders, "/orders")
 # api.add_resource(OrderByID, "/orderById/<int:order_id>")

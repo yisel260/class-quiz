@@ -3,13 +3,15 @@ import LandingPage from "./LandingPage";
 import TeacherHome from "./TeacherHome"
 import StudentHome from "./StudentHome"
 import UserContext from "../UserContext"
+import { Outlet } from "react-router-dom";
+import Header from "../components/Header";
 
 function Root (){
 
 
     const [user,setUser]=useState("")
     const [sections, setSections]=useState("")
-    const [students,setStudents]=useState("")
+    const [sectionStudents,setSectionStudents]=useState("")
     const [sectionSelected,setSectionSelected]=useState("")
     // const [prizes, setPrizes] = useState([{}]);
     // const [section,setSection] = useState() 
@@ -33,40 +35,34 @@ function Root (){
 
     useEffect(() => {
         user?(setData(user)):(<p>classes coming</p>)
-      },[user])
+      },[user,sections])
 
     function setData(user) {
         if (user.type==='teacher') {
         setSections(user.sections)
-        setStudents(user.students)
         // setQuizzes(user.quizzes)-->will not work for now because relationship has recursion errors
         }
         else if (user.type === 'student') {
            console.log("user is a student") 
         }
     }
-
-    function getSections(userId) {
-        fetch(`/sectionsbyteacher/${userId}`)
-          .then((response) =>response.json())
-          .then(data =>{
-            setSections(data)
-          })
+    console.log(user.id)
     
-      }
-    
-    useEffect(() => {
-        if (sections){
-          if (sectionSelected) {
-            console.log('section selected already')
-          }
-          else {
-            const sectionId= sections[0].id
-            getStudents(sectionId);
-            setSectionSelected(sectionId)
-          }
-        }
-      },[sections] );
+    // useEffect(() => {
+    //    console.log("useEffect() called")
+    //     if (sections){
+    //       console.log(sections)
+    //       if (sectionSelected) {
+    //         console.log('section selected already')
+    //       }
+    //       else {
+    //         const sectionId= sections[0].id
+    //         console.log(sectionId)
+    //         getStudents(sectionId);
+    //         setSectionSelected(sectionId)
+    //       }
+    //     }
+    //   },[sections] );
     
     function handleSectionChange(e){
         setSectionSelected(e.target.value)
@@ -78,23 +74,34 @@ function Root (){
       fetch(`/studentsbysection/${sectionId}`)
       .then((res)=>res.json())
       .then((data) =>{
-        setStudents(data)
+        setSectionStudents(data)
       })
      }
-    
-if (user){
-    if (user.role === 'teacher'){
-        return (
-        <UserContext.Provider value={{user,setUser}}>
-            <TeacherHome/>
-        </UserContext.Provider>
-    );
-    }else if (user.role === "student"){
-        return <StudentHome/>
-    }
-}else {
-    return <LandingPage/>
-}
+
+     function getSections(user){
+      console.log(user)
+      fetch(`/sectionsbyteacher/${user.id}`)
+      .then((res)=>res.json())
+      .then((data) =>{
+        console.log(data)
+        setSections(data)
+      })
+
+     }
+  
+     return (
+      <>
+      <Header/>
+      <Outlet context= {{
+        user,setUser, 
+        sectionStudents,setSectionStudents, 
+        sectionSelected, setSectionSelected,
+        sections,setSections,
+        handleSectionChange, 
+        getSections}}/>
+      </>
+     )
+
 }
 
 export default Root

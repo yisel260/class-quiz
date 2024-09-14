@@ -1,9 +1,10 @@
 import React,{useEffect,useState,useContext} from 'react';
 import UserContext from '../UserContext'
+import { useOutletContext } from 'react-router-dom';
 
 function SectionSelector(){
 
-    const context = useContext(UserContext)
+    const context = useOutletContext(UserContext)
 
     return (
         <>

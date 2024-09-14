@@ -42,7 +42,7 @@ class Teachers(Resource):
 class TeacherByID(Resource):
 
     def get(self, id):
-        response_dict = Teacher.query.filter_by(id=id).first().to_dict(only = ('fname','lname','email','school','role','sections','students'))
+        response_dict = Teacher.query.filter_by(id=id).first().to_dict(only = ('id','fname','lname','email','school','role','sections','students'))
         response = make_response(
             response_dict,
             200,
@@ -118,6 +118,20 @@ class SectionById(Resource):
             200,
         )
         return response
+    
+    def delete(self, section_id):
+            section = Section.query.filter_by(id=section_id).first()
+            response_body = section.to_dict()
+
+            db.session.delete(section)
+            db.session.commit()
+            response = make_response(
+                response_body,
+                204
+            )
+
+            return response
+
     
 class SectionsByTeacher(Resource):
     def get(self, teacher_id):

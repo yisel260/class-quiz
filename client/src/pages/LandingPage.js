@@ -3,13 +3,15 @@ import React from 'react';
 //import Header from '../components/Header';
 //import SignUpForm from '../components/SignUpForm';
 import TeacherLogin from'../components/TeacherLogin';
+import TeacherHome from './TeacherHome';
+import StudentHome from './StudentHome';
 import { useFormik } from 'formik';
-//import { useOutletContext } from 'react-router-dom';
+import { useOutletContext } from 'react-router-dom';
 
 
 function LandingPage(){
 
-    // const context = useOutletContext()
+    const context = useOutletContext()
 
     // function handleLogin(user) {
     //    context.setUser(user);
@@ -37,6 +39,16 @@ function LandingPage(){
           }
         }
       )
+
+    if (context.user){
+      if (context.user.role === 'teacher'){
+          return (
+              <TeacherHome/>
+      );
+      }else if (context.user.role === "student"){
+          return <StudentHome/>
+      }
+  }else {
     return (
         <>
         <p>This is the landing page</p>
@@ -68,6 +80,6 @@ function LandingPage(){
           </>
     
       )
-}
+}}
 
 export default LandingPage

@@ -1,12 +1,22 @@
 import React,{useState} from "react";
-import "./component.css"
+// import "./component.css"
 
 function StudentCard({student}){
 
     return (
-        <div id="student-card">
+        <div key = {student.id} id="student-card">
             <p id="student-name">{student.name}</p>
-            <p id ="student-assignments">Points: {student.assingments}</p>
+            {student.assignments.map((assignment)=>{
+                return (
+                    <>
+                     <p>{assignment.quiz.title}</p>
+                     <p>{assignment.status}</p>
+                    </>
+                   
+
+                )
+            }
+    )}
             <br />
         </div>
 )}

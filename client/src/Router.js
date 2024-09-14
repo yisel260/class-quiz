@@ -10,6 +10,9 @@ import Managequizzes  from "./pages/ManageQuizzes";
 import UpdateQuiz from "./pages/UpdateQuiz";
 import MyQuizes from "./pages/MyQuizzes";
 import Help from "./pages/Help";
+import CreateClass from "./components/CreateClass";
+import UpdateClass from "./components/UpdateClass";
+import MyClasses from "./components/MyClasses";
 
 const router = createBrowserRouter(
     [
@@ -39,6 +42,20 @@ const router = createBrowserRouter(
             {
                 path: "/manageclasses",
                 element: <ManageClasses/>,
+                children:[
+                    {
+                        path:"/manageclasses/createclass",
+                        element: <CreateClass/>,
+                    },
+                    {
+                        path: "/manageclasses",
+                        element: <MyClasses/>,
+                        index: true
+                    },
+                    {
+                        path:"/manageclasses/update-class/:section_id",
+                        element: <UpdateClass/>,
+                    }]
             },
             {
                 path: "/managequizzes",

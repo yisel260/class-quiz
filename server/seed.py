@@ -48,15 +48,16 @@ if __name__ == '__main__':
                 db.session.commit()
 
         students=[]
-        for n in range(50): 
-            student=Student(
-            name = fake.first_name(),
-            password = fake.word(),
-            role = "student",
-            section_id=rc(sections).id)
-            students.append(student)
-            db.session.add(student)
-            db.session.commit()
+        for section in sections:
+            for n in range(5): 
+                student=Student(
+                name = fake.first_name(),
+                password = fake.word(),
+                role = "student",
+                section_id=section.id)
+                students.append(student)
+                db.session.add(student)
+                db.session.commit()
 
 
         quizzes = []

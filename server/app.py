@@ -42,7 +42,7 @@ class Teachers(Resource):
 class TeacherByID(Resource):
 
     def get(self, id):
-        response_dict = Teacher.query.filter_by(id=id).first().to_dict()
+        response_dict = Teacher.query.filter_by(id=id).first().to_dict(only = ('fname','lname','email','school','role','sections','students'))
         response = make_response(
             response_dict,
             200,

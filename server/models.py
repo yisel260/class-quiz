@@ -21,8 +21,8 @@ class Teacher(db.Model, SerializerMixin):
     students = association_proxy('sections', 'students',
                                  creator=lambda student_obj: Student(student=student_obj))
 
-
-    serialize_rules = ('-quizzes.teacher','-sections.teacher',)
+   
+    serialize_rules = ('-sections.teacher','-quizzes.teacher',)
 
     
 
@@ -85,7 +85,7 @@ class Student(db.Model, SerializerMixin):
     teacher = association_proxy('section', 'teacher',
                                   creator=lambda teacher_obj: Teacher(teacher=teacher_obj))
 
-    serialize_rules = ('-section.students', '-assignments.student')
+    serialize_rules = ('-section.students', '-assignments.student','-students')
 
     def __repr__(self):
         return f"student:{self.name} password:{self.password} "
@@ -107,7 +107,7 @@ class Quiz(db.Model,SerializerMixin):
     assignments = db.relationship('Assignment', back_populates='quiz', cascade='all, delete-orphan')
     questions =db.relationship('Question', back_populates='quiz', cascade='all, delete-orphan')
     
-    serialize_rules = ('-teacher.quizzes', '-assignments.quiz', '-questions.quiz',)
+    serialize_rules = ('-assignments.quiz', '-questions.quiz','-teacher')
 
 
     def _repr_(self):
@@ -144,7 +144,7 @@ class Assignment(db.Model,SerializerMixin):
     student=db.relationship('Student',back_populates="assignments")
     quiz=db.relationship('Quiz',back_populates="assignments")
 
-    serialize_rules = ('-student.assignments', '-quiz.assignments',)
+    serialize_rules = ('-student.assignments', '-quiz.assignments')
 
 
     

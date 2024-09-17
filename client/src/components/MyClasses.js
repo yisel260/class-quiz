@@ -2,9 +2,10 @@ import React, { useContext } from 'react';
 import { Link, useNavigate, useOutletContext } from 'react-router-dom';
 import NavBar from './NavBar';
 import SectionSelector from './SectionSelector';
+import UserContext from '../UserContext';
 
 function MyClasses(){
-    const context = useOutletContext()
+    const context = useContext(UserContext)
     const navigate = useNavigate()
 
     function deleteSection(sectionId){
@@ -14,7 +15,9 @@ function MyClasses(){
         })
         .then(res=>{
             if (res.ok){
-                context.getSections(context.user)
+                const newSectionList = context.sections.filter(section => section.id!=sectionId)
+                context.setSections(newSectionList)
+                context.setSectionSelected(newSectionList[0])
             }
         })
     }

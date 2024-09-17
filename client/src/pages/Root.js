@@ -1,4 +1,4 @@
-import React, { useEffect,createContext, useState } from "react";
+import React, { useEffect,useContext, useState } from "react";
 import LandingPage from "./LandingPage";
 import TeacherHome from "./TeacherHome"
 import StudentHome from "./StudentHome"
@@ -8,7 +8,7 @@ import Header from "../components/Header";
 
 function Root (){
 
-
+    const context= useContext(UserContext);
     const [user,setUser]=useState("")
     const [sections, setSections]=useState("")
     const [sectionStudents,setSectionStudents]=useState("")
@@ -35,7 +35,7 @@ function Root (){
 
     useEffect(() => {
         user?(setData(user)):(<p>classes coming</p>)
-      },[user,sections])
+      },[user])
 
     function setData(user) {
         if (user.role=='teacher') {
@@ -56,34 +56,15 @@ function Root (){
         }
     }
     
-    // useEffect(() => {
-    //    console.log("useEffect() called")
-    //     if (sections){
-    //       console.log(sections)
-    //       if (sectionSelected) {
-    //         console.log('section selected already')
-    //       }
-    //       else {
-    //         const sectionId= sections[0].id
-    //         console.log(sectionId)
-    //         getStudents(sectionId);
-    //         setSectionSelected(sectionId)
-    //       }
-    //     }
-    //   },[sections] );
     
-    function handleSectionChange(e){
-      fetch(`/sections/${e.target.value}`)
-      .then(res=>res.json())
-      .then(section=>{
-        // setSectionSelected(section)
-        setSectionSelected(section)
-      })
-
-      // setSectionSelected(e.target.value)
-      //   console.log(e.target.value)
-      //   getStudents(e.target.value)
-      }
+    // function handleSectionChange(e){
+    //   console.log(e.target.value)
+    //   fetch(`/sections/${e.target.value}`)
+    //   .then(res=>res.json())
+    //   .then(section=>{
+    //     setSectionSelected(section)
+    //   })
+    //   }
 
      function getStudents(sectionId){
       fetch(`/studentsbysection/${sectionId}`)
@@ -94,6 +75,7 @@ function Root (){
      }
 
      function getSections(user){
+      console.log("get sections called")
       console.log(user)
       fetch(`/sectionsbyteacher/${user.id}`)
       .then((res)=>res.json())
@@ -106,15 +88,25 @@ function Root (){
   
      return (
       <>
+      <UserContext.Provider value={{
+        user,setUser, 
+        sectionStudents,setSectionStudents, 
+        sectionSelected, setSectionSelected,
+        sections,setSections,
+        getSections,
+        }}>
       <Header/>
-      <Outlet context= {{
+      <Outlet/>
+      </UserContext.Provider>
+
+      {/* <Outlet context= {{
         user,setUser, 
         sectionStudents,setSectionStudents, 
         sectionSelected, setSectionSelected,
         sections,setSections,
         handleSectionChange, 
         getSections,
-        }}/>
+        }}/> */}
       </>
      )
 

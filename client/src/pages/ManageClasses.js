@@ -1,11 +1,12 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import { Outlet, Link, useOutletContext } from 'react-router-dom';
 import NavBar from '../components/NavBar';
+import UserContext from '../UserContext';
 
 
 
 function ManageClasses(){
-    const context = useOutletContext()
+    const context = useContext(UserContext)
     console.log(context.sections)
     return<>
      <p> ManageClasses </p>

@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { useNavigate, useOutletContext } from 'react-router-dom';
+import { Link, useNavigate, useOutletContext } from 'react-router-dom';
 import NavBar from './NavBar';
 
 function MyClasses(){

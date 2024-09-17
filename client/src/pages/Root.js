@@ -46,7 +46,7 @@ function Root (){
           else {
             if( user.sections.length >0 ){
             setSectionSelected((user.sections[0]))
-            }
+            getStudents((user.sections[0]).id)}
             else{
               setSectionSelected (null)}
             }
@@ -94,6 +94,7 @@ function Root (){
         sectionSelected, setSectionSelected,
         sections,setSections,
         getSections,
+        getStudents
         }}>
       <Header/>
       <Outlet/>

@@ -10,7 +10,7 @@ import { useOutletContext } from "react-router-dom";
 
 function TeacherHome(){
 
-  const context = useOutletContext(UserContext)
+  const context = useContext(UserContext)
   console.log(context.sectionStudents)
 
 

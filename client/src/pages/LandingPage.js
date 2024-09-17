@@ -1,5 +1,5 @@
 
-import React from 'react';
+import React,{useContext} from 'react';
 //import Header from '../components/Header';
 //import SignUpForm from '../components/SignUpForm';
 import TeacherLogin from'../components/TeacherLogin';
@@ -7,11 +7,12 @@ import TeacherHome from './TeacherHome';
 import StudentHome from './StudentHome';
 import { useFormik } from 'formik';
 import { useOutletContext } from 'react-router-dom';
+import UserContext from '../UserContext';
 
 
 function LandingPage(){
 
-    const context = useOutletContext()
+    const context = useContext(UserContext)
 
     // function handleLogin(user) {
     //    context.setUser(user);

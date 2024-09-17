@@ -403,6 +403,70 @@ class AssignmentById(Resource):
 #             response_dict_list,
 #             200, )
 #         return response
+
+class Questions(Resource):
+    def get(self):
+        response_dict_list = [n.to_dict() for n in Student.query.all()]
+        response = make_response(
+            response_dict_list,
+            200, )
+        return response
+    
+    # def post(self):
+    #     data = request.get_json()
+    #     new_section = Student(
+    #         name=data.get('name'),
+    #         password=data.get('password'),
+    #         points=data.get('points'),
+    #         section_id=data.get('section_id'),
+    #     )
+    #     db.session.add(new_section)
+    #     db.session.commit()
+    #     response_dict = jsonify(new_section.to_dict())
+    #     response = make_response(
+    #          response_dict,
+    #         201,
+    #     )
+    #     return response
+    
+class QuestionsById(Resource):
+
+    def get(self,question_id):
+        response_dict = Question.query.filter_by(id=question_id).first().to_dict()
+        response = make_response(
+            response_dict,
+            200,
+        )
+        return response
+    
+    def patch(self, question_id):
+
+        question = Question.query.filter_by(id = question_id).first()
+        
+        db.session.add(question)
+        db.session.commit()
+
+        student_dict = question.to_dict()
+
+        response = make_response(
+            student_dict,
+            200
+        )
+        return  response
+
+
+    def delete(self, question_id):
+        student = Student.query.filter_by(id=question_id).first()
+        response_body = student.to_dict()
+
+        db.session.delete(student)
+        db.session.commit()
+        response = make_response(
+            response_body,
+            204
+        )
+
+        return response
     
     
 api.add_resource(TeacherByID, '/teachers/<int:id>')
@@ -426,6 +490,8 @@ api.add_resource(SectionsByTeacher,"/sectionsbyteacher/<int:teacher_id>")
 # api.add_resource(Orders, "/orders")
 # api.add_resource(OrderByID, "/orderById/<int:order_id>")
 # api.add_resource(OrdersByStudent, "/ordersByStudent/<int:student_id>")
+api.add_resource(Questions, '/questions')
+api.add_resource(QuestionsById, '/questions/<int:question_id>')
 
 
 

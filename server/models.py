@@ -146,7 +146,7 @@ class Assignment(db.Model,SerializerMixin):
    
     quiz=db.relationship('Quiz',back_populates="assignments")
 
-    serialize_rules = ('-assignment.student', '-quiz')
+    serialize_rules = ('-assignment.student', '-assignment.quiz')
 
 
     

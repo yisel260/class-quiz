@@ -14,7 +14,7 @@ function SectionSelector() {
     return (
         <>
             <br />
-            {context.user.sections ? (
+            {context.sections ? (
                 <>
                     <label htmlFor="section">Choose a class:</label>
                     <select
@@ -23,7 +23,7 @@ function SectionSelector() {
                         onChange={handleSectionChange}
                         name="classesdrpdwn"
                     >
-                        {context.user.sections.map((section) => (
+                        {context.sections.map((section) => (
                             <option value={section.id} key={section.id} name="section" id="section">
                                 {section.name}
                             </option>

@@ -13,7 +13,7 @@ function Root (){
     const [sections, setSections]=useState("")
     const [sectionStudents,setSectionStudents]=useState("")
     const [sectionSelected,setSectionSelected]=useState("")
-    // const [prizes, setPrizes] = useState([{}]);
+    const [quizzes, setQuizzes] = useState([{}]);
     // const [section,setSection] = useState() 
     // const [mySection,setMySection]=useState()
 
@@ -38,15 +38,23 @@ function Root (){
       },[user,sections])
 
     function setData(user) {
-        if (user.type==='teacher') {
-        setSections(user.sections)
-        // setQuizzes(user.quizzes)-->will not work for now because relationship has recursion errors
-        }
-        else if (user.type === 'student') {
+        if (user.role=='teacher') {
+          setSections(user.sections)
+          setQuizzes(user.quizzes)
+          if (sectionSelected) {
+            getStudents(sectionSelected.id)}
+          else {
+            if( user.sections.length >0 ){
+            setSectionSelected((user.sections[0]))
+            }
+            else{
+              setSectionSelected (null)}
+            }
+          }
+        else if (user.role === 'student') {
            console.log("user is a student") 
         }
     }
-    console.log(user.id)
     
     // useEffect(() => {
     //    console.log("useEffect() called")
@@ -65,9 +73,16 @@ function Root (){
     //   },[sections] );
     
     function handleSectionChange(e){
-        setSectionSelected(e.target.value)
-        console.log(e.target.value)
-        getStudents(e.target.value)
+      fetch(`/sections/${e.target.value}`)
+      .then(res=>res.json())
+      .then(section=>{
+        // setSectionSelected(section)
+        setSectionSelected(section)
+      })
+
+      // setSectionSelected(e.target.value)
+      //   console.log(e.target.value)
+      //   getStudents(e.target.value)
       }
 
      function getStudents(sectionId){
@@ -98,7 +113,8 @@ function Root (){
         sectionSelected, setSectionSelected,
         sections,setSections,
         handleSectionChange, 
-        getSections}}/>
+        getSections,
+        }}/>
       </>
      )
 

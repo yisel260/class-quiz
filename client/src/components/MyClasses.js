@@ -1,6 +1,7 @@
 import React, { useContext } from 'react';
 import { Link, useNavigate, useOutletContext } from 'react-router-dom';
 import NavBar from './NavBar';
+import SectionSelector from './SectionSelector';
 
 function MyClasses(){
     const context = useOutletContext()
@@ -13,7 +14,7 @@ function MyClasses(){
         })
         .then(res=>{
             if (res.ok){
-                context.setSections(context.user.sections)
+                context.getSections(context.user)
             }
         })
     }
@@ -22,16 +23,29 @@ function MyClasses(){
     function updateSection(section){
         navigate(`/manageclasses/update-class/${section.id}`)
     }
+    console.log(context.sectionSelected)
 
-    return <>MyClasses
-    {context.user? (context.user.sections.map((section) => {
-        return <div className="section">
-                <p>{section.name}</p>
-                <button onClick={()=>{deleteSection(section.id)}}>Delete Class</button>
-                <button onClick={()=>{updateSection(section)}}>Update Class</button>
-                </div>
-})):(null)}
-    </>
-} 
+    return (
+        <>
+          {context.sectionSelected ? (
+            <>
+              MyClasses
+              <div><SectionSelector/></div>
+              <div>
+                {context.sectionSelected.name}
+                <button onClick={() => deleteSection(context.sectionSelected.id)}>Delete Class</button>
+                <button onClick={() => updateSection(context.sectionSelected)}>Update Class</button>
+              </div>
+              Student data table to be displayed here
+              {/* <StudentRoster/> */}
+              <div></div>
+            </>
+          ) : (
+            <>No classes added yet</>
+          )}
+        </>
+      );
+    }
+    
 
 export default MyClasses;

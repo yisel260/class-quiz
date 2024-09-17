@@ -4,7 +4,7 @@ import React,{useState} from "react";
 function StudentCard({student}){
 
     return (
-        <div key = {student.id} id="student-card">
+        <div  id="student-card">
             <p id="student-name">{student.name}</p>
             {student.assignments.map((assignment)=>{
                 return (

@@ -7,6 +7,7 @@ import * as yup from "yup"
 function CreateClass(){
 
     const context = useContext(UserContext)
+    console.log(context)
     const formSchema= yup.object().shape(
     {
       name: yup.string().required("You must enter a clasname").max(20),
@@ -16,8 +17,8 @@ function CreateClass(){
 
 const formik = useFormik({
     initialValues: {
-        name: ``,
-        section_code:``, 
+        name:"",
+        section_code:"", 
         teacher_id:`${context.user.id}`
     },
     validationSchema: formSchema,
@@ -36,16 +37,14 @@ const formik = useFormik({
                     body: JSON.stringify(values,null,2),
                 })
                 .then((res)=>res.json())
-                .then((data)=>{
-                    context.setSectionSelected(data.id)
-                    // context.getSections(data.teacher_id)
-                    // context.getStudents(data.id)
+                .then((section)=>{
+                    console.log(section)
+                    context.setSectionSelected(section)
+                    context.getSections(context.user)
+                    context.getStudents(section.id)
 
                 })
                 resetForm();
-                // setStudentRoster(true)
-                // setAddSection(false)
-                // setAddStudent(true)
             }
         })
      }
@@ -56,7 +55,7 @@ return(
 
     <div className="form-container">
     <br/>
-    <h3>Update class  </h3>
+    <h3>Add a class </h3>
 
     < form id= "add-section-form" onSubmit={formik.handleSubmit}>
         <label htmlFor='name'>Class Name:</label>
@@ -90,5 +89,6 @@ return(
 
 )
 }
+
 
 export default CreateClass;

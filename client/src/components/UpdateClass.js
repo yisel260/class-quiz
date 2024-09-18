@@ -7,6 +7,7 @@ import * as yup from "yup"
 function UpdateClass(){
 
     const context = useContext(UserContext)
+    console.log(context)
     const formSchema= yup.object().shape(
     {
       name: yup.string().required("You must enter a clasname").max(20),

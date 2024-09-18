@@ -50,14 +50,21 @@ class TeacherByID(Resource):
 
 
 class TeacherLogin(Resource):
-
     def post(self):
-        user = Teacher.query.filter(Teacher.email == request.get_json("username")).first()
-        # password = Teacher.query.filter(Teacher.password == request.get_json("password")).first()
+        data = request.get_json()
+        username = data.get('username')
+        password = data.get('password')
 
-        # if password = user.password
-        session['user_id'] = user.id
-        return user.to_dict()
+        if not username or not password:
+            return {'message': 'Username and password are required'}, 400
+
+        teacher = Teacher.query.filter(Teacher.email==username).first()
+
+        if teacher and teacher.authenticate(password):
+            session['user_id'] = teacher.id
+            return teacher.to_dict(), 200
+
+        return {'error': 'Invalid username or password'}, 401
     
 # class Logout(Resource):
 #     def delete(self):
@@ -472,7 +479,7 @@ class QuestionsById(Resource):
     
 api.add_resource(TeacherByID, '/teachers/<int:id>')
 api.add_resource(Teachers, '/teachers')
-# api.add_resource(Login,'/login')
+api.add_resource(TeacherLogin,'/teacherlogin')
 # api.add_resource(Logout,'/logout')
 # api.add_resource(CheckSession, '/check_session')
 api.add_resource(Quizzes,'/quizzes')

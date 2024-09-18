@@ -26,16 +26,20 @@ function Root (){
     //       }, []);
 
    
-    useEffect(() => {
-        fetch("/teachers/1")
-        .then((response)=>response.json())
-            .then((teacher) => setUser(teacher))
-    },[])
+    // useEffect(() => {
+    //     fetch("/teachers/1")
+    //     .then((response)=>response.json())
+    //         .then((teacher) => setUser(teacher))
+    // },[])
 
 
     useEffect(() => {
         user?(setData(user)):(<p>classes coming</p>)
       },[user])
+
+    function onLogin(user) {
+        setUser(user)};
+       
 
     function setData(user) {
         if (user.role=='teacher') {
@@ -94,20 +98,12 @@ function Root (){
         sectionSelected, setSectionSelected,
         sections,setSections,
         getSections,
-        getStudents
+        getStudents,
+        onLogin
         }}>
       <Header/>
       <Outlet/>
       </UserContext.Provider>
-
-      {/* <Outlet context= {{
-        user,setUser, 
-        sectionStudents,setSectionStudents, 
-        sectionSelected, setSectionSelected,
-        sections,setSections,
-        handleSectionChange, 
-        getSections,
-        }}/> */}
       </>
      )
 

@@ -33,7 +33,7 @@ if __name__ == '__main__':
         )
 
         # Set a default password for demonstration purposes
-            teacher.password = 'default_password'
+            teacher.password = 'password'
 
             teachers.append(teacher)
             db.session.add(teacher)

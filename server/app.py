@@ -6,10 +6,8 @@
 from flask import Flask,request, make_response, session, jsonify
 from flask_restful import Resource
 from models import Teacher, Section,Student, Quiz, Question, Assignment
-from config import app, db, api
+from config import app, db, api, bcrypt
 import json
-
-
 
 class Teachers(Resource):
 
@@ -55,7 +53,9 @@ class TeacherLogin(Resource):
 
     def post(self):
         user = Teacher.query.filter(Teacher.email == request.get_json("username")).first()
-        print(user.id)
+        # password = Teacher.query.filter(Teacher.password == request.get_json("password")).first()
+
+        # if password = user.password
         session['user_id'] = user.id
         return user.to_dict()
     
@@ -63,12 +63,29 @@ class TeacherLogin(Resource):
 #     def delete(self):
 #         session['user_id'] = None
 #         return {'message': '204: No Content'}, 204
+
+# class StudentLogIn(Resource):
+
+#     def post(self):
+#         student = request.get_json()
+#         studentUserName = student.get('studentUserName')
+#         print(studentUserName)
+
+#         studentUser = Student.query.filter(Student.name == studentUserName).first()
+
+#         password = student.get('password')
+#         if password == studentUser.password:
+#             response = make_response(studentUser.to_dict(), 200)
+#             return response 
+#         else:
+#             return {}, 401
     
 class CheckSession(Resource):
     def get(self):
         
         teacherUser = Teacher.query.filter(Teacher.id == session.get('teacheruser_id')).first()
         studentUser =Student.query.filter(Student.id == session.get('studentuser_id')).first()
+
         if teacherUser:
             return teacherUser.to_dict()
         else: 
@@ -222,22 +239,6 @@ class StudentsBySection(Resource):
             200,
         )
         return response
-    
-# class StudentLogIn(Resource):
-
-#     def post(self):
-#         student = request.get_json()
-#         studentUserName = student.get('studentUserName')
-#         print(studentUserName)
-
-#         studentUser = Student.query.filter(Student.name == studentUserName).first()
-
-#         password = student.get('password')
-#         if password == studentUser.password:
-#             response = make_response(studentUser.to_dict(), 200)
-#             return response 
-#         else:
-#             return {}, 401
 
 
 

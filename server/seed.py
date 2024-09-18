@@ -21,20 +21,26 @@ if __name__ == '__main__':
         Quiz.query.delete()
         Question.query.delete()
         Assignment.query.delete()
-       
+        
         teachers = []
         for n in range(5):
             teacher = Teacher(
-                fname=fake.first_name(),
-                lname=fake.last_name(),
-                school=fake.company(),
-                email=fake.email(),
-                role="teacher"
-            )
+            fname=fake.first_name(),
+            lname=fake.last_name(),
+            school=fake.company(),
+            email=fake.email(),
+            role="teacher"
+        )
+
+        # Set a default password for demonstration purposes
+            teacher.password = 'default_password'
+
             teachers.append(teacher)
             db.session.add(teacher)
-            db.session.commit()
-        
+
+        # Commit all changes at once
+        db.session.commit()
+            
         sections =[]
         for teacher in teachers:
             for n in range(4):

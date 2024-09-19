@@ -61,7 +61,8 @@ class TeacherLogin(Resource):
         teacher = Teacher.query.filter(Teacher.email==username).first()
 
         if teacher and teacher.authenticate(password):
-            session['user_id'] = teacher.id
+            session['teacherUser_id'] = teacher.id
+            print(f"Session after login: {session}")  # Debug print
             return teacher.to_dict(), 200
 
         return {'error': 'Invalid username or password'}, 401
@@ -89,16 +90,20 @@ class TeacherLogin(Resource):
     
 class CheckSession(Resource):
     def get(self):
-        
-        teacherUser = Teacher.query.filter(Teacher.id == session.get('teacheruser_id')).first()
+        print(f"Session in CheckSession: {session}")  # Debug print
+
+        teacherUser = Teacher.query.filter(Teacher.id == session.get('teacherUser_id')).first()
         studentUser =Student.query.filter(Student.id == session.get('studentuser_id')).first()
+
+        print(f"Teacher User: {teacherUser}")
+        print(f"Student User: {studentUser}")
 
         if teacherUser:
             return teacherUser.to_dict()
         else: 
             if studentUser:
                 return studentUser.to_dict()
-            return {}, 401
+        return {}, 401
 
 
 class Sections(Resource):
@@ -481,7 +486,7 @@ api.add_resource(TeacherByID, '/teachers/<int:id>')
 api.add_resource(Teachers, '/teachers')
 api.add_resource(TeacherLogin,'/teacherlogin')
 # api.add_resource(Logout,'/logout')
-# api.add_resource(CheckSession, '/check_session')
+api.add_resource(CheckSession, '/check_session')
 api.add_resource(Quizzes,'/quizzes')
 api.add_resource(QuizById,'/quizzes/<int:quiz_id>')
 api.add_resource(Sections,'/sections')

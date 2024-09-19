@@ -67,10 +67,10 @@ class TeacherLogin(Resource):
 
         return {'error': 'Invalid username or password'}, 401
     
-# class Logout(Resource):
-#     def delete(self):
-#         session['user_id'] = None
-#         return {'message': '204: No Content'}, 204
+class Logout(Resource):
+    def delete(self):
+        session['user_id'] = None
+        return {'message': '204: No Content'}, 204
 
 # class StudentLogIn(Resource):
 
@@ -485,7 +485,7 @@ class QuestionsById(Resource):
 api.add_resource(TeacherByID, '/teachers/<int:id>')
 api.add_resource(Teachers, '/teachers')
 api.add_resource(TeacherLogin,'/teacherlogin')
-# api.add_resource(Logout,'/logout')
+api.add_resource(Logout,'/logout')
 api.add_resource(CheckSession, '/check_session')
 api.add_resource(Quizzes,'/quizzes')
 api.add_resource(QuizById,'/quizzes/<int:quiz_id>')

@@ -39,7 +39,9 @@ function Root (){
 
     function onLogin(user) {
         setUser(user)};
-       
+    
+    function onLogOut() {
+          setUser(null)};
 
     function setData(user) {
         if (user.role=='teacher') {
@@ -99,7 +101,8 @@ function Root (){
         sections,setSections,
         getSections,
         getStudents,
-        onLogin
+        onLogin,
+        onLogOut
         }}>
       <Header/>
       <Outlet/>

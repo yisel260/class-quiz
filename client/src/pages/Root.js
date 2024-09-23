@@ -102,7 +102,8 @@ function Root (){
         getSections,
         getStudents,
         onLogin,
-        onLogOut
+        onLogOut,
+        quizzes,setQuizzes
         }}>
       <Header/>
       <Outlet/>

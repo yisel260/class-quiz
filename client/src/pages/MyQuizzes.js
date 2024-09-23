@@ -1,7 +1,10 @@
 import React from 'react';
+import QuizTable from '../components/QuizTable';
 
 function MyQuizes(){
-    return <p> My MyQuizes </p>
+    return (
+        <QuizTable/>
+    )
 } 
 
 export default MyQuizes;

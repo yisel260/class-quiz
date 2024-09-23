@@ -1,8 +1,9 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import { Link, Outlet, useOutlet } from "react-router-dom";
-
+import UserContext from '../UserContext';
 import NavBar from '../components/NavBar';
 function ManageQuizzes(){
+    const context = useContext(UserContext)
     return(
      <>
      <NavBar/>
@@ -11,7 +12,7 @@ function ManageQuizzes(){
      <Link className="nav-link" to="/managequizzes/update-quiz">Update Quizzes</Link>
      <Link className="nav-link" to="/managequizzes/myquizzes">My Quizzes</Link>
 
-     <Outlet/>
+     <Outlet context={context}/>
 
     </>)
 } 

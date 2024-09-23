@@ -40,7 +40,7 @@ class Teachers(Resource):
 class TeacherByID(Resource):
 
     def get(self, id):
-        response_dict = Teacher.query.filter_by(id=id).first().to_dict(only = ('id','fname','lname','email','school','role','sections', 'students'))
+        response_dict = Teacher.query.filter_by(id=id).first().to_dict(only = ('id','fname','lname','email','school','role','sections', 'students',"quizzes"))
         response = make_response(
             response_dict,
             200,
@@ -339,8 +339,8 @@ class Quizzes(Resource):
     
 class QuizzesByTeacher(Resource):
 
-    def get(self, teacher_id):
-        quizzes = Quiz.query.filter_by(teacher_id=teacher_id).all()
+    def get(self, quizzes_id):
+        quizzes = Quiz.query.filter_by(quizzes_id=quizzes_id).all()
         response_dict_list = [n.to_dict() for n in quizzes]
         response = make_response(
             response_dict_list,
@@ -553,12 +553,10 @@ api.add_resource(Students, '/students')
 api.add_resource(StudentsById, '/students/<int:student_id>')
 api.add_resource(StudentsBySection,"/studentsbysection/<int:section_id>")
 # api.add_resource(StudentLogIn, '/studentlogin')
-api.add_resource(Assignments,'/assignments')
 # api.add_resource(PrizesByTeacher, '/prizesbyteacher/<int:teacher_id>')
-api.add_resource(AssignmentsById,"/assignments/<int:assignment_id>")
 api.add_resource(SectionsByTeacher,"/sectionsbyteacher/<int:teacher_id>")
 api.add_resource(Assignments, "/assignments")
-api.add_resource(AssignmentsById , "/orderById/<int:order_id>")
+api.add_resource(AssignmentsById , "/assignmentsById/<int:order_id>")
 # api.add_resource(OrdersByStudent, "/ordersByStudent/<int:student_id>")
 api.add_resource(Questions, '/questions')
 api.add_resource(QuestionsById, '/questions/<int:question_id>')

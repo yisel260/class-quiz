@@ -1,10 +1,11 @@
 import React, {useEffect, useContext} from 'react';
 import UserContext from '../UserContext';
-
+import { useNavigate } from "react-router-dom";
 import { useFormik } from 'formik';
 import * as yup from "yup"
 
 function CreateClass(){
+      const navigate = useNavigate();
 
     const context = useContext(UserContext)
     console.log(context)
@@ -46,8 +47,12 @@ const formik = useFormik({
                 })
                 resetForm();
             }
+            return navigate("/manageclasses");
+
         })
+
      }
+
     })
 return(
     

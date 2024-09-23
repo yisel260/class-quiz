@@ -46,8 +46,38 @@ class TeacherByID(Resource):
             200,
         )
         return response
+    
+    def patch(self, teacher_id):
+            data = request.get_json()
 
+            teacher = Teacher.query.filter_by(id=teacher_id).first()
 
+            teacher.fname=data.get('fname'),
+            teacher.lname=data.get('lname'),
+            teacher.email=data.get('email'),
+            teacher.role=data.role('role'),
+            teacher.school=data.get('school'),
+
+            db.session.add(teacher)
+            db.session.commit()
+
+            teacher_dict = teacher.to_dict()
+
+            response = make_response(teacher_dict, 200)
+            return response
+
+    def delete(self, teacher_id):
+        teacher = Student.query.filter_by(id=teacher_id).first()
+        response_body = teacher.to_dict()
+
+        db.session.delete(teacher)
+        db.session.commit()
+        response = make_response(
+            response_body,
+            204
+        )
+
+        return response
 
 class TeacherLogin(Resource):
     def post(self):
@@ -148,6 +178,23 @@ class SectionById(Resource):
         )
         return response
     
+    def patch(self, section_id):
+            data = request.get_json()
+
+            section = Section.query.filter_by(id=section_id).first()
+
+            section.name=data.get('name'),
+            section.section_code=data.get('section_code'),
+            section.teacher_id=data.get('teacher_id'),
+
+            db.session.add(section)
+            db.session.commit()
+
+            section_dict = section.to_dict()
+
+            response = make_response(section_dict, 200)
+            return response
+    
     def delete(self, section_id):
             section = Section.query.filter_by(id=section_id).first()
             response_body = section.to_dict()
@@ -185,22 +232,22 @@ class Students(Resource):
             200, )
         return response
     
-    # def post(self):
-    #     data = request.get_json()
-    #     new_section = Student(
-    #         name=data.get('name'),
-    #         password=data.get('password'),
-    #         points=data.get('points'),
-    #         section_id=data.get('section_id'),
-    #     )
-    #     db.session.add(new_section)
-    #     db.session.commit()
-    #     response_dict = jsonify(new_section.to_dict())
-    #     response = make_response(
-    #          response_dict,
-    #         201,
-    #     )
-    #     return response
+    def post(self):
+        data = request.get_json()
+        new_student = Student(
+            name=data.get('name'),
+            password=data.get('password'),
+            role=data.get('role'),
+            section_id=data.get('section_id'),
+        )
+        db.session.add(new_student)
+        db.session.commit()
+        response_dict = jsonify(new_student.to_dict())
+        response = make_response(
+             response_dict,
+            201,
+        )
+        return response
     
 class StudentsById(Resource):
 
@@ -213,8 +260,13 @@ class StudentsById(Resource):
         return response
     
     def patch(self, student_id):
-
+        data = request.get_json()
         student = Student.query.filter_by(id = student_id).first()
+
+        student.name=data.get('name'),
+        student.password=data.get('password'),
+        student.role=data.get('role'),
+        student.section_id=data.get('section_id'),
         
         db.session.add(student)
         db.session.commit()
@@ -319,7 +371,7 @@ class QuizById(Resource):
         quiz.retry = data.get('retry'),
         quiz.teacher_id=data.get('teacher_id'),
 
-        db.session.add(prize)
+        db.session.add(quiz)
         db.session.commit()
 
         quiz_dict = quiz.to_dict()
@@ -369,7 +421,7 @@ class Assignments(Resource):
         )
         return response
     
-class AssignmentById(Resource):
+class AssignmentsById(Resource):
 
     def get(self,assignment_id):
         response_dict = Assignment.query.filter_by(id=assignment_id).first().to_dict()
@@ -408,39 +460,40 @@ class AssignmentById(Resource):
 
         return response
     
-# class OrdersByStudent(Resource):
-#     def get(self, student_id):
-#         orders = Order.query.filter_by(student_id=student_id).all()
-#         response_dict_list = [n.to_dict() for n in orders]
-#         response = make_response(
-#             response_dict_list,
-#             200, )
-#         return response
+class AssigmentsByStudent(Resource):
+    def get(self, student_id):
+        orders = Assignment.query.filter_by(student_id=student_id).all()
+        response_dict_list = [n.to_dict() for n in orders]
+        response = make_response(
+            response_dict_list,
+            200, )
+        return response
 
 class Questions(Resource):
     def get(self):
-        response_dict_list = [n.to_dict() for n in Student.query.all()]
+        response_dict_list = [n.to_dict() for n in Question.query.all()]
         response = make_response(
             response_dict_list,
             200, )
         return response
     
-    # def post(self):
-    #     data = request.get_json()
-    #     new_section = Student(
-    #         name=data.get('name'),
-    #         password=data.get('password'),
-    #         points=data.get('points'),
-    #         section_id=data.get('section_id'),
-    #     )
-    #     db.session.add(new_section)
-    #     db.session.commit()
-    #     response_dict = jsonify(new_section.to_dict())
-    #     response = make_response(
-    #          response_dict,
-    #         201,
-    #     )
-    #     return response
+    def post(self):
+        data = request.get_json()
+        new_question = Question(
+            question=data.get('question'),
+            type=data.get('type'),
+            options=data.get('options'),
+            correct_answer=data.get('correct_answer'),
+            quiz_id=data.get('quiz_id'),
+        )
+        db.session.add(new_question)
+        db.session.commit()
+        response_dict = jsonify(new_question.to_dict())
+        response = make_response(
+             response_dict,
+            201,
+        )
+        return response
     
 class QuestionsById(Resource):
 
@@ -453,19 +506,23 @@ class QuestionsById(Resource):
         return response
     
     def patch(self, question_id):
+        data = request.get_json()
 
-        question = Question.query.filter_by(id = question_id).first()
+        question = Assignment.query.filter_by(id=question_id).first()
+        
+        question.question=data.get('question'),
+        question.type=data.get('type'),
+        question.options=data.get('options'),
+        question.correct_answer=data.get('correct_answer'),
+        question.quiz_id=data.get('quiz_id'),
         
         db.session.add(question)
         db.session.commit()
 
-        student_dict = question.to_dict()
+        assignment_dict = question.to_dict()
 
-        response = make_response(
-            student_dict,
-            200
-        )
-        return  response
+        response = make_response(assignment_dict, 200)
+        return response
 
 
     def delete(self, question_id):
@@ -498,10 +555,10 @@ api.add_resource(StudentsBySection,"/studentsbysection/<int:section_id>")
 # api.add_resource(StudentLogIn, '/studentlogin')
 api.add_resource(Assignments,'/assignments')
 # api.add_resource(PrizesByTeacher, '/prizesbyteacher/<int:teacher_id>')
-api.add_resource(AssignmentById,"/assignments/<int:assignment_id>")
+api.add_resource(AssignmentsById,"/assignments/<int:assignment_id>")
 api.add_resource(SectionsByTeacher,"/sectionsbyteacher/<int:teacher_id>")
-# api.add_resource(Orders, "/orders")
-# api.add_resource(OrderByID, "/orderById/<int:order_id>")
+api.add_resource(Assignments, "/assignments")
+api.add_resource(AssignmentsById , "/orderById/<int:order_id>")
 # api.add_resource(OrdersByStudent, "/ordersByStudent/<int:student_id>")
 api.add_resource(Questions, '/questions')
 api.add_resource(QuestionsById, '/questions/<int:question_id>')

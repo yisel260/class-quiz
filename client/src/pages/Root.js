@@ -25,13 +25,6 @@ function Root (){
         });
           }, []);
 
-   
-    // useEffect(() => {
-    //     fetch("/teachers/1")
-    //     .then((response)=>response.json())
-    //         .then((teacher) => setUser(teacher))
-    // },[])
-
 
     useEffect(() => {
         user?(setData(user)):(<p>classes coming</p>)
@@ -73,9 +66,12 @@ function Root (){
     //   }
 
      function getStudents(sectionId){
+      console.log("getstudents called")
+      console.log(sectionId)
       fetch(`/studentsbysection/${sectionId}`)
       .then((res)=>res.json())
       .then((data) =>{
+        console.log(data)
         setSectionStudents(data)
       })
      }

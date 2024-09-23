@@ -66,8 +66,9 @@ const router = createBrowserRouter(
                         element: <CreateQuiz/>,
                     },
                     {
-                        path: "/managequizzes/myquizzes",
+                        path: "/managequizzes",
                         element: <MyQuizes/>,
+                        index:true
                     },
                     {
                         path:"/managequizzes/update-quiz",

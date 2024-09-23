@@ -6,12 +6,13 @@ function SectionSelector() {
     const context = useContext(UserContext);
 
     function handleSectionChange(event) {
+        console.log(event.target.value)
         const selectedSectionId = parseInt(event.target.value, 10);
         const selectedSection = context.user.sections.find(section => section.id === selectedSectionId);
+        console.log(selectedSection);
         context.setSectionSelected(selectedSection);
-        context.getStudents(selectedSectionId)
+        context.getStudents(selectedSection.id)
     }
-
     return (
         <>
             <br />

@@ -3,6 +3,7 @@ import { Link, useNavigate, useOutletContext } from 'react-router-dom';
 import NavBar from './NavBar';
 import SectionSelector from './SectionSelector';
 import UserContext from '../UserContext';
+import StudentRosterTable from './StudentRoster';
 
 function MyClasses(){
     const context = useContext(UserContext)
@@ -39,9 +40,9 @@ function MyClasses(){
                 <button onClick={() => deleteSection(context.sectionSelected.id)}>Delete Class</button>
                 <button onClick={() => updateSection(context.sectionSelected)}>Update Class</button>
               </div>
-              Student data table to be displayed here
-              {/* <StudentRoster/> */}
-              <div></div>
+              <div>
+              <StudentRosterTable />
+              </div>
             </>
           ) : (
             <>No classes added yet</>

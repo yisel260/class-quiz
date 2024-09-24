@@ -10,7 +10,7 @@ function ManageQuizzes(){
      <p> ManageQuizzes </p>
      <Link className="nav-link" to="/managequizzes/createquiz">Create Quizzes</Link>
      <Link className="nav-link" to="/managequizzes/update-quiz">Update Quizzes</Link>
-     <Link className="nav-link" to="/managequizzes/myquizzes">My Quizzes</Link>
+     <Link className="nav-link" to="/managequizzes">My Quizzes</Link>
 
      <Outlet context={context}/>
 

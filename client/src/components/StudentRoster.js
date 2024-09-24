@@ -7,6 +7,18 @@ function StudentRosterTable() {
     const sectionStudents = React.useMemo(() => context.sectionStudents, []);
 
     console.log(sectionStudents);
+    function onDelete(studentId) {
+        console.log(studentId);
+        fetch(`/students/${studentId}`, {
+            method: 'delete',
+          })
+            .then((res) => {
+              if (res.ok) {
+                context.getStudents(context.sectionSelected.id);
+              }
+            });
+
+    }
 
     const columns = React.useMemo(() => [
         {
@@ -21,6 +33,32 @@ function StudentRosterTable() {
             Header: "Password",
             accessor: "password",
         },
+        {
+            id: 'edit',
+            accessor: 'id', 
+            Cell: ({row}) => {
+                const id = row.values.id;
+                return (
+                    <button onClick={() => console.log(id)}>
+                        Edit
+                    </button>
+                );
+            }
+        },
+        
+        {
+            id: 'delete',
+            accessor: 'id', 
+            Cell: ({row}) => {
+                const id = row.values.id;
+                return (
+                    <button onClick={() => onDelete(id)}>
+                        Delete
+                    </button>
+                );
+            }
+        },
+        
         
     ], []);
 

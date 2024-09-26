@@ -14,7 +14,7 @@ function Root (){
     const [sectionStudents,setSectionStudents]=useState("")
     const [sectionSelected,setSectionSelected]=useState("")
     const [quizzes, setQuizzes] = useState([{}]);
-    // const [section,setSection] = useState() 
+    const [mySection,setMySection] = useState() 
     // const [mySection,setMySection]=useState()
 
     useEffect(() => {
@@ -99,7 +99,8 @@ function Root (){
         getStudents,
         onLogin,
         onLogOut,
-        quizzes,setQuizzes
+        mySection,setMySection,
+
         }}>
       <Header/>
       <Outlet/>

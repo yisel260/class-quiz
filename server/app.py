@@ -102,21 +102,22 @@ class Logout(Resource):
         session['user_id'] = None
         return {'message': '204: No Content'}, 204
 
-# class StudentLogIn(Resource):
+class StudentLogIn(Resource):
 
-#     def post(self):
-#         student = request.get_json()
-#         studentUserName = student.get('studentUserName')
-#         print(studentUserName)
+    def post(self):
+        student = request.get_json()
+        studentUserName = student.get('studentUserName')
+        print(studentUserName)
 
-#         studentUser = Student.query.filter(Student.name == studentUserName).first()
+        studentUser = Student.query.filter(Student.name == studentUserName).first()
 
-#         password = student.get('password')
-#         if password == studentUser.password:
-#             response = make_response(studentUser.to_dict(), 200)
-#             return response 
-#         else:
-#             return {}, 401
+        password = student.get('password')
+        if password == studentUser.password:
+            response = make_response(studentUser.to_dict(), 200)
+            return response 
+        else:
+            return {}, 401
+
     
 class CheckSession(Resource):
     def get(self):
@@ -552,7 +553,7 @@ api.add_resource(SectionById, '/sections/<int:section_id>')
 api.add_resource(Students, '/students')
 api.add_resource(StudentsById, '/students/<int:student_id>')
 api.add_resource(StudentsBySection,"/studentsbysection/<int:section_id>")
-# api.add_resource(StudentLogIn, '/studentlogin')
+api.add_resource(StudentLogIn, '/studentlogin')
 # api.add_resource(PrizesByTeacher, '/prizesbyteacher/<int:teacher_id>')
 api.add_resource(SectionsByTeacher,"/sectionsbyteacher/<int:teacher_id>")
 api.add_resource(Assignments, "/assignments")

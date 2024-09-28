@@ -26,7 +26,6 @@ function LandingPage() {
                   if (res.ok) {
                       res.json().then((data) => {
                           context.setSectionSelected(data);
-                          context.getStudents(data.id)
                       });
                   } else {
                       alert("Ooopsie that class code could not be found.");
@@ -34,13 +33,13 @@ function LandingPage() {
               });
       },
   });
-  console.log(context.sectionSelected.students)
   if (context.user) {
       console.log("User is present:", context.user);
       if (context.user.role === 'teacher') {
           return <TeacherHome />;
       } else if (context.user.role === 'student') {
         console.log("Student is present:", context.user)
+        return <StudentHome />;
       }
     }
     else if (context.sectionSelected) {

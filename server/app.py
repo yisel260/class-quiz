@@ -99,7 +99,9 @@ class TeacherLogin(Resource):
     
 class Logout(Resource):
     def delete(self):
-        session['user_id'] = None
+        session['studentUser_id'] = None
+        session['teacherUser_id'] = None
+
         return {'message': '204: No Content'}, 204
 
 class StudentLogIn(Resource):
@@ -113,6 +115,7 @@ class StudentLogIn(Resource):
 
         password = student.get('password')
         if password == studentUser.password:
+            session['studentUser_id'] = studentUser.id
             response = make_response(studentUser.to_dict(), 200)
             return response 
         else:
@@ -122,9 +125,10 @@ class StudentLogIn(Resource):
 class CheckSession(Resource):
     def get(self):
         print(f"Session in CheckSession: {session}")  # Debug print
+        print(self)
 
         teacherUser = Teacher.query.filter(Teacher.id == session.get('teacherUser_id')).first()
-        studentUser =Student.query.filter(Student.id == session.get('studentuser_id')).first()
+        studentUser =Student.query.filter(Student.id == session.get('studentUser_id')).first()
 
         print(f"Teacher User: {teacherUser}")
         print(f"Student User: {studentUser}")

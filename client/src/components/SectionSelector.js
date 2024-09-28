@@ -4,6 +4,7 @@ import { useOutletContext } from 'react-router-dom';
 
 function SectionSelector() {
     const context = useContext(UserContext);
+    
 
     function handleSectionChange(event) {
         console.log(event.target.value)

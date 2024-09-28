@@ -95,6 +95,9 @@ class Student(db.Model, SerializerMixin):
     assignments = db.relationship('Assignment', back_populates='student', cascade='all, delete-orphan')
     teacher = association_proxy('section', 'teacher',
                                   creator=lambda teacher_obj: Teacher(teacher=teacher_obj))
+    quizzes = association_proxy('assignments', 'quizzes', 
+                                creator=lambda quiz_obj: Quiz(quiz=quiz_obj))
+
 
     serialize_rules = ('-section.students', '-assignments.student', '-student.quizzes')
 

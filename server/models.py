@@ -134,11 +134,12 @@ class Question(db.Model, SerializerMixin):
     id = db.Column(db.Integer, primary_key=True) 
     question= db.Column(db.String)
     type = db.Column(db.String) 
-    options = db.Column(db.String) 
     correct_answer = db.Column(db.String)
     quiz_id = db.Column(db.Integer, db.ForeignKey("quizzes.id"))
+    
+    options = db.relationship('Option', back_populates="question", cascade='all, delete-orphan')
 
-    quiz=db.relationship('Quiz', back_populates ='questions')
+    quiz=db.relationship('Quiz', back_populates ='questions', )
 
     serialize_rules = ('-quiz.questions',)
 
@@ -146,6 +147,24 @@ class Question(db.Model, SerializerMixin):
 
     def __repr__ (self):
         return f"{self.question}" 
+    
+
+class Option(db.Model, SerializerMixin): 
+    __tablename__ = 'options'
+
+    id = db.Column(db.Integer, primary_key=True) 
+    option= db.Column(db.String)
+    question_id = db.Column(db.Integer, db.ForeignKey("questions.id"))
+
+    question=db.relationship('Question', back_populates ='options')
+
+    serialize_rules = ('-question.options',)
+
+
+
+    def __repr__ (self):
+        return f"{self.question}" 
+    
 
 class Assignment(db.Model,SerializerMixin):
     __tablename__ = "assignments"

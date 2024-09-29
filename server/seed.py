@@ -8,7 +8,7 @@ from faker import Faker
 
 # Local imports
 from app import app
-from models import db, Teacher,Section,Student,Quiz,Question, Assignment
+from models import db, Teacher,Section,Student,Quiz,Question, Assignment, Option
 
 if __name__ == '__main__':
     fake = Faker()
@@ -88,17 +88,45 @@ if __name__ == '__main__':
         optionslist=['option1','options2','opstion3','option4']
 
         for quiz in quizzes:   
-            for n in range(10):
+            for n in range(5):
                 question=Question(
                     question=f' {fake.sentence()}?',
                     type = rc(types), 
-                    options='option1, options2, opstion3 , option4',
                     correct_answer = rc(optionslist),
                     quiz_id = quiz.id
                 )
                 questions.append(question)
             db.session.add_all(questions)
             db.session.commit()
+            
+
+        options = []
+        for question in questions:   
+            option1=Option(
+                option='option1',
+                question_id = question.id
+                )
+            options.append(option1)
+            option2=Option(
+                option='option2',
+                question_id = question.id
+                )
+            options.append(option2)
+            option3=Option(
+                option='option3',
+                question_id = question.id
+                )
+            options.append(option3)
+            option4=Option(
+                option='option4',
+                question_id = question.id
+                )
+            options.append(option4)
+
+
+        db.session.add_all(options)
+        db.session.commit()
+
 
         assignments=[]
         for student in students:   

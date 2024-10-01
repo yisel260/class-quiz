@@ -11,7 +11,7 @@ function Section(){
 
 
     function redirectHome(){
-        context.setSection(null)
+        context.setSectionSelected(null)
         context.setUser(null)
         navigate('/')
     }

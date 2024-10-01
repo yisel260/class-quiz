@@ -14,13 +14,12 @@ import Section from './Section';
 function LandingPage() {
   const context = useContext(UserContext);
 
-  console.log("UserContext values at render:", context);
 
   const formik = useFormik({
       initialValues: {
           sectionCode: "",
       },
-      onSubmit: (values) => {
+      onSubmit: (values,{resetForm}) => {
           fetch(`/sections/${values.sectionCode}`)
               .then((res) => {
                   if (res.ok) {
@@ -30,6 +29,7 @@ function LandingPage() {
                   } else {
                       alert("Ooopsie that class code could not be found.");
                   }
+                  resetForm()
               });
       },
   });

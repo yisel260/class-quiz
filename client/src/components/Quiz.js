@@ -1,23 +1,18 @@
 import React,{useContext, useEffect, useState} from 'react';
 import { prepareDataForValidation, useFormik } from "formik";
 import UserContext from '../UserContext'
+// import '../index.css';
 
 
-function Quiz({quiz}){
+
+function Quiz({selectedQuiz, setSelectedQuiz,result, setResult,showResult,setShowResult,currentQuestion,setCurrentQuestion}){
 
     const context = useContext(UserContext)
-    const [currentQuestion,setCurrentQuestion] = useState(0)
     const [answerIdx,setAnswerIdx] = useState(null)
     const [answer, setAnswer]=useState(null)
-    const [showResult,setShowResult]=useState(false)
-    console.log(quiz.questions)
-
-    const {question, options, correct_answer, type} =quiz.questions[currentQuestion]
-    const [result, setResult]= useState({
-        score:0,
-        correctAnswers:0,
-        wrongAnswers:0
-    })
+    const [inputAnswer,setInputAnswer]=useState("")
+    const {question, options, correct_answer, type} =selectedQuiz.questions[currentQuestion]
+    
 
     const OnAnswerClicked = (option, index) => {
         console.log(option,index, correct_answer)
@@ -30,7 +25,9 @@ function Quiz({quiz}){
 
     }
     const onClickNext = () => {
+        //add answer to array or dictionary or answers?  to store so teachers can see 
         setAnswerIdx(null)
+        setInputAnswer("")
         setResult((prev)=>
         answer?
         {
@@ -43,7 +40,7 @@ function Quiz({quiz}){
         })
     
 
-        if( currentQuestion !== quiz.questions.length - 1){
+        if( currentQuestion !== selectedQuiz.questions.length - 1){
             setCurrentQuestion((currentQuestion)=>currentQuestion + 1)
         }else {
             setCurrentQuestion(0);
@@ -57,7 +54,23 @@ function Quiz({quiz}){
             wrongAnswers:0
         })
         setShowResult(false)
-    
+    }
+
+    const onDone=()=>{
+        setResult({
+            score:0,
+            correctAnswers:0,
+            wrongAnswers:0
+        })
+        setShowResult(false)
+        setSelectedQuiz(null)
+        //Update assigment Status to "completed"
+    }
+    const handleInputChange = (e)=>{
+        setInputAnswer(e.target.value)
+        if (e.target.value === correct_answer){
+            setAnswer(true)
+        }else setAnswer(false)
     }
 
     return (
@@ -65,7 +78,7 @@ function Quiz({quiz}){
             {!showResult ? (
                 <div className='quiz-container'>
                     <span>{currentQuestion + 1}</span>
-                    <span>/{quiz.questions.length}</span>
+                    <span>/{selectedQuiz.questions.length}</span>
                     <h3>{question|| 'No question available'}</h3>
                     {type === "multiple-choice" ? (
                         <ul>
@@ -86,24 +99,26 @@ function Quiz({quiz}){
                         </ul>
                     ) : type === "short-answer" ? (
                         <div>
-                            <input rows="4" cols="50"></input>
+                            <input value = {inputAnswer} onChange= {handleInputChange} rows="4" cols="50"></input>
                         </div>
                     ) : null}
                     <div>
-                        <button onClick={onClickNext}>
-                            {currentQuestion === quiz.questions.length - 1 ? "Finished" : "Next"}
+                        <button disabled={answerIdx === null && !inputAnswer} onClick={onClickNext}>
+                            {currentQuestion === selectedQuiz.questions.length - 1 ? "Finished" : "Next"}
                         </button>
                     </div>
                 </div>
             ) : (
                 <div>
                     <h2>Results</h2>
-                    <p>Total Questions:<span>{quiz.questions.length}</span></p>
+                    <p>Total Questions:<span>{selectedQuiz.questions.length}</span></p>
                     <p>Correct Answers:<span>{result.correctAnswers}</span></p>
                     <p>Wrong  Answers:<span>{result.wrongAnswers}</span></p>
                     <p>score:<span>{result.score}</span></p>
 
                     <button onClick={onTryAgain}>Try Again</button>
+                    <button onClick={onDone}>All Done</button>
+
 
 
                 </div>
@@ -111,52 +126,5 @@ function Quiz({quiz}){
         </div>
     );
 }
-
-        // <>
-        // <h3>{quiz.title}</h3>
-        // <form>
-        // {quiz.questions.map((question) => {
-        //     if (question.type === 'multiple-choice') {
-        //         console.log(question.options)
-        //         return(
-        //             <>
-        //             <p key={question.id}>{question.question}</p>
-        //             {question.options.map((option) =>{
-        //                 return(
-        //             <>
-        //                <input key={option.id}
-        //                  type="radio"
-        //                  value={option}
-        //                  name='questionOption'
-        //                 //  onChange={() =>
-        //                 //    handleAnswerSelection(currentQuestion, option)
-        //                 //  }
-        //                />
-        //                {option.option}
-        //                </> 
-        //         )
-        //             })}
-        //             </>
-        //         )
-        //     }
-        //     else if (question.type === 'short-answer') {
-        //         return(
-        //             <>
-        //             <p key={question.id}>{question.question}</p>
-        //             <textarea
-        //              rows="4"
-        //             cols="50"/>
-        //             </>
-        //         )
-        //     }
-        // })
-        // }
-        // <input type='submit'></input>
-        // </form>
-        // </>
-//     )
-
-
-// }
 
 export default Quiz

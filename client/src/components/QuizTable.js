@@ -4,9 +4,9 @@ import { useTable } from 'react-table';
 
 function QuizTable() {
     const context = useContext(UserContext);
-    const quizzes = React.useMemo(() => context.quizzes, []);
+    const quizzes = React.useMemo(() => context.user.quizzes, []);
 
-    console.log(quizzes);
+    console.log(context.user);
 
     const columns = React.useMemo(() => [
         {

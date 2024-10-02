@@ -13,6 +13,7 @@ import Help from "./pages/Help";
 import CreateClass from "./components/CreateClass";
 import UpdateClass from "./components/UpdateClass";
 import MyClasses from "./components/MyClasses";
+import Assignments from "./pages/Assignments";
 
 const router = createBrowserRouter(
     [
@@ -74,11 +75,11 @@ const router = createBrowserRouter(
                         path:"/managequizzes/update-quiz",
                         element: <UpdateQuiz/>,
                     },
-                    {
-                        path:"/assignments",
-                        element: <QuizResults/>,
-                    }
                 ]
+            },
+            {
+                path:"/assignments",
+                element: <Assignments/>,
             },
             {
                 path: "/help",

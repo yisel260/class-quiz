@@ -1,6 +1,5 @@
-import React, { useContext } from 'react';
+import React, { useContext, useTable } from 'react';
 import UserContext from '../UserContext';
-import { useTable } from 'react-table';
 
 function QuizTable() {
     const context = useContext(UserContext);

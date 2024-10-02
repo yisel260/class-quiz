@@ -11,7 +11,6 @@ function ManageQuizzes(){
      <Link className="nav-link" to="/managequizzes/createquiz">Create Quizzes</Link>
      <Link className="nav-link" to="/managequizzes/update-quiz">Update Quizzes</Link>
      <Link className="nav-link" to="/managequizzes">My Quizzes</Link>
-     <Link className="nav-link" to="/assignments">Assignments</Link>
 
 
      <Outlet context={context}/>

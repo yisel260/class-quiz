@@ -25,7 +25,8 @@ class Teachers(Resource):
             fname=data.get('fname'),
             lname=data.get('lname'),
             email=data.get('email'),
-            role=data.role('role'),
+            role=data.get('role'),
+            password=data.get('password'),
             school=data.get('school'),
         )
         db.session.add(new_teacher)
@@ -82,8 +83,10 @@ class TeacherByID(Resource):
 class TeacherLogin(Resource):
     def post(self):
         data = request.get_json()
-        username = data.get('username')
+        username = data.get('email')
         password = data.get('password')
+
+        print(username,password)
 
         if not username or not password:
             return {'message': 'Username and password are required'}, 400

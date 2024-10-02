@@ -54,16 +54,6 @@ function Root (){
            console.log("user is a student") 
         }
     }
-    
-    
-    // function handleSectionChange(e){
-    //   console.log(e.target.value)
-    //   fetch(`/sections/${e.target.value}`)
-    //   .then(res=>res.json())
-    //   .then(section=>{
-    //     setSectionSelected(section)
-    //   })
-    //   }
 
      function getStudents(sectionId){
       console.log("getstudents called")

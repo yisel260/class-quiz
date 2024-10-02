@@ -1,13 +1,12 @@
 import React,{useEffect,useState,useContext} from 'react';
 import UserContext from '../UserContext'
-import { useOutletContext } from 'react-router-dom';
+import CreateClass from './CreateClass';
 
 function SectionSelector() {
     const context = useContext(UserContext);
     
 
     function handleSectionChange(event) {
-        console.log(event.target.value)
         const selectedSectionId = parseInt(event.target.value, 10);
         const selectedSection = context.user.sections.find(section => section.id === selectedSectionId);
         console.log(selectedSection);
@@ -17,7 +16,7 @@ function SectionSelector() {
     return (
         <>
             <br />
-            {context.sections ? (
+            {context.sections>0 ? (
                 <>
                     <label htmlFor="section">Choose a class:</label>
                     <select
@@ -33,7 +32,10 @@ function SectionSelector() {
                         ))}
                     </select>
                 </>
-            ) : null}
+            ) :(<>
+            <p>start by adding your 1st class! </p>
+            <CreateClass/>
+            </>)}
         </>
     );
 }

@@ -7,13 +7,13 @@ function TeacherLogin({ onLogin }) {
   const context = useContext(UserContext);
 
   const formSchema = yup.object().shape({
-    username: yup.string().email("Invalid email").required("Must enter email"),
+    email: yup.string().email("Invalid email").required("Must enter email"),
     password: yup.string().min(3, "Password must be at least 8 characters").required("Must enter password"),
   });
 
   const formik = useFormik({
     initialValues: {
-      username: "",
+      email: "",
       password: "",
     },
     // validationSchema: formSchema,
@@ -40,17 +40,17 @@ function TeacherLogin({ onLogin }) {
     <>
       <h3>Login With Email</h3>
       <form onSubmit={formik.handleSubmit}>
-        <label htmlFor="username">Username: </label>
+        <label htmlFor="email">E-mail: </label>
         <input
           type="text"
-          id="username"
-          name="username"
+          id="email"
+          name="email"
           onChange={formik.handleChange}
-          value={formik.values.username}
+          value={formik.values.email}
           onBlur={formik.handleBlur}
         />
-        {formik.touched.username && formik.errors.username ? (
-          <div>{formik.errors.username}</div>
+        {formik.touched.email && formik.errors.email ? (
+          <div>{formik.errors.email}</div>
         ) : null}
         <br /><br />
         <label htmlFor="password">Password: </label>

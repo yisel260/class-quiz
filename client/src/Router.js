@@ -14,6 +14,7 @@ import CreateClass from "./components/CreateClass";
 import UpdateClass from "./components/UpdateClass";
 import MyClasses from "./components/MyClasses";
 import Assignments from "./pages/Assignments";
+import TeacherSignUp from "./components/TeacherSignUp";
 
 const router = createBrowserRouter(
     [
@@ -21,7 +22,7 @@ const router = createBrowserRouter(
         path: "/",
         element: <Root />,
         children: [
-        {
+            {
             path: "/",
                 element: <LandingPage/>,
                 index: true
@@ -35,6 +36,10 @@ const router = createBrowserRouter(
                     element:<StudentHome/>
                     }
                 ]
+            },
+            {
+                path: "/sign-up",
+                element: <TeacherSignUp/>,
             },
             {
                 path: "/teacher",

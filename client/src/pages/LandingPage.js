@@ -9,13 +9,23 @@ import { useFormik } from 'formik';
 import { useOutletContext } from 'react-router-dom';
 import UserContext from '../UserContext';
 import Section from './Section';
+import { useNavigate} from "react-router-dom"
+
 
 
 function LandingPage() {
-  const context = useContext(UserContext);
+    const context = useContext(UserContext);
+    const navigate = useNavigate();
 
 
-  const formik = useFormik({
+    const onSingUpClick=()=>{
+        navigate('/sign-up')
+
+        
+    }
+
+
+    const formik = useFormik({
       initialValues: {
           sectionCode: "",
       },
@@ -33,6 +43,7 @@ function LandingPage() {
               });
       },
   });
+
   if (context.user) {
       console.log("User is present:", context.user);
       if (context.user.role === 'teacher') {
@@ -72,7 +83,7 @@ function LandingPage() {
                   <h2 className='section-banner'>I am a teacher:</h2>
                   <div id="teacher-section">
                       <TeacherLogin />
-                      <p>I don't have an account</p>
+                      <button onClick={onSingUpClick}>I don't have an account</button>
                   </div>
               </main>
           </>

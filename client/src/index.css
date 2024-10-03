@@ -10,3 +10,45 @@
   background-color:pink
 }
 
+.banners{
+  background-color: #6FB3B8;
+  text-align: center;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  border-radius: 12px;
+}
+
+html{
+  background-color:whitesmoke
+}
+
+.login-sections{
+  background-color: #c2edce;
+  text-align: center;
+  display:"inline-block";
+  padding-bottom: 15px;
+  border-radius: 12px;
+}
+
+/* #student-section{
+;
+}
+
+#teacher-section{
+
+} */
+
+.action-btn{
+  background-color: #6FB3B8;;
+  font-size: large;
+  border-color:#6FB3B8 ;
+  border-radius: 5px;
+  font-weight: bold;
+  
+  
+}
+
+form{
+  text-align: center;
+  font-size: large;
+}

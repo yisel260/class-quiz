@@ -20,8 +20,6 @@ function LandingPage() {
 
     const onSingUpClick=()=>{
         navigate('/sign-up')
-
-        
     }
 
 
@@ -45,28 +43,23 @@ function LandingPage() {
   });
 
   if (context.user) {
-      console.log("User is present:", context.user);
       if (context.user.role === 'teacher') {
           return <TeacherHome />;
       } else if (context.user.role === 'student') {
-        console.log("Student is present:", context.user)
         return <StudentHome />;
       }
     }
     else if (context.sectionSelected) {
-          console.log("Section is set:", context.sectionSelected);
           return <Section />;
       }
      else {
-      console.log("No user present");
       return (
           <>
-              <p>This is the landing page</p>
               <main>
-                  <h1>Welcome to Class Quiz!</h1>
+                  <h1 className='banners' id='welcome'>Welcome to Class Quiz!</h1>
+                  <div className="login-sections" id="student-section">
                   <h2 className='section-banner'>I am a student:</h2>
-                  <div id="student-section">
-                      <form onSubmit={formik.handleSubmit}>
+                      <form className='forms' id='student-login-form' onSubmit={formik.handleSubmit}>
                           <label>Class code:</label>
                           <input
                               type="text"
@@ -77,13 +70,14 @@ function LandingPage() {
                               onChange={formik.handleChange}
                               placeholder=""
                           />
-                          <input className="action-button" type="submit" value="Go!" />
+                          <input className="action-btn" id="submit-class-code" type="submit" value="Go!" />
                       </form>
                   </div>
+                  <div className="login-sections" id="teacher-section">
                   <h2 className='section-banner'>I am a teacher:</h2>
-                  <div id="teacher-section">
                       <TeacherLogin />
-                      <button onClick={onSingUpClick}>I don't have an account</button>
+                      <br/>
+                      <button className="action-btn" id="sign-up" onClick={onSingUpClick}>Sign Up</button>
                   </div>
               </main>
           </>

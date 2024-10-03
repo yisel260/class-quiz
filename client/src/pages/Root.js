@@ -92,7 +92,6 @@ function Root (){
         mySection,setMySection,
 
         }}>
-      <Header/>
       <Outlet/>
       </UserContext.Provider>
       </>

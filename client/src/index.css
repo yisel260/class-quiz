@@ -135,3 +135,45 @@ form{
   font-size: large;
   padding-left: 20px;
 }
+
+.mini-nav-link{
+  background-color: pink;
+}
+
+
+.mini-nav-link{
+  background-color: #c2edce;
+  text-align: center; 
+  padding: 10px 24px; 
+  margin:5px;
+  text-decoration:none;
+  color:black;
+  font-size: medium;
+  border-radius:10px;
+  cursor: pointer;
+
+
+}
+
+.mini-nav-link:hover {
+  background-color: #a6c8f0;}
+
+  table, th, td {
+    border: 1px solid;
+    text-align: center;
+  }
+
+table{
+    width:100%;
+    border-collapse: collapse;
+}
+
+th{
+    background-color: #96df8c;
+}
+
+td{
+    padding:5px
+}
+
+

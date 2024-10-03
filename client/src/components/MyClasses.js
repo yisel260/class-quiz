@@ -33,13 +33,15 @@ function MyClasses(){
         <>
           {context.sectionSelected ? (
             <>
-              MyClasses
+              
               <div><SectionSelector/></div>
+              <br/>
               <div>
-                {context.sectionSelected.name}
-                <button onClick={() => deleteSection(context.sectionSelected.id)}>Delete Class</button>
-                <button onClick={() => updateSection(context.sectionSelected)}>Update Class</button>
+                <button className='action-btn' onClick={() => deleteSection(context.sectionSelected.id)}>Delete Class</button>
+                <button className="action-btn" onClick={() => updateSection(context.sectionSelected)}>Update Class</button>
               </div>
+              <br/>
+              <br/>
               <div>
               <StudentRosterTable />
               </div>

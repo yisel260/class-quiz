@@ -1,6 +1,7 @@
 import React, {useContext} from 'react';
 import { Outlet, Link, useOutletContext } from 'react-router-dom';
 import NavBar from '../components/NavBar';
+import Header from '../components/Header';
 import UserContext from '../UserContext';
 
 
@@ -9,10 +10,12 @@ function ManageClasses(){
     const context = useContext(UserContext)
     console.log(context.sections)
     return<>
-     <p> ManageClasses </p>
+     <Header/>
      <NavBar/>
-     <Link to="/manageclasses"> My Classes</Link>
-     <Link to="/manageclasses/createclass"> Create class</Link>
+     <br/>     <br/>
+
+     <Link className="mini-nav-link"to="/manageclasses"> My Classes</Link>
+     <Link className="mini-nav-link" to="/manageclasses/createclass"> Create class</Link>
      <Outlet context={context}/> 
      </>
 

@@ -114,8 +114,10 @@ function SignUpForm(){
             value={formik.values.password}
             
           />
+          <br/>
+          <br/>
 
-          <button className="action-button" type="submit">Submit</button>
+          <button className="action-btn" type="submit">Submit</button>
 
         
       </form>

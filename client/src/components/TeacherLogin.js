@@ -38,7 +38,6 @@ function TeacherLogin({ onLogin }) {
 
   return (
     <>
-      <h3>Login With Email</h3>
       <form onSubmit={formik.handleSubmit}>
         <label htmlFor="email">E-mail: </label>
         <input
@@ -66,7 +65,7 @@ function TeacherLogin({ onLogin }) {
           <div>{formik.errors.password}</div>
         ) : null}
         <br /><br />
-        <button type="submit" className="action-button">Login</button>
+        <button type="submit" className="action-btn">Login</button>
       </form>
     </>
   );

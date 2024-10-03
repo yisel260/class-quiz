@@ -77,6 +77,7 @@ function LandingPage() {
                   <h2 className='section-banner'>I am a teacher:</h2>
                       <TeacherLogin />
                       <br/>
+                      <h3>Or</h3>
                       <button className="action-btn" id="sign-up" onClick={onSingUpClick}>Sign Up</button>
                   </div>
               </main>

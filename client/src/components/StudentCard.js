@@ -7,8 +7,8 @@ function StudentCard({ student }) {
             {student.assignments.map((assignment, index) => {
                 return (
                     <React.Fragment key={assignment.id}>
-                        <p>{assignment.quiz.title}</p>
-                        <p>{assignment.status}</p>
+                        <p id='quiz-title'>{assignment.quiz.title}</p>
+                        {assignment.status == "assigned"?( <p id='quiz-status'>{assignment.status}</p>):(<>{assignment.score}</>)}
                     </React.Fragment>
                 );
             })}

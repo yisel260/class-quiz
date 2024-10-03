@@ -19,7 +19,7 @@ function SectionSelector() {
             <br />
             {context.sections.length>0 ? (
                 <>
-                    <label htmlFor="section">Choose a class:</label>
+                    <label className="labels" htmlFor="section">Choose a class:</label>
                     <select
                         id="section-selector"
                         value={context.sectionSelected.id}

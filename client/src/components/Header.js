@@ -15,7 +15,7 @@ function Header(){
    return( <>
     <div className="header">
         <h1 id="header-title">Class Quiz! </h1>
-        <button id="logout" className="action-button" onClick={handleLogout}>Log Out</button>
+        <button id="logout" className="action-btn" onClick={handleLogout}>Log Out</button>
 
     </div>
     </>

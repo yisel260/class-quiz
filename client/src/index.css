@@ -18,9 +18,29 @@ h3{
   text-align: center;
 }
 
-#navbar{
-  background-color:pink
+.navbar{
+  color:white;
+  overflow: auto;
 }
+
+
+.nav-link{
+  background-color: #66acc7;
+  text-align: center; 
+  padding: 10px 24px; 
+  margin:10px;
+  text-decoration:none;
+  color:black;
+  font-size: 30px;
+  border-radius:10px;
+
+
+}
+
+.nav-link:hover {
+  background-color: #a6c8f0;}
+
+
 
 .banners{
   background-color: #6FB3B8;
@@ -28,6 +48,15 @@ h3{
   padding-top: 10px;
   padding-bottom: 10px;
   border-radius: 12px;
+}
+
+#header-title{
+  background-color: #6FB3B8;
+  text-align: center;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  border-radius: 12px;
+
 }
 
 html{
@@ -60,7 +89,49 @@ html{
   
 }
 
+#logout{
+  padding:10px;}
+  
+
 form{
   text-align: center;
   font-size: large;
+}
+
+#student-card{
+  background-color: #badfe7;
+  text-align: center;
+  padding: 15px;
+  
+  border-radius: 12px;
+  display: inline-table;
+  margin:10px;
+}
+
+#student-name{
+  background-color: #badfe7;
+  font-weight: bold;
+  font-size: large;
+}
+
+#quiz-title{
+  background-color: whitesmoke;
+  padding: 10px;
+  border-radius: 5px;
+
+}
+
+#quiz-status{
+  background-color: #6FB3B8;;
+  padding: 10px;
+  border-radius: 5px;
+}
+
+#section-selector{
+  font-size: large;
+}
+
+.labels{
+  font-size: large;
+  padding-left: 20px;
 }

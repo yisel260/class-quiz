@@ -53,15 +53,6 @@ function SignUpForm(){
                     console.log("Response not ok");
                     }
                 })
-                // .then((r) => {
-                // if (r.ok) {
-                //     r.json().then((user) => {
-                //     console.log(user)
-                //     onLogin(user)
-                //     context.getData(user.id)
-                //     resetForm()
-                //     }
-                // );
                 }else {
                    alert("Something went wrong please double check your infomation and try again")
                 }
@@ -70,8 +61,7 @@ function SignUpForm(){
              }
             }
           )
-       // }
-   // });
+
 
    return( <>
     <div id="sign-up">

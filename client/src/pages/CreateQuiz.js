@@ -77,7 +77,7 @@ function CreateQuiz({setAddPrize}){
              <br/>
              <br/>
 
-            <input className='action-button' type="submit" value = "Add Prize"/>
+            <input className='action-button' type="submit" value = "add question"/>
             </form>
         </>
 )}

@@ -1,6 +1,7 @@
 import React,{useEffect,useState,useContext} from 'react';
 import UserContext from '../UserContext'
 import CreateClass from './CreateClass';
+import "../index.css"
 
 function SectionSelector() {
     const context = useContext(UserContext);
@@ -16,7 +17,7 @@ function SectionSelector() {
     return (
         <>
             <br />
-            {context.sections>0 ? (
+            {context.sections.length>0 ? (
                 <>
                     <label htmlFor="section">Choose a class:</label>
                     <select

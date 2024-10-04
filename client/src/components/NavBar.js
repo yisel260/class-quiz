@@ -6,8 +6,6 @@ import { useContext } from "react";
 
 function NavBar() {
 
-
-
   return (
     <>
    <div id="navbar">

@@ -1,6 +1,5 @@
 import React, { useContext } from 'react';
-import { Link, useNavigate, useOutletContext } from 'react-router-dom';
-import NavBar from './NavBar';
+import {useNavigate } from 'react-router-dom';
 import SectionSelector from './SectionSelector';
 import UserContext from '../UserContext';
 import StudentRosterTable from './StudentRoster';
@@ -10,7 +9,6 @@ function MyClasses(){
     const navigate = useNavigate()
 
     function deleteSection(sectionId){
-        console.log(sectionId);
         fetch(`sections/${sectionId}`, {
             method: 'delete',
         })
@@ -19,6 +17,7 @@ function MyClasses(){
                 const newSectionList = context.sections.filter(section => section.id!=sectionId)
                 context.setSections(newSectionList)
                 context.setSectionSelected(newSectionList[0])
+                context.setSectionStudents(newSectionList[1].students)
             }
         })
     }

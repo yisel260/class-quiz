@@ -169,11 +169,24 @@ table{
 }
 
 th{
-    background-color: #96df8c;
+    background-color: #badfe7;
 }
 
 td{
     padding:5px
+}
+
+#student-login-card-container{
+  display: inline-block;
+
+}
+#student-login-card{
+  background-color: #badfe7;
+  text-align: center;
+  padding: 15px;
+  border-radius: 12px;
+  display: inline-block;
+  margin:10px;
 }
 
 

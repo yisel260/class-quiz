@@ -19,7 +19,7 @@ function Section(){
         <>
         <Header/>
         <h2>Welcome!</h2>
-        <button onClick={redirectHome} id="different-class-btn" className="action-button" >Choose a different class</button>
+        <button onClick={redirectHome} id="different-class-btn" className="action-btn" >Choose a different class</button>
         <br/>
         {context.sectionSelected.students.map(student=>{
             return(

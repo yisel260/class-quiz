@@ -1,5 +1,7 @@
 import React, {useEffect, useContext} from 'react';
 import UserContext from '../UserContext';
+import {useNavigate } from 'react-router-dom';
+
 
 import { useFormik } from 'formik';
 import * as yup from "yup"
@@ -8,6 +10,8 @@ function UpdateClass(){
 
     const context = useContext(UserContext)
     console.log(context)
+    const navigate = useNavigate()
+
     const formSchema= yup.object().shape(
     {
       name: yup.string().required("You must enter a clasname").max(20),
@@ -22,25 +26,18 @@ const formik = useFormik({
         teacher_id:`${context.user.id}`
     },
     validationSchema: formSchema,
-    onSubmit:(values,{resetForm})=>{
-        fetch(`/sections/${values.section_code}`)
-        .then(res=>{
-            if (res.ok){
-                alert("A class with this class code already exist. Please try again, think of something unique but easy to remember for your students")
-            }
-            else {
-                fetch ("/sections",{
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json",
-                    },
-                    body: JSON.stringify(values,null,2),
+    onSubmit:(values,{resetForm})=>{  
+        fetch (`/sections/${context.sectionSelected.id}`,{
+            method: "PATCH",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(values,null,2),
                 })
                 .then((res)=>res.json())
                 .then((data)=>{
-                    context.setSectionSelected(data.id)
-                    // context.getSections(data.teacher_id)
-                    // context.getStudents(data.id)
+                    context.setSectionSelected(data)
+                    navigate(`/manageclasses`)
 
                 })
                 resetForm();
@@ -49,8 +46,7 @@ const formik = useFormik({
                 // setAddStudent(true)
             }
         })
-     }
-    })
+    
 return(
     
 

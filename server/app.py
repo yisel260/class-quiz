@@ -177,6 +177,24 @@ class SectionBySectionCode(Resource):
         )
         return response
     
+    def patch(self, section_code):
+            data = request.get_json()
+
+            section = Section.query.filter_by(section_code=section_code).first()
+
+            section.name=data.get('name'),
+            section.section_code=data.get('section_code'),
+            section.teacher_id=data.get('teacher_id'),
+
+            db.session.add(section)
+            db.session.commit()
+
+            section_dict = section.to_dict()
+
+            response = make_response(section_dict, 200)
+            return response
+    
+    
 class SectionById(Resource):
     def get(self, section_id):
         response_dict = Section.query.filter_by(id=section_id).first().to_dict()
@@ -191,9 +209,9 @@ class SectionById(Resource):
 
             section = Section.query.filter_by(id=section_id).first()
 
-            section.name=data.get('name'),
-            section.section_code=data.get('section_code'),
-            section.teacher_id=data.get('teacher_id'),
+            section.name=data.get('name')
+            section.section_code=data.get('section_code')
+            section.teacher_id=data.get('teacher_id')
 
             db.session.add(section)
             db.session.commit()

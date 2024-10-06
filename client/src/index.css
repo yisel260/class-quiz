@@ -89,6 +89,15 @@ html{
   
 }
 
+.mini-action-btn{
+  background-color: #6FB3B8;;
+  font-size: small;
+  border-color:#6FB3B8 ;
+  border-radius: 5px;
+  font-weight: bold;
+  
+}
+
 #logout{
   padding:10px;}
   

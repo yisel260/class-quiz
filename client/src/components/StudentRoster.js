@@ -1,12 +1,13 @@
 
-import React, { useContext, useMemo } from 'react';
+import React, { useContext, useMemo, useState } from 'react';
 import UserContext from '../UserContext';
 import { useTable } from 'react-table';
+import AddStudentForm from './AddStudentForm';
 
 function StudentRosterTable() {
     const context = useContext(UserContext);
     const sectionStudents = useMemo(() => context.sectionStudents || [], [context.sectionStudents]);
-
+    const [addStudent,setAddStudent ]= useState(false)
     console.log(sectionStudents);
 
     function onDelete(studentId) {
@@ -19,6 +20,15 @@ function StudentRosterTable() {
                 context.getStudents(context.sectionSelected.id);
               }
             });
+    }
+
+    function onAddStudent(){
+      setAddStudent(true)
+    }
+
+    function doneAddingStudents(){
+      console.log("adding student done fuction callled")
+      setAddStudent(false)
     }
 
     const columns = useMemo(() => [
@@ -40,7 +50,7 @@ function StudentRosterTable() {
             Cell: ({ row }) => {
                 const id = row.values.id;
                 return (
-                    <button onClick={() => console.log(id)}>
+                    <button className= "mini-action-btn" onClick={() => console.log(id)}>
                         Edit
                     </button>
                 );
@@ -53,7 +63,7 @@ function StudentRosterTable() {
             Cell: ({ row }) => {
                 const id = row.values.id;
                 return (
-                    <button onClick={() => onDelete(id)}>
+                    <button className= "mini-action-btn" onClick={() => onDelete(id)}>
                         Delete
                     </button>
                 );
@@ -101,6 +111,11 @@ function StudentRosterTable() {
           ) : (
             <p>No students available.</p>
           )}
+      {addStudent?(
+      <>
+      <AddStudentForm/>
+      <button onClick={doneAddingStudents} className='action-btn'> Finished </button>
+      </>):(<button className="action-btn" onClick={onAddStudent}>Add Student</button>)}
         </>
       );
 }

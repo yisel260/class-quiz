@@ -3,11 +3,15 @@ import React, { useContext, useMemo, useState } from 'react';
 import UserContext from '../UserContext';
 import { useTable } from 'react-table';
 import AddStudentForm from './AddStudentForm';
+import EditStudentForm from './EditStudentForm';
 
 function StudentRosterTable() {
     const context = useContext(UserContext);
     const sectionStudents = useMemo(() => context.sectionStudents || [], [context.sectionStudents]);
     const [addStudent,setAddStudent ]= useState(false)
+    const [editStudent,setEditStudent ]= useState(false)
+    const [selectedStudent,setSelectedStudent] =useState(false)
+
     console.log(sectionStudents);
 
     function onDelete(studentId) {
@@ -31,6 +35,16 @@ function StudentRosterTable() {
       setAddStudent(false)
     }
 
+    function onEditStudent(id){
+      console.log(context.sectionStudents)
+      const student = context.sectionStudents.filter(student => student.id === id)
+      console.log(student)
+      setSelectedStudent(student[0])
+      setEditStudent(true)
+
+
+    }
+
     const columns = useMemo(() => [
         {
             Header: "ID",
@@ -50,7 +64,7 @@ function StudentRosterTable() {
             Cell: ({ row }) => {
                 const id = row.values.id;
                 return (
-                    <button className= "mini-action-btn" onClick={() => console.log(id)}>
+                    <button className= "mini-action-btn" onClick={()=> onEditStudent(id)}>
                         Edit
                     </button>
                 );
@@ -116,6 +130,14 @@ function StudentRosterTable() {
       <AddStudentForm/>
       <button onClick={doneAddingStudents} className='action-btn'> Finished </button>
       </>):(<button className="action-btn" onClick={onAddStudent}>Add Student</button>)}
+      {editStudent?(
+      <>
+      <EditStudentForm 
+      selectedStudent={selectedStudent}
+      editStudent={editStudent}
+      setEditStudent={setEditStudent}/>
+      {/* <button onClick={doneAddingStudents} className='action-btn'> Finished </button> */}
+      </>):(null)}
         </>
       );
 }

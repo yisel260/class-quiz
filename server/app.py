@@ -289,10 +289,10 @@ class StudentsById(Resource):
         data = request.get_json()
         student = Student.query.filter_by(id = student_id).first()
 
-        student.name=data.get('name'),
-        student.password=data.get('password'),
-        student.role=data.get('role'),
-        student.section_id=data.get('section_id'),
+        student.name=data.get('name')
+        student.password=data.get('password')
+        student.role=data.get('role')
+        student.section_id=data.get('section_id')
         
         db.session.add(student)
         db.session.commit()

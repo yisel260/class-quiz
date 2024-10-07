@@ -5,10 +5,7 @@ import { useTable } from 'react-table';
 
 function MyQuizes(){
     const context = useContext(UserContext);
-    const quizzes = React.useMemo(() => context.user.quizzes, []);
-
-    console.log(context);
-
+    const quizzes = React.useMemo(() => context.quizzes || [], [context.quizzes]);
     const columns = React.useMemo(() => [
         {
             Header: "ID",
@@ -38,14 +35,50 @@ function MyQuizes(){
             Header: "Allow Retry",
             accessor: "retry",
         },
+        {
+            id: 'edit',
+            accessor: 'id', 
+            Cell: ({ row }) => {
+                const id = row.values.id;
+                return (
+                    <button className= "mini-action-btn" onClick={()=> console.log(id)}>
+                        Edit
+                    </button>
+                );
+            }
+        },
+        {
+            id: 'delete',
+            accessor: 'id', 
+            Cell: ({ row }) => {
+                const id = row.values.id;
+                return (
+                    <button className= "mini-action-btn" onClick={() => onDelete(id)}>
+                        Delete
+                    </button>
+                );
+            }
+        }
     ], []);
 
     const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } = useTable({ columns, data: quizzes });
 
+    function onDelete(quizId) {
+        fetch(`/quizzes/${quizId}`, {
+            method: 'delete',
+          })
+            .then((res) => {
+              if (res.ok) {
+                context.getQuizzes(context.user.id);
+              }
+            });
+    }
 
     return (
-        <div className="quiz-table">
-            <table {...getTableProps()}>
+        <>
+        {quizzes.length>0 ? (
+            <div className="quiz-table">
+                <table {...getTableProps()}>
                 <thead>
                     {headerGroups.map((headerGroup) => (
                         <tr {...headerGroup.getHeaderGroupProps()}>
@@ -63,7 +96,9 @@ function MyQuizes(){
                         return (
                             <tr {...row.getRowProps()}>
                                 {row.cells.map((cell) => (
-                                    <td {...cell.getCellProps()}> {cell.render("Cell")}</td>
+                                    <td {...cell.getCellProps()}> 
+                                    {cell.render("Cell")}
+                                    </td>
                                 ))}
                             </tr>
                         );
@@ -71,6 +106,10 @@ function MyQuizes(){
                 </tbody>
             </table>
         </div>
+    ):(
+        <p>No Quizzes added yet</p>
+    )}
+    </>
     );
 }
 

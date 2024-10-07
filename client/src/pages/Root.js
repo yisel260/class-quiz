@@ -8,7 +8,6 @@ import Header from "../components/Header";
 
 function Root (){
 
-    const context= useContext(UserContext);
     const [user,setUser]=useState("")
     const [sections, setSections]=useState("")
     const [sectionStudents,setSectionStudents]=useState("")
@@ -66,9 +65,16 @@ function Root (){
       })
      }
 
+     function getQuizzes(userId){
+      console.log("getQuizess called")
+      fetch(`/teachers/${userId}`)
+      .then((res)=>res.json())
+      .then((user) =>{
+        console.log(user.quizzes)
+        setQuizzes(user.quizzes)
+      })
+     }
      function getSections(user){
-      console.log("get sections called")
-      console.log(user)
       fetch(`/sectionsbyteacher/${user.id}`)
       .then((res)=>res.json())
       .then((data) =>{
@@ -89,7 +95,9 @@ function Root (){
         getStudents,
         onLogin,
         onLogOut,
+        getQuizzes,
         mySection,setMySection,
+        quizzes, setQuizzes
 
         }}>
       <Outlet/>

@@ -70,7 +70,6 @@ function StudentRosterTable() {
                 );
             }
         },
-
         {
             id: 'delete',
             accessor: 'id', 
@@ -85,7 +84,6 @@ function StudentRosterTable() {
         },
     ], []);
 
-    // Call useTable unconditionally
     const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } = useTable({ columns, data: sectionStudents });
     
 
@@ -95,7 +93,6 @@ function StudentRosterTable() {
             <div className="student-rooster-table">
               <table {...getTableProps()}>
                 <thead>
-  
                   {headerGroups.map((headerGroup) => (
                     <tr key={headerGroup.id} {...headerGroup.getHeaderGroupProps()}>
                       {headerGroup.headers.map((column) => (
@@ -136,7 +133,6 @@ function StudentRosterTable() {
       selectedStudent={selectedStudent}
       editStudent={editStudent}
       setEditStudent={setEditStudent}/>
-      {/* <button onClick={doneAddingStudents} className='action-btn'> Finished </button> */}
       </>):(null)}
         </>
       );

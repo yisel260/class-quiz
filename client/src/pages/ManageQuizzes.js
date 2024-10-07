@@ -14,14 +14,10 @@ function ManageQuizzes(){
      <br/>
      <br/>
      <Link className="mini-nav-link" to="/managequizzes">My Quizzes</Link>
-     <Link className="mini-nav-link" to="/managequizzes/createquiz">Create Quizzes</Link>
-     <Link className="mini-nav-link" to="/managequizzes/update-quiz">Update Quizzes</Link>
+     <Link className="mini-nav-link" to="/managequizzes/createquiz">New Quiz</Link>
      <br/>
      <br/>
-
-
      <Outlet context={context}/>
-
     </>)
 } 
 

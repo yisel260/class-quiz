@@ -1,25 +1,31 @@
-import React from 'react';
-import { useFormik } from "formik";
+import React,{useContext, useState} from 'react';
+import { useFormik, Field, Form} from "formik";
 import * as yup from "yup";
 import { useOutletContext } from 'react-router-dom';
+import UserContext from '../UserContext';
+import QuizInforCard from '../components/QuizInfoCard';
+import AddQuestionForm from '../components/AddQuestionForm';
 
 
-function CreateQuiz({setAddPrize}){
+function CreateQuiz(){
 
-    const context =useOutletContext()
+    const context =useContext(UserContext)
+    // context.setSelectedQuiz(null)
+    console.log(context.selectedQuiz)
+    const [addingQuestion,setAddingQuestion]=useState(false)
 
     const formik = useFormik({
         initialValues: {
-            foto:"",
+            title:"",
             description:"",
-            point_value:"", 
-            inventory:"",
-            number_requested:"0",
+            category:"", 
+            point_value:0,
+            passing_score:"",
+            retry:false,
             teacher_id:`${context.user.id}`,
         },
         onSubmit:(values,{resetForm})=>{
-            console.log(context.user.id)
-            fetch ("/prizes",{
+            fetch ("/quizzes",{
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -28,23 +34,35 @@ function CreateQuiz({setAddPrize}){
             })
             .then((res)=>res.json())
             .then((data)=>{
-                context.getPrizes(context.user.id)
+                console.log(data);
+                context.setSelectedQuiz(data)
             })
             resetForm();
-            setAddPrize()
         }
     })
 
+    function onAddQuestionClick(){
+        setAddingQuestion(true)
+    }
+ 
     return (
         <>
-        <form  onSubmit={formik.handleSubmit} id="add-prize-form">
+       {context.selectedQuiz !== null? 
+      ( <>
+      <QuizInforCard/>
+      <br/>
+      <button  onClick= {onAddQuestionClick} className='action-btn'>Add question</button>
+      {addingQuestion?<AddQuestionForm/>:null}
+      </>)
+       :( <form  onSubmit={formik.handleSubmit} id="add-prize-form">
 
-            <label className="form-label" htmlFor = "prize-foto">Foto</label>
+            <label className="form-label" htmlFor = "title">Quiz title</label>
             <input type="text"
-            id='foto'
+            id='title'
             onChange={formik.handleChange}
-            value={formik.values.foto}></input>
-
+            value={formik.values.title}></input>
+            <br/>
+            <br/>
             <label className="form-label" htmlFor ="description">Description</label>
             <input type="text"
              id='description'
@@ -52,33 +70,55 @@ function CreateQuiz({setAddPrize}){
              value={formik.values.description}></input>
             <br/>
             <br/>
-            <label className="form-label" htmlFor = "points">Point value</label>
+            <label className="form-label" htmlFor = "category">Category</label>
+            <input type="text"
+             id='category'
+             onChange={formik.handleChange}
+             value={formik.values.category}></input>
+            <br/>
+            <br/>
+            <label className="form-label" htmlFor = "point_value">Point value</label>
             <input type="text"
              id='point_value'
              onChange={formik.handleChange}
              value={formik.values.point_value}></input>
-        
-
-            <label className="form-label" htmlFor="inventory">Number Available</label>
+            <br/>
+            <br/>
+            <label className="form-label" htmlFor="passing_score">Passing Score</label>
             <input type="text"
-             id='inventory'
+             id='passing_score'
              onChange={formik.handleChange}
-             value={formik.values.inventory}></input>
+             value={formik.values.passing_score}></input>
+           
+          
+           <p role="group" aria-labelledby="my-radio-group">Allow students to retry?</p>
+            <label>
+                <input
+                    type="radio"
+                    name="picked"
+                    value={true}
+                    onChange={formik.handleChange}
+                />
+                Yes
+            </label>
+            <label>
+                <input
+                    type="radio"
+                    name="picked"
+                    value={false}
+                    onChange={formik.handleChange}
+                />
+                No
+            </label>
+            <br /><br />
 
-            <input type="hidden"
-            id='number_requested'
-             onChange={formik.handleChange}
-             value={formik.values.number_requested}></input>
-
-            <input type="hidden"
+            <label className="form-label" htmlFor="teacher_id"> teacher id</label>
+            <input type="text"
              id='teacher_id'
              onChange={formik.handleChange}
              value={formik.values.teacher_id}></input>
-             <br/>
-             <br/>
-
-            <input className='action-button' type="submit" value = "add question"/>
-            </form>
+            <input className='action-btn' type="submit" value = "save quiz"/>
+            </form>)}
         </>
 )}
 

@@ -343,8 +343,8 @@ class Quizzes(Resource):
     
     def post(self):
         data = request.get_json()
-        new_prize = Quiz(
-            title=data.get['title'],
+        new_quiz = Quiz(
+            title=data.get('title'),
             description=data.get('description'),
             category=data.get('category'),
             point_value=data.get('point_value'),
@@ -352,9 +352,9 @@ class Quizzes(Resource):
             retry = data.get('retry'),
             teacher_id=data.get('teacher_id'),
         )
-        db.session.add(new_prize)
+        db.session.add(new_quiz)
         db.session.commit()
-        response_dict = jsonify(new_prize.to_dict())
+        response_dict = jsonify(new_quiz.to_dict())
         response = make_response(
              response_dict,
             201,

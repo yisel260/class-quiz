@@ -14,6 +14,7 @@ function Root (){
     const [sectionSelected,setSectionSelected]=useState("")
     const [quizzes, setQuizzes] = useState([{}]);
     const [mySection,setMySection] = useState() 
+    const [selectedQuiz,setSelectedQuiz] = useState(null)
     // const [mySection,setMySection]=useState()
 
     useEffect(() => {
@@ -97,7 +98,8 @@ function Root (){
         onLogOut,
         getQuizzes,
         mySection,setMySection,
-        quizzes, setQuizzes
+        quizzes, setQuizzes,
+        selectedQuiz,setSelectedQuiz
 
         }}>
       <Outlet/>

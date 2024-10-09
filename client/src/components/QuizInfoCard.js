@@ -6,12 +6,14 @@ function QuizInforCard(){
     console.log(context.selectedQuiz)
     return(
         <>
-        <p>QuizInfoCard</p>
+        <div>
         <p>{context.selectedQuiz.title}</p>
-        {context.selectedQuiz.description}
-        {context.selectedQuiz.category}
-        {context.selectedQuiz.passing_score}
+        <p>{context.selectedQuiz.description}</p>
+        <p>{context.selectedQuiz.category}</p>
+        <p>{context.selectedQuiz.passing_score}</p>
+        </div>
         </>
+        
     )
     
 }

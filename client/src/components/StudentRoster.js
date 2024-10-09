@@ -12,10 +12,8 @@ function StudentRosterTable() {
     const [editStudent,setEditStudent ]= useState(false)
     const [selectedStudent,setSelectedStudent] =useState(false)
 
-    console.log(sectionStudents);
 
     function onDelete(studentId) {
-        console.log(studentId);
         fetch(`/students/${studentId}`, {
             method: 'delete',
           })

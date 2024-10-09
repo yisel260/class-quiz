@@ -5,7 +5,7 @@
 # Remote library imports
 from flask import Flask,request, make_response, session, jsonify
 from flask_restful import Resource
-from models import Teacher, Section,Student, Quiz, Question, Assignment
+from models import Teacher, Section,Student, Quiz, Question, Assignment, Option
 from config import app, db, api, bcrypt
 import json
 
@@ -508,7 +508,6 @@ class Questions(Resource):
         new_question = Question(
             question=data.get('question'),
             type=data.get('type'),
-            options=data.get('options'),
             correct_answer=data.get('correct_answer'),
             quiz_id=data.get('quiz_id'),
         )
@@ -564,6 +563,30 @@ class QuestionsById(Resource):
 
         return response
     
+class Options(Resource):
+    def get(self):
+        response_dict_list = [n.to_dict() for n in Option.query.all()]
+        response = make_response(
+            response_dict_list,
+            200, )
+        return response
+    
+    def post(self):
+        data = request.get_json()
+        new_option = Option(
+            option=data.get('option'),
+            question_id=data.get('question_id'),
+        )
+        db.session.add(new_option)
+        db.session.commit()
+        response_dict = jsonify(new_option.to_dict())
+        response = make_response(
+             response_dict,
+            201,
+        )
+        return response
+    
+    
     
 api.add_resource(TeacherByID, '/teachers/<int:id>')
 api.add_resource(Teachers, '/teachers')
@@ -586,6 +609,7 @@ api.add_resource(AssignmentsById , "/assignmentsById/<int:order_id>")
 # api.add_resource(OrdersByStudent, "/ordersByStudent/<int:student_id>")
 api.add_resource(Questions, '/questions')
 api.add_resource(QuestionsById, '/questions/<int:question_id>')
+api.add_resource(Options, '/options')
 
 
 

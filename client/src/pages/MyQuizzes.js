@@ -1,10 +1,11 @@
-import React,{useContext} from 'react';
-import QuizTable from '../components/QuizTable';
+import React,{useContext,useState} from 'react';
 import UserContext from '../UserContext';
 import { useTable } from 'react-table';
+import QuizDisplay from '../components/QuizDisplay';
 
 function MyQuizes(){
     const context = useContext(UserContext);
+    const [showQuiz,setShowQuiz] = useState(false)
     const quizzes = React.useMemo(() => context.quizzes || [], [context.quizzes]);
     const columns = React.useMemo(() => [
         {
@@ -34,6 +35,18 @@ function MyQuizes(){
         {
             Header: "Allow Retry",
             accessor: "retry",
+        },
+        {
+            id: 'show-quiz',
+            accessor: 'id', 
+            Cell: ({ row }) => {
+                const id = row.values.id;
+                return (
+                    <button className= "mini-action-btn" onClick={()=> handleShowQuiz(id)}>
+                        Show quiz
+                    </button>
+                );
+            }
         },
         {
             id: 'edit',
@@ -74,6 +87,11 @@ function MyQuizes(){
             });
     }
 
+    function handleShowQuiz(id){
+        context.setSelectedQuiz(quizzes.find(quiz=>quiz.id===id))
+        setShowQuiz(true)
+    }
+
     return (
         <>
         {quizzes.length>0 ? (
@@ -109,6 +127,9 @@ function MyQuizes(){
     ):(
         <p>No Quizzes added yet</p>
     )}
+    {showQuiz?(<>
+    <QuizDisplay/>
+    </>):(null)}
     </>
     );
 }

@@ -3,8 +3,8 @@ import { useFormik, Field, Form} from "formik";
 import * as yup from "yup";
 import { useOutletContext } from 'react-router-dom';
 import UserContext from '../UserContext';
-import QuizInfoCard from '../components/QuizInfoCard';
 import AddQuestionForm from '../components/AddQuestionForm';
+import QuizDisplay from '../components/QuizDisplay';
 
 
 function CreateQuiz(){
@@ -49,8 +49,8 @@ function CreateQuiz(){
         <>
        {context.selectedQuiz !== null? 
       ( <>
-      <QuizInfoCard/>
-      <br/>
+      <QuizDisplay/>
+        <br/>
       <button  onClick= {onAddQuestionClick} className='action-btn'>Add question</button>
       {addingQuestion?<AddQuestionForm/>:null}
       </>)

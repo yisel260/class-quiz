@@ -3,9 +3,9 @@ import UserContext from '../UserContext';
 
 function QuizDisplay(){
     const context = useContext(UserContext)
-    console.log(context.selectedQuiz.questions)
     return(
         <>
+        {context.selectedQuiz?(<>
         <div>
         <p>{context.selectedQuiz.title}</p>
         <p>{context.selectedQuiz.description}</p>
@@ -22,7 +22,7 @@ function QuizDisplay(){
                     <p key={option.id}>{option.option}</p>
                 )
                 })}
-        </div>)})}
+        </div>)})}</>):null}
         </>
         
     )

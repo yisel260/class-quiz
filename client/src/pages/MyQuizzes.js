@@ -48,48 +48,32 @@ function MyQuizes(){
                 );
             }
         },
-        {
-            id: 'edit',
-            accessor: 'id', 
-            Cell: ({ row }) => {
-                const id = row.values.id;
-                return (
-                    <button className= "mini-action-btn" onClick={()=> console.log(id)}>
-                        Edit
-                    </button>
-                );
-            }
-        },
-        {
-            id: 'delete',
-            accessor: 'id', 
-            Cell: ({ row }) => {
-                const id = row.values.id;
-                return (
-                    <button className= "mini-action-btn" onClick={() => onDelete(id)}>
-                        Delete
-                    </button>
-                );
-            }
-        }
     ], []);
 
     const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } = useTable({ columns, data: quizzes });
 
-    function onDelete(quizId) {
-        fetch(`/quizzes/${quizId}`, {
+    function onDelete() {
+        fetch(`/quizzes/${context.selectedQuiz.id}`, {
             method: 'delete',
           })
             .then((res) => {
               if (res.ok) {
                 context.getQuizzes(context.user.id);
+                context.setSelectedQuiz(null)
+                setShowQuiz(false)
               }
             });
     }
 
     function handleShowQuiz(id){
         context.setSelectedQuiz(quizzes.find(quiz=>quiz.id===id))
+        console.log(quizzes.find(quiz=>quiz.id===id))
         setShowQuiz(true)
+    }
+
+    function onEditClick(){
+        console.log("Edit Clicked")
+        // context.editQuiz(context.selectedQuiz.id)
     }
 
     return (
@@ -128,6 +112,8 @@ function MyQuizes(){
         <p>No Quizzes added yet</p>
     )}
     {showQuiz?(<>
+    <button className= "mini-action-btn" onClick={onEditClick}>Edit</button>
+    <button className= "mini-action-btn" onClick={()=>onDelete(context.setSelectedQuiz.id)}>Delete</button>
     <QuizDisplay/>
     </>):(null)}
     </>

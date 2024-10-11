@@ -18,8 +18,6 @@ function Assignments(){
      <Link className="mini-nav-link" to="/managequizzes/update-quiz">Update Quizzes</Link>
      <br/>
      <br/>
-
-
      <Outlet context={context}/>
 
     </>)} 

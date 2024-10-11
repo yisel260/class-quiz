@@ -3,7 +3,6 @@ import UserContext from '../UserContext';
 
 function QuestionDisplay(question){
     const context = useContext(UserContext)
-    console.log(question)
     return(
         <>
         <div key = {question.id}>

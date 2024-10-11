@@ -21,17 +21,21 @@ h3{
 .navbar{
   color:white;
   overflow: auto;
+  display: flex;
+  width:100%;
+
 }
 
 
 .nav-link{
+  display: inline-block;
   background-color: #66acc7;
   text-align: center; 
   padding: 10px 24px; 
   margin:10px;
   text-decoration:none;
   color:black;
-  font-size: 30px;
+  font-size: large;
   border-radius:10px;
 
 

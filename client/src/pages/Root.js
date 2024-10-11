@@ -84,6 +84,12 @@ function Root (){
       })
 
      }
+
+     function getQuiz(id) {
+      fetch(`/quizzes/${id}`)
+      .then((res)=>res.json())
+      .then((quiz)=> setSelectedQuiz(quiz))
+     }
   
      return (
       <>
@@ -97,6 +103,8 @@ function Root (){
         onLogin,
         onLogOut,
         getQuizzes,
+        getQuiz,
+        setMySection,  // use this to set the selected section for a student
         mySection,setMySection,
         quizzes, setQuizzes,
         selectedQuiz,setSelectedQuiz

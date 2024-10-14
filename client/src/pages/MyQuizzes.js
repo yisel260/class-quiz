@@ -9,7 +9,7 @@ function MyQuizes(){
     const [showQuiz,setShowQuiz] = useState(false)
     const [editQuiz, setEditQuiz] = useState(false)
 
-    const quizzes = React.useMemo(() => context.quizzes || [], [context.quizzes]);
+    const myQuizzes = React.useMemo(() => context.quizzes, [context.quizzes]);
     const columns = React.useMemo(() => [
         {
             Header: "ID",
@@ -53,7 +53,7 @@ function MyQuizes(){
         },
     ], []);
 
-    const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } = useTable({ columns, data: quizzes });
+    const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } = useTable({ columns, data: myQuizzes });
 
     function onDelete() {
         fetch(`/quizzes/${context.selectedQuiz.id}`, {
@@ -69,8 +69,7 @@ function MyQuizes(){
     }
 
     function handleShowQuiz(id){
-        context.setSelectedQuiz(quizzes.find(quiz=>quiz.id===id))
-        console.log(quizzes.find(quiz=>quiz.id===id))
+        context.setSelectedQuiz(context.quizzes.find(quiz=>quiz.id===id))
         setShowQuiz(true)
     }
 
@@ -82,7 +81,7 @@ function MyQuizes(){
 
     return (
         <>
-        {quizzes.length>0 ? (
+        {myQuizzes.length>0 ? (
             <div className="quiz-table">
                 <table {...getTableProps()}>
                 <thead>

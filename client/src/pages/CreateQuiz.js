@@ -22,7 +22,7 @@ function CreateQuiz(){
     const [option2,setOption2]=useState("")
     const [option3,setOption3]=useState("")
     const [option4,setOption4]=useState("")
-    const [questionsDisplayed, setQuestionsDisplayed]=useState(context.selectedQuiz?.questions || null)
+    const [questionsDisplayed, setQuestionsDisplayed]=useState(context.selectedQuiz?.questions || [])
     const [shortAnswerAnswer,setShortAnswerAnswer]= useState("")
 
 

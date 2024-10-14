@@ -7,7 +7,7 @@ import StudentHome from "./pages/StudentHome";
 import TeacherHome from "./pages/TeacherHome";
 import ManageClasses from "./pages/ManageClasses";
 import Managequizzes  from "./pages/ManageQuizzes";
-import UpdateQuiz from "./pages/UpdateQuiz";
+import EditQuiz from "./pages/EditQuiz";
 import MyQuizes from "./pages/MyQuizzes";
 import Help from "./pages/Help";
 import CreateClass from "./components/CreateClass";
@@ -78,7 +78,7 @@ const router = createBrowserRouter(
                     },
                     {
                         path:"/managequizzes/update-quiz",
-                        element: <UpdateQuiz/>,
+                        element: <EditQuiz/>,
                     },
                 ]
             },

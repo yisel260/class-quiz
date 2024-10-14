@@ -2,10 +2,13 @@ import React,{useContext,useState} from 'react';
 import UserContext from '../UserContext';
 import { useTable } from 'react-table';
 import QuizDisplay from '../components/QuizDisplay';
+import EditQuiz from './EditQuiz';
 
 function MyQuizes(){
     const context = useContext(UserContext);
     const [showQuiz,setShowQuiz] = useState(false)
+    const [editQuiz, setEditQuiz] = useState(false)
+
     const quizzes = React.useMemo(() => context.quizzes || [], [context.quizzes]);
     const columns = React.useMemo(() => [
         {
@@ -72,7 +75,8 @@ function MyQuizes(){
     }
 
     function onEditClick(){
-        console.log("Edit Clicked")
+        setEditQuiz(true)
+        setShowQuiz(false)
         // context.editQuiz(context.selectedQuiz.id)
     }
 
@@ -112,9 +116,13 @@ function MyQuizes(){
         <p>No Quizzes added yet</p>
     )}
     {showQuiz?(<>
-    <button className= "mini-action-btn" onClick={onEditClick}>Edit</button>
+    <button className= "mini-action-btn" onClick={()=>onEditClick(context.selectedQuiz.id)}>Edit</button>
     <button className= "mini-action-btn" onClick={()=>onDelete(context.setSelectedQuiz.id)}>Delete</button>
     <QuizDisplay/>
+    </>):(null)}
+
+    {editQuiz?(<>
+    <EditQuiz/>
     </>):(null)}
     </>
     );

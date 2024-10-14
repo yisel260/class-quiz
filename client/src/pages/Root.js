@@ -15,6 +15,7 @@ function Root (){
     const [quizzes, setQuizzes] = useState([{}]);
     const [mySection,setMySection] = useState() 
     const [selectedQuiz,setSelectedQuiz] = useState(null)
+    const [selectedStudent,setSelectedStudent] = useState(null)
     // const [mySection,setMySection]=useState()
 
     useEffect(() => {
@@ -107,7 +108,8 @@ function Root (){
         setMySection,  // use this to set the selected section for a student
         mySection,setMySection,
         quizzes, setQuizzes,
-        selectedQuiz,setSelectedQuiz
+        selectedQuiz,setSelectedQuiz,
+        selectedStudent,setSelectedStudent
 
         }}>
       <Outlet/>

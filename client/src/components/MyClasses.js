@@ -17,7 +17,7 @@ function MyClasses(){
                 const newSectionList = context.sections.filter(section => section.id!=sectionId)
                 context.setSections(newSectionList)
                 context.setSectionSelected(newSectionList[0])
-                context.setSectionStudents(newSectionList[1].students)
+                context.setSectionStudents(newSectionList[0].students)
             }
         })
     }

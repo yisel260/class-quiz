@@ -7,10 +7,12 @@ import EditStudentForm from './EditStudentForm';
 
 function StudentRosterTable() {
     const context = useContext(UserContext);
-    const sectionStudents = useMemo(() => context.sectionStudents || [], [context.sectionStudents]);
+    const students = useMemo(() => context.sectionStudents || [], [context.sectionStudents]);
     const [addStudent,setAddStudent ]= useState(false)
     const [editStudent,setEditStudent ]= useState(false)
     const [selectedStudent,setSelectedStudent] =useState(false)
+
+    console.log(context.sectionStudents)
 
 
     function onDelete(studentId) {
@@ -35,11 +37,10 @@ function StudentRosterTable() {
 
     function onEditStudent(id){
       console.log(context.sectionStudents)
-      const student = context.sectionStudents.filter(student => student.id === id)
+      const student = students.filter(student => student.id === id)
       console.log(student)
       setSelectedStudent(student[0])
       setEditStudent(true)
-
 
     }
 
@@ -82,12 +83,12 @@ function StudentRosterTable() {
         },
     ], []);
 
-    const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } = useTable({ columns, data: sectionStudents });
+    const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } = useTable({ columns, data: students });
     
 
     return (
         <>
-          {sectionStudents.length > 0 ? (
+          {students.length > 0 ? (
             <div className="student-rooster-table">
               <table {...getTableProps()}>
                 <thead>

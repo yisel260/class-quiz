@@ -11,11 +11,11 @@ function EditQuiz(){
     const formik = useFormik({
         initialValues: {
             title:`${context.selectedQuiz.title}`,
-            description:"hello",
-            category:"", 
-            point_value:0,
-            passing_score:"",
-            retry:false,
+            description:`${context.selectedQuiz.description}`,
+            category:`${context.selectedQuiz.category}` ,
+            point_value:`${context.selectedQuiz.point_value}`,
+            passing_score:`${context.selectedQuiz.passing_score}`,
+            retry:`${context.selectedQuiz.retry}`,
             teacher_id:`${context.user.id}`,
         },
         onSubmit:(values,{resetForm})=>{

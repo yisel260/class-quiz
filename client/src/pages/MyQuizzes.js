@@ -9,7 +9,7 @@ function MyQuizes(){
     const [showQuiz,setShowQuiz] = useState(false)
     const [editQuiz, setEditQuiz] = useState(false)
 
-    const myQuizzes = React.useMemo(() => context.quizzes, [context.quizzes]);
+    const myQuizzes = React.useMemo(() => context.quizzes , [context.quizzes]);
     const columns = React.useMemo(() => [
         {
             Header: "ID",
@@ -69,8 +69,9 @@ function MyQuizes(){
     }
 
     function handleShowQuiz(id){
-        context.setSelectedQuiz(context.quizzes.find(quiz=>quiz.id===id))
+        context.getQuiz(id)
         setShowQuiz(true)
+
     }
 
     function onEditClick(){

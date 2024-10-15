@@ -389,13 +389,13 @@ class QuizById(Resource):
 
         quiz = Quiz.query.filter_by(id=quiz_id).first()
 
-        quiz.title=data.get['title'],
-        quiz.description=data.get('description'),
-        quiz.category=data.get('category'),
-        quiz.point_value=data.get('point_value'),
-        quiz.passing_score=data.get('passing_score'),
-        quiz.retry = data.get('retry'),
-        quiz.teacher_id=data.get('teacher_id'),
+        quiz.title=data.get('title')
+        quiz.description=data.get('description')
+        quiz.category=data.get('category')
+        quiz.point_value=data.get('point_value')
+        quiz.passing_score=data.get('passing_score')
+        quiz.retry = data.get('retry')
+        quiz.teacher_id=data.get('teacher_id')
 
         db.session.add(quiz)
         db.session.commit()
@@ -533,25 +533,24 @@ class QuestionsById(Resource):
     def patch(self, question_id):
         data = request.get_json()
 
-        question = Assignment.query.filter_by(id=question_id).first()
+        question = Question.query.filter_by(id=question_id).first()
         
         question.question=data.get('question'),
         question.type=data.get('type'),
-        question.options=data.get('options'),
         question.correct_answer=data.get('correct_answer'),
         question.quiz_id=data.get('quiz_id'),
         
         db.session.add(question)
         db.session.commit()
 
-        assignment_dict = question.to_dict()
+        question_dict = question.to_dict()
 
-        response = make_response(assignment_dict, 200)
+        response = make_response(question_dict, 200)
         return response
 
 
     def delete(self, question_id):
-        student = Student.query.filter_by(id=question_id).first()
+        student = Question.query.filter_by(id=question_id).first()
         response_body = student.to_dict()
 
         db.session.delete(student)

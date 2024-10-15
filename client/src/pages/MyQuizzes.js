@@ -38,6 +38,12 @@ function MyQuizes(){
         {
             Header: "Allow Retry",
             accessor: "retry",
+            Cell: ({row})=>{
+                if (row === true) 
+                    return (<p>Yes</p>)
+                else
+                return (<p>No</p>)
+            }
         },
         {
             id: 'show-quiz',
@@ -71,6 +77,7 @@ function MyQuizes(){
     function handleShowQuiz(id){
         context.getQuiz(id)
         setShowQuiz(true)
+        setEditQuiz(false)
 
     }
 
@@ -122,7 +129,7 @@ function MyQuizes(){
     </>):(null)}
 
     {editQuiz?(<>
-    <EditQuiz/>
+    <EditQuiz setEditQuiz={setEditQuiz}/>
     </>):(null)}
     </>
     );

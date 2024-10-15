@@ -15,6 +15,8 @@ function Root (){
     const [quizzes, setQuizzes] = useState([{}]);
     const [mySection,setMySection] = useState() 
     const [selectedQuiz,setSelectedQuiz] = useState(null)
+    const [selectedQuestion,setSelectedQuestion] = useState(null)
+    const [quizQuestions,setQuizQuestions] = useState(null)
     const [selectedStudent,setSelectedStudent] = useState(null)
     // const [mySection,setMySection]=useState()
 
@@ -86,6 +88,16 @@ function Root (){
 
      }
 
+     function getQuestions(quizId){
+      fetch(`quizzes/${quizId}`)
+      .then((res)=>res.json())
+      .then((data) =>{
+        console.log(data)
+        setSelectedQuiz(data)
+        setQuizQuestions(data.questions)
+      })
+     }
+
      function getQuiz(id) {
       fetch(`/quizzes/${id}`)
       .then((res)=>res.json())
@@ -109,7 +121,11 @@ function Root (){
         mySection,setMySection,
         quizzes, setQuizzes,
         selectedQuiz,setSelectedQuiz,
-        selectedStudent,setSelectedStudent
+        selectedStudent,setSelectedStudent,
+        selectedQuestion,setSelectedQuestion,
+        getQuestions,
+        quizQuestions,setQuizQuestions
+        
 
         }}>
       <Outlet/>

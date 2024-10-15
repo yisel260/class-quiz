@@ -1,13 +1,27 @@
-import React,{useContext} from 'react';
+import React,{useContext, useState} from 'react';
 import { useFormik} from "formik";
 import UserContext from '../UserContext';
 
 
-function EditQuiz(){
+function EditQuiz({setEditQuiz}){
 
     const context =useContext(UserContext)
+    console.log(context.selectedQuiz.questions)
+    const [editedQuestion, setEditedQuestion] = useState(null)
 
-    console.log(context.selectedQuiz.title)
+    function deleteQuestion(id) {
+        fetch(`/questions/${id}`, {
+            method: 'delete',
+          })
+            .then((res) => {
+              if (res.ok) {
+                context.getQuestions(context.selectedQuiz.id);
+                console.log(context.selectedQuiz.id)
+                context.setSelectedQuestion(null)
+              }
+            });
+    }
+
     const formik = useFormik({
         initialValues: {
             title:`${context.selectedQuiz.title}`,
@@ -15,12 +29,12 @@ function EditQuiz(){
             category:`${context.selectedQuiz.category}` ,
             point_value:`${context.selectedQuiz.point_value}`,
             passing_score:`${context.selectedQuiz.passing_score}`,
-            retry:`${context.selectedQuiz.retry}`,
+            retry:context.selectedQuiz.retry,
             teacher_id:`${context.user.id}`,
         },
         onSubmit:(values,{resetForm})=>{
-            fetch ("/quizzes",{
-                method: "POST",
+            fetch (`/quizzes/${context.selectedQuiz.id}`,{
+                method: "PATCH",
                 headers: {
                     "Content-Type": "application/json",
                 },
@@ -35,6 +49,7 @@ function EditQuiz(){
                 context.setSelectedQuiz(data)
             })
             resetForm();
+            setEditQuiz(false)
         }
     })
     return( 
@@ -105,6 +120,22 @@ function EditQuiz(){
          value={formik.values.teacher_id}></input>
         <input className='action-btn' type="submit" value = "save quiz"/>
         </form>
+
+         {context.selectedQuiz.questions.map((question) => {
+         return (
+         <div key = {question.id}>
+                <p>{question.question}</p>
+                {question.options.map((option)=>{
+                return(
+                    <>
+                    <p key={option.id}>{option.option}</p>
+                    </>
+                )
+                })}
+                <button  onClick={()=>deleteQuestion(question.id)}>Delete Question</button>
+                <button onClick={()=>setEditedQuestion(question)}>Edit Question</button>
+                
+            </div>)})}
         </>)
 } 
 

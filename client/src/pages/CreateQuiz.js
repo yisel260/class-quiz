@@ -3,6 +3,7 @@ import { useFormik} from "formik";
 import * as yup from "yup";
 import UserContext from '../UserContext';
 import QuizDisplay from '../components/QuizDisplay';
+import AddQuestionForm from '../components/AddQuestionForm';
 
 
 function CreateQuiz(){
@@ -95,17 +96,9 @@ function CreateQuiz(){
                 setNewQuestion(question)
             })
         })    
-        setQuestion("")
-        setType("")
         // setOptions([])
-        setCorrectAnswer("")
         setQuizId(context.selectedQuiz.id)
-        setOption1("")
-        setOption2("")
-        setOption3("")
-        setOption4("")
-        setShortAnswerAnswer("")
-        context.getQuiz(context.selectedQuiz.id)
+                context.getQuiz(context.selectedQuiz.id)
         setAddingQuestion(false)
         setQuestionsDisplayed([...questionsDisplayed, newQuestion])
      }
@@ -221,57 +214,7 @@ function CreateQuiz(){
             </form>)}
 
             {addingQuestion?(<>
-                <form className="form" id="add-question-form"   onSubmit={handlleCreateNewQuiz}> 
-            
-            <label> Question :</label>
-            <input onChange={handleQuestionChange} type="text" id="question" value={question} name = "question" required/>
-            <br/><br/>
-
-            <p role="group" aria-labelledby="my-radio-group">type of question: </p>
-            <label>
-                <input
-                    type="radio"
-                    name="type"
-                    value={"multiple-choice"}
-                    onChange={handleTypeChange}
-                />
-                Multiple Choice
-            </label>
-            <label>
-                <input
-                    type="radio"
-                    name="type"
-                    value="short-answer"
-                    onChange={handleTypeChange}
-                />
-                Short Answer
-            </label>
-            <br /><br />
-
-            {type === "short-answer"? (<> 
-            <label> Correct Answer </label>
-            <input onChange={handleShortAnswerChange} type='text' id="short-answer-correct_answer" value={correct_answer}></input>
-            </>):(
-                <>
-                <input onChange={handleCorrectAnswerChange} type="radio" id="correct_answer" name="correct_answer" value={option1}/>
-                    <label>answer choice 1 </label>
-                    <input onChange ={handleOption1Change}type='text' id="option-1" value={option1}></input><br /><br />
-
-                <input onChange={handleCorrectAnswerChange} type="radio" id="correct_answer" name="correct_answer" value={option2}/>
-                    <label>answer choice 2 </label>
-                    <input onChange ={handleOption2Change} type='text' id="option-2" value={option2}></input><br /><br />
-
-                <input onChange={handleCorrectAnswerChange} type="radio" id="correct_answer" name="correct_answer" value={option3}/>
-                    <label>answer choice 3 </label>
-                    <input onChange ={handleOption3Change} type='text' id="option-3" value={option3}></input><br /><br />
-
-                <input onChange={handleCorrectAnswerChange} type="radio" id="correct_answer" name="correct_answer" value={option4}/>
-                    <label>answer choice 4 </label>
-                    <input onChange ={handleOption4Change} type='text' id="option-4" value={option4}></input><br /><br />
-                </>)}
-            <input type="submit" value="submit" className = "button" id="submitNewQuiz"/>
-            </form>
-            
+            <AddQuestionForm/>
             </>):null}
 
 

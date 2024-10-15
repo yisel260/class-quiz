@@ -18,6 +18,19 @@ function Root (){
     const [selectedQuestion,setSelectedQuestion] = useState(null)
     const [quizQuestions,setQuizQuestions] = useState(null)
     const [selectedStudent,setSelectedStudent] = useState(null)
+
+
+    const [question,setQuestion]=useState("")
+    const [type,setType]=useState()
+    const [options,setOptions]=useState()
+    const [correct_answer,setCorrectAnswer] = useState()
+    // const [quiz_id,setQuizID]=useState(selectedQuiz.id)
+    const [option1,setOption1]=useState("")
+    const [option2,setOption2]=useState("")
+    const [option3,setOption3]=useState("")
+    const [option4,setOption4]=useState("")
+    const [shortAnswerAnswer,setShortAnswerAnswer]= useState("")
+    const [addingQuiz, setAddingQuiz]=useState(false)
     // const [mySection,setMySection]=useState()
 
     useEffect(() => {
@@ -124,7 +137,18 @@ function Root (){
         selectedStudent,setSelectedStudent,
         selectedQuestion,setSelectedQuestion,
         getQuestions,
-        quizQuestions,setQuizQuestions
+        quizQuestions,setQuizQuestions,
+        question,setQuestion,
+        type,setType,
+        options,setOptions,
+        correct_answer,setCorrectAnswer,
+        // quiz_id,setQuizID,
+        option1,setOption1,
+        option2,setOption2,
+        option3,setOption3,
+        option4,setOption4,
+        shortAnswerAnswer,setShortAnswerAnswer,
+        addingQuiz, setAddingQuiz
         
 
         }}>

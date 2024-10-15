@@ -3,7 +3,7 @@ import UserContext from '../UserContext';
 import { useTable } from 'react-table';
 import QuizDisplay from '../components/QuizDisplay';
 import EditQuiz from './EditQuiz';
-
+import CreateQuiz from './CreateQuiz';
 function MyQuizes(){
     const context = useContext(UserContext);
     const [showQuiz,setShowQuiz] = useState(false)
@@ -89,6 +89,7 @@ function MyQuizes(){
 
     return (
         <>
+       {context.addingQuiz?(<CreateQuiz/>):( <>
         {myQuizzes.length>0 ? (
             <div className="quiz-table">
                 <table {...getTableProps()}>
@@ -131,8 +132,8 @@ function MyQuizes(){
     {editQuiz?(<>
     <EditQuiz setEditQuiz={setEditQuiz}/>
     </>):(null)}
-    </>
-    );
+    </>)}
+    </>);
 }
 
 

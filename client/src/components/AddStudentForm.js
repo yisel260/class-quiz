@@ -14,7 +14,6 @@ function AddStudentForm({}){
       section_id: yup.number().required(),
       role: yup.string().required()
     })
-    console.log(context.sectionSelected.id)
 
   const formik = useFormik({
       initialValues: {

@@ -1,11 +1,13 @@
 import React,{useContext, useState} from 'react';
 import { useFormik} from "formik";
 import UserContext from '../UserContext';
+import AddQuestionForm from "../components/AddQuestionForm";
 
 
 function EditQuiz({setEditQuiz}){
 
     const context =useContext(UserContext)
+    const [addQuestion,setAddQuestion]=useState(false)
     console.log(context.selectedQuiz.questions)
     const [editedQuestion, setEditedQuestion] = useState(null)
 
@@ -52,6 +54,10 @@ function EditQuiz({setEditQuiz}){
             setEditQuiz(false)
         }
     })
+
+    function onAddQuestionClick(){
+        setAddQuestion(true)
+    }
     return( 
         <>
         
@@ -136,6 +142,10 @@ function EditQuiz({setEditQuiz}){
                 <button onClick={()=>setEditedQuestion(question)}>Edit Question</button>
                 
             </div>)})}
+            <button onClick={onAddQuestionClick}>add Question</button>
+            {addQuestion? (<>
+            <AddQuestionForm/>
+            </>):(null)}
         </>)
 } 
 

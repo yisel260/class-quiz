@@ -64,6 +64,7 @@ function AddQuestionForm(){
         setOption3("")
         setOption4("")
         setShortAnswerAnswer("")
+        context.getQuestions(context.selectedQuiz.id)
      }
 
      function handleTypeChange(e){

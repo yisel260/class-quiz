@@ -1,6 +1,7 @@
 import React,{useContext, useState} from 'react';
 import UserContext from '../UserContext';
 import Quiz from '../components/Quiz'
+import Header from '../components/Header';
 // import "/src/index.css"
 
 function StudentHome(){
@@ -37,6 +38,7 @@ function StudentHome(){
     return (
     <>
         <p> Student Home </p>
+        <Header/>
         {quizzes.map((quiz) =>{
             return (
                 <>

@@ -32,7 +32,7 @@ function LandingPage() {
               .then((res) => {
                   if (res.ok) {
                       res.json().then((data) => {
-                          context.setSectionSelected(data);
+                          context.setMySection(data);
                       });
                   } else {
                       alert("Ooopsie that class code could not be found.");
@@ -49,7 +49,7 @@ function LandingPage() {
         return <StudentHome />;
       }
     }
-    else if (context.sectionSelected) {
+    else if (context.mySection) {
           return <Section />;
       }
      else {

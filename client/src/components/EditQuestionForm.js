@@ -4,9 +4,16 @@ import * as yup from "yup";
 import UserContext from '../UserContext';
 
 
-function AddQuestionForm(){
+function EditQuestionForm(){
 
     const context =useContext(UserContext)
+    context.setQuestion(context.editedQuestion.question)
+    context.setType(context.editedQuestion.type)
+    context.setCorrectAnswer(context.editedQuestion.correct_answer)
+    context.setOption1(context.editedQuestion.options[0].option)
+    context.setOption2(context.editedQuestion.options[1].option)
+    context.setOption3(context.editedQuestion.options[2].option)
+    context.setOption4(context.editedQuestion.options[3].option)  
 
     function handlleAddQuestion(e){
         e.preventDefault()
@@ -99,7 +106,9 @@ function AddQuestionForm(){
             <p role="group" aria-labelledby="my-radio-group">type of question: </p>
             <label>
                 <input
+                    
                     type="radio"
+                    checked={context.type === "multiple-choice"}
                     name="type"
                     value={"multiple-choice"}
                     onChange={handleTypeChange}
@@ -109,6 +118,7 @@ function AddQuestionForm(){
             <label>
                 <input
                     type="radio"
+                    checked={context.type === "short-answer"}
                     name="type"
                     value="short-answer"
                     onChange={handleTypeChange}
@@ -146,4 +156,4 @@ function AddQuestionForm(){
 )
 }
 
-export default AddQuestionForm;
+export default EditQuestionForm;

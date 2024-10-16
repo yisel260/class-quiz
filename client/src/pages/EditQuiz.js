@@ -2,6 +2,7 @@ import React,{useContext, useState} from 'react';
 import { useFormik} from "formik";
 import UserContext from '../UserContext';
 import AddQuestionForm from "../components/AddQuestionForm";
+import EditQuestionForm from '../components/EditQuestionForm';
 
 
 function EditQuiz({setEditQuiz}){
@@ -128,20 +129,25 @@ function EditQuiz({setEditQuiz}){
         </form>
 
          {context.selectedQuiz.questions.map((question) => {
-         return (
-         <div key = {question.id}>
-                <p>{question.question}</p>
-                {question.options.map((option)=>{
-                return(
-                    <>
-                    <p key={option.id}>{option.option}</p>
-                    </>
-                )
-                })}
-                <button  onClick={()=>deleteQuestion(question.id)}>Delete Question</button>
-                <button onClick={()=>setEditedQuestion(question)}>Edit Question</button>
-                
-            </div>)})}
+         if (context.editedQuestion && question.id === context.editedQuestion.id) {
+            return(<EditQuestionForm/>)}
+         else {
+            return (
+                <div key = {question.id}>
+                       <p>{question.question}</p>
+                       {question.options.map((option)=>{
+                       return(
+                           <>
+                           <p key={option.id}>{option.option}</p>
+                           </>
+                       )
+                       })}
+                       <button  onClick={()=>deleteQuestion(question.id)}>Delete Question</button>
+                       <button onClick={()=>context.setEditedQuestion(question)}>Edit Question</button>
+                       
+                   </div>)
+        }
+        })}
             <button onClick={onAddQuestionClick}>add Question</button>
             {addQuestion? (<>
             <AddQuestionForm/>

@@ -31,6 +31,8 @@ function Root (){
     const [option4,setOption4]=useState("")
     const [shortAnswerAnswer,setShortAnswerAnswer]= useState("")
     const [addingQuiz, setAddingQuiz]=useState(false)
+    const [editedQuestion, setEditedQuestion] = useState(null)
+
     // const [mySection,setMySection]=useState()
 
     useEffect(() => {
@@ -148,7 +150,8 @@ function Root (){
         option3,setOption3,
         option4,setOption4,
         shortAnswerAnswer,setShortAnswerAnswer,
-        addingQuiz, setAddingQuiz
+        addingQuiz, setAddingQuiz,
+        editedQuestion, setEditedQuestion
         
 
         }}>

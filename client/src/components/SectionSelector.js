@@ -17,7 +17,7 @@ function SectionSelector() {
     return (
         <>
             <br />
-            {context.sections.length>0 ? (
+            {context.sectionSelected && context.sections.length>0 ? (
                 <>
                     <label className="labels" htmlFor="section">Choose a class:</label>
                     <select

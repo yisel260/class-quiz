@@ -37,6 +37,8 @@ function Root (){
     const [newQuiz,setNewQuiz]=useState(null)
     const [questionsDisplayed, setQuestionsDisplayed]=useState(selectedQuiz?.questions || [])
 
+    const [classAssignments, setClassAssignments]=useState()
+    const [selectedAssignment, setSelectedAssignment]= useState(null)
 
     useEffect(() => {
         fetch("/check_session").then((response) => {
@@ -62,11 +64,14 @@ function Root (){
           setSections(user.sections)
           setQuizzes(user.quizzes)
           if (sectionSelected) {
-            getStudents(sectionSelected.id)}
+            getStudents(sectionSelected.id)
+            getAssignments(sectionSelected.id)}
           else {
             if( user.sections.length >0 ){
             setSectionSelected((user.sections[0]))
-            getStudents((user.sections[0]).id)}
+            getStudents((user.sections[0]).id)
+            
+            getAssignments((user.sections[0]).id)}
             else{
               setSectionSelected (null)}
             }
@@ -82,7 +87,6 @@ function Root (){
       fetch(`/studentsbysection/${sectionId}`)
       .then((res)=>res.json())
       .then((data) =>{
-        console.log(data)
         setSectionStudents(data)
       })
      }
@@ -96,6 +100,17 @@ function Root (){
         setQuizzes(user.quizzes)
       })
      }
+
+     function getAssignments(sectionId){
+      console.log("get Assignmnents called")
+      fetch(`/assignmentsbysection/${sectionId}`)
+      .then((res)=>res.json())
+      .then((data) =>{
+        console.log(data)
+        setClassAssignments(data)
+      })
+     }
+
      function getSections(user){
       fetch(`/sectionsbyteacher/${user.id}`)
       .then((res)=>res.json())
@@ -158,7 +173,11 @@ function Root (){
         addingQuestion,setAddingQuestion,
         newQuestion, setNewQuestion,
         newQuiz, setNewQuiz,
-        questionsDisplayed, setQuestionsDisplayed
+        questionsDisplayed, setQuestionsDisplayed,
+        classAssignments, setClassAssignments,
+        selectedAssignment, setSelectedAssignment,
+        // getAssignments, getAssignment,
+       
 
         }}>
       <Outlet/>

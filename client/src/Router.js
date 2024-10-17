@@ -16,6 +16,7 @@ import MyClasses from "./components/MyClasses";
 import Assignments from "./pages/Assignments";
 import TeacherSignUp from "./components/TeacherSignUp";
 
+
 const router = createBrowserRouter(
     [
      {
@@ -85,6 +86,7 @@ const router = createBrowserRouter(
             {
                 path:"/assignments",
                 element: <Assignments/>,
+    
             },
             {
                 path: "/help",

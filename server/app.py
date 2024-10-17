@@ -535,10 +535,10 @@ class QuestionsById(Resource):
 
         question = Question.query.filter_by(id=question_id).first()
         
-        question.question=data.get('question'),
-        question.type=data.get('type'),
-        question.correct_answer=data.get('correct_answer'),
-        question.quiz_id=data.get('quiz_id'),
+        question.question=data.get('question')
+        question.type=data.get('type')
+        question.correct_answer=data.get('correct_answer')
+        question.quiz_id=data.get('quiz_id')
         
         db.session.add(question)
         db.session.commit()
@@ -550,10 +550,10 @@ class QuestionsById(Resource):
 
 
     def delete(self, question_id):
-        student = Question.query.filter_by(id=question_id).first()
-        response_body = student.to_dict()
+        question = Question.query.filter_by(id=question_id).first()
+        response_body = question.to_dict()
 
-        db.session.delete(student)
+        db.session.delete(question)
         db.session.commit()
         response = make_response(
             response_body,
@@ -585,6 +585,48 @@ class Options(Resource):
         )
         return response
     
+
+
+class OptionsById(Resource):
+
+    def get(self,option_id):
+        response_dict = Option.query.filter_by(id=option_id).first().to_dict()
+        response = make_response(
+            response_dict,
+            200,
+        )
+        return response
+    
+    def patch(self, option_id):
+        data = request.get_json()
+
+        option = Option.query.filter_by(id=option_id).first()
+        
+        option=data.get('option')
+        option_id=data.get('question_id')
+        
+        db.session.add(option)
+        db.session.commit()
+
+        option_dict = option.to_dict()
+
+        response = make_response(option_dict, 200)
+        return response
+
+
+    def delete(self, question_id):
+        question = Question.query.filter_by(id=question_id).first()
+        response_body = question.to_dict()
+
+        db.session.delete(question)
+        db.session.commit()
+        response = make_response(
+            response_body,
+            204
+        )
+
+        return response
+    
     
     
 api.add_resource(TeacherByID, '/teachers/<int:id>')
@@ -609,6 +651,8 @@ api.add_resource(AssignmentsById , "/assignmentsById/<int:order_id>")
 api.add_resource(Questions, '/questions')
 api.add_resource(QuestionsById, '/questions/<int:question_id>')
 api.add_resource(Options, '/options')
+api.add_resource(OptionsById, '/options/<int:option_id>')
+
 
 
 

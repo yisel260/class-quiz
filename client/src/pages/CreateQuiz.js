@@ -10,21 +10,6 @@ function CreateQuiz(){
     
 
     const context =useContext(UserContext)
-    console.log(context.selectedQuiz)
-    const [addingQuestion,setAddingQuestion]=useState(false)
-    const [question,setQuestion]=useState("")
-    const [newQuestion, setNewQuestion]=useState("")
-    const [newQuiz,setNewQuiz]=useState(null)
-    const [type,setType]=useState()
-    // const [options,setOptions]=useState()
-    const [correct_answer,setCorrectAnswer] = useState()
-    const [quiz_id, setQuizId] = useState(context.selectedQuiz?.id || []);
-    const [option1,setOption1]=useState("")
-    const [option2,setOption2]=useState("")
-    const [option3,setOption3]=useState("")
-    const [option4,setOption4]=useState("")
-    const [questionsDisplayed, setQuestionsDisplayed]=useState(context.selectedQuiz?.questions || [])
-    const [shortAnswerAnswer,setShortAnswerAnswer]= useState("")
 
 
     const formik = useFormik({
@@ -47,18 +32,16 @@ function CreateQuiz(){
             })
             .then((res)=>res.json())
             .then((data)=>{
-                console.log(data);
-                setNewQuiz(data)
-                setQuizId(data.id)
                 context.getQuizzes(context.user.id)
                 context.setSelectedQuiz(data)
+                context.setNewQuiz(data)
             })
             resetForm();
         }
     })
 
     function onAddQuestionClick(){
-        setAddingQuestion(true)
+        context.setAddingQuestion(true)
     }
 
     function handlleCreateNewQuiz(e){
@@ -69,15 +52,15 @@ function CreateQuiz(){
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({
-                question:question,
-                type:type,
-                correct_answer:correct_answer,
-                quiz_id:quiz_id,
+                question:context.question,
+                type:context.type,
+                correct_answer:context.correct_answer,
+                quiz_id:context.quiz_id,
             })
         })
         .then(res => res.json())
         .then((question) => {
-            const options = [`${option1}`,`${option2}`,`${option3}`,`${option4}`]
+            const options = [`${context.option1}`,`${context.option2}`,`${context.option3}`,`${context.option4}`]
             options.forEach(option => {
                 fetch(`/options`,{
                     method: 'POST',
@@ -93,55 +76,18 @@ function CreateQuiz(){
             fetch(`/questions/${question.id}`)
             .then(res => res.json())
             .then(question => {
-                setNewQuestion(question)
+                context.setNewQuestion(question)
             })
         })    
         // setOptions([])
-        setQuizId(context.selectedQuiz.id)
-                context.getQuiz(context.selectedQuiz.id)
-        setAddingQuestion(false)
-        setQuestionsDisplayed([...questionsDisplayed, newQuestion])
+        context.setAddingQuestion(false)
+        context.setQuestionsDisplayed([...context.questionsDisplayed, context.newQuestion])
      }
-
-     function handleTypeChange(e){
-        console.log(`handling type change ${e.target.value}`)
-        setType(e.target.value)
-     }
-
-     
-     function handleQuestionChange(e){
-        setQuestion(e.target.value)
-     }
-     
-     function handleShortAnswerChange(e){
-        setShortAnswerAnswer(e.target.value)
-     }
-     
-     function handleOption1Change(e){
-        setOption1(e.target.value)
-     }
-     
-     function handleOption2Change(e){
-        setOption2(e.target.value)
-     }
-
-     function handleOption3Change(e){
-        setOption3(e.target.value)
-     }
-
-     function handleOption4Change(e){
-        setOption4(e.target.value)
-     }
-    function handleCorrectAnswerChange(e){
-        console.log(e.target.value)
-        setCorrectAnswer(e.target.value)
- 
-    }
-
+  
  
     return (
         <>
-       {newQuiz? 
+       {context.newQuiz? 
       ( <>
       <QuizDisplay/>
         <br/>
@@ -213,7 +159,7 @@ function CreateQuiz(){
             <input className='action-btn' type="submit" value = "save quiz"/>
             </form>)}
 
-            {addingQuestion?(<>
+            {context.addingQuestion?(<>
             <AddQuestionForm/>
             </>):null}
 

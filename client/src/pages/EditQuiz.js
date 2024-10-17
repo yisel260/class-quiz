@@ -9,7 +9,6 @@ function EditQuiz({setEditQuiz}){
 
     const context =useContext(UserContext)
     const [addQuestion,setAddQuestion]=useState(false)
-    console.log(context.selectedQuiz.questions)
     const [editedQuestion, setEditedQuestion] = useState(null)
 
     function deleteQuestion(id) {

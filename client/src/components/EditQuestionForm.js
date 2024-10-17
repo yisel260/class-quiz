@@ -1,4 +1,4 @@
-import React,{useContext, useState} from 'react';
+import React,{useContext, useEffect} from 'react';
 import { useFormik} from "formik";
 import * as yup from "yup";
 import UserContext from '../UserContext';
@@ -7,18 +7,19 @@ import UserContext from '../UserContext';
 function EditQuestionForm(){
 
     const context =useContext(UserContext)
-    context.setQuestion(context.editedQuestion.question)
+   useEffect(()=>{ context.setQuestion(context.editedQuestion.question)
     context.setType(context.editedQuestion.type)
     context.setCorrectAnswer(context.editedQuestion.correct_answer)
     context.setOption1(context.editedQuestion.options[0].option)
     context.setOption2(context.editedQuestion.options[1].option)
     context.setOption3(context.editedQuestion.options[2].option)
     context.setOption4(context.editedQuestion.options[3].option)  
+    context.setShortAnswerAnswer(context.editedQuestion.short_answer_answer)}, [])
 
     function handlleAddQuestion(e){
         e.preventDefault()
-        fetch(`/questions`,{
-            method: 'POST',
+        fetch(`/questions/${context.editedQuestion.id}`,{
+            method: 'PATCH',
             headers: {
                 'Content-Type': 'application/json',
             },
@@ -32,14 +33,16 @@ function EditQuestionForm(){
         .then(res => res.json())
         .then((question) => {
             const options = [`${context.option1}`,`${context.option2}`,`${context.option3}`,`${context.option4}`]
-            options.forEach(option => {
-                fetch(`/options`,{
-                    method: 'POST',
+            options.forEach(optionStr => {
+                const optionObj = context.editedQuestion.options.find(option => option.option === optionStr);
+                console.log(optionObj)
+                fetch(`/options/${optionObj.id}`,{
+                    method: 'PATCH',
                     headers: {
                         'Content-Type': 'application/json',
                     },
                     body: JSON.stringify({
-                        option: option,
+                        option: optionStr,
                         question_id: question.id
                     })
                 })
@@ -59,6 +62,7 @@ function EditQuestionForm(){
         context.setShortAnswerAnswer("")
         context.getQuestions(context.selectedQuiz.id)})
         context.setAddingQuestion(false)
+        context.setEditedQuestion(null)
      }
 
      function handleTypeChange(e){

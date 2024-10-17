@@ -24,7 +24,6 @@ function Root (){
     const [type,setType]=useState()
     const [options,setOptions]=useState()
     const [correct_answer,setCorrectAnswer] = useState()
-    // const [quiz_id,setQuizID]=useState(selectedQuiz.id)
     const [option1,setOption1]=useState("")
     const [option2,setOption2]=useState("")
     const [option3,setOption3]=useState("")
@@ -33,7 +32,11 @@ function Root (){
     const [addingQuiz, setAddingQuiz]=useState(false)
     const [editedQuestion, setEditedQuestion] = useState(null)
 
-    // const [mySection,setMySection]=useState()
+    const [addingQuestion,setAddingQuestion]=useState(false)
+    const [newQuestion, setNewQuestion]=useState("")
+    const [newQuiz,setNewQuiz]=useState(null)
+    const [questionsDisplayed, setQuestionsDisplayed]=useState(selectedQuiz?.questions || [])
+
 
     useEffect(() => {
         fetch("/check_session").then((response) => {
@@ -104,7 +107,7 @@ function Root (){
      }
 
      function getQuestions(quizId){
-      fetch(`quizzes/${quizId}`)
+      fetch(`/quizzes/${quizId}`)
       .then((res)=>res.json())
       .then((data) =>{
         console.log(data)
@@ -151,8 +154,11 @@ function Root (){
         option4,setOption4,
         shortAnswerAnswer,setShortAnswerAnswer,
         addingQuiz, setAddingQuiz,
-        editedQuestion, setEditedQuestion
-        
+        editedQuestion, setEditedQuestion,
+        addingQuestion,setAddingQuestion,
+        newQuestion, setNewQuestion,
+        newQuiz, setNewQuiz,
+        questionsDisplayed, setQuestionsDisplayed
 
         }}>
       <Outlet/>

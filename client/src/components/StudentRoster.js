@@ -36,8 +36,9 @@ function StudentRosterTable() {
     }
 
     function onEditStudent(id){
-      console.log(context.sectionStudents)
-      const student = students.filter(student => student.id === id)
+      console.log("onEditStudent was called")
+      console.log(context.sectionSelected.students)
+      const student =context.sectionSelected.students.filter(student => student.id === id)
       console.log(student)
       setSelectedStudent(student[0])
       setEditStudent(true)

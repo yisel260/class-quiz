@@ -65,7 +65,7 @@ function AddQuestionForm(){
      }
      
      function handleShortAnswerChange(e){
-        context.setShortAnswerAnswer(e.target.value)
+        context.setCorrectAnswer(e.target.value)
      }
      
      function handleOption1Change(e){

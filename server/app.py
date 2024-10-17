@@ -616,16 +616,17 @@ class OptionsById(Resource):
     
     def patch(self, option_id):
         data = request.get_json()
+        print(data)
 
-        option = Option.query.filter_by(id=option_id).first()
+        optionObj = Option.query.filter_by(id=option_id).first()
+        print(optionObj)
+        optionObj.option=data.get('option')
+        optionObj.option_id=data.get('question_id')
         
-        option=data.get('option')
-        option_id=data.get('question_id')
-        
-        db.session.add(option)
+        # db.session.add(option)
         db.session.commit()
 
-        option_dict = option.to_dict()
+        option_dict = optionObj.to_dict()
 
         response = make_response(option_dict, 200)
         return response

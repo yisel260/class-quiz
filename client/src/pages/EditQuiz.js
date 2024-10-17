@@ -141,8 +141,8 @@ function EditQuiz({setEditQuiz}){
                            </>
                        )
                        })}
-                       <button  onClick={()=>deleteQuestion(question.id)}>Delete Question</button>
-                       <button onClick={()=>context.setEditedQuestion(question)}>Edit Question</button>
+                        <button  onClick={()=>deleteQuestion(question.id)}>Delete Question</button>
+                        <button onClick={()=>context.setEditedQuestion(question)}>Edit Question</button>
                        
                    </div>)
         }

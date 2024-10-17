@@ -91,7 +91,8 @@ function StudentRosterTable() {
         <>
           {students.length > 0 ? (
             <div className="student-rooster-table">
-              <table {...getTableProps()}>
+{              console.log(getTableProps()) 
+}              <table {...getTableProps()}>
                 <thead>
                   {headerGroups.map((headerGroup) => (
                     <tr key={headerGroup.id} {...headerGroup.getHeaderGroupProps()}>

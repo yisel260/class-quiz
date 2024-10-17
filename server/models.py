@@ -76,7 +76,10 @@ class Section(db.Model, SerializerMixin):
     teacher = db.relationship("Teacher",back_populates ="sections")
     students = db.relationship('Student', back_populates="section", cascade='all, delete-orphan')
 
-    serialize_rules = ("-students.section", '-section.teacher')
+    assignments = association_proxy('students', 'assignments', creator=lambda assignment_obj: Assignment(assignment=assignment_obj))
+
+
+    serialize_rules = ("-students.section", '-section.teacher',)
 
     def __repr__(self):
         return f"{self.name} class code: {self.section_code}"

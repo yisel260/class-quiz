@@ -204,6 +204,8 @@ class SectionById(Resource):
         )
         return response
     
+    
+    
     def patch(self, section_id):
             data = request.get_json()
 
@@ -494,6 +496,21 @@ class AssigmentsByStudent(Resource):
             response_dict_list,
             200, )
         return response
+    
+class AssigmentsBySection(Resource):
+    def get(self, section_id):
+        students = Student.query.filter_by(section_id=section_id).all()
+        sectionAssignments =[]
+        for student in students:
+            for assingment in student.assignments:
+                sectionAssignments.append(assingment)
+
+
+        response_dict_list = [n.to_dict() for n in sectionAssignments]
+        response = make_response(
+            response_dict_list,
+            200, )
+        return response
 
 class Questions(Resource):
     def get(self):
@@ -647,6 +664,7 @@ api.add_resource(StudentLogIn, '/studentlogin')
 api.add_resource(SectionsByTeacher,"/sectionsbyteacher/<int:teacher_id>")
 api.add_resource(Assignments, "/assignments")
 api.add_resource(AssignmentsById , "/assignmentsById/<int:order_id>")
+api.add_resource(AssigmentsBySection, "/assignmentsbysection/<int:section_id>")
 # api.add_resource(OrdersByStudent, "/ordersByStudent/<int:student_id>")
 api.add_resource(Questions, '/questions')
 api.add_resource(QuestionsById, '/questions/<int:question_id>')

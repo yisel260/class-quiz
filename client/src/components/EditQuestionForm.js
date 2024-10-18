@@ -31,15 +31,11 @@ function EditQuestionForm(){
             })
         })
         .then(res => res.json())
-        // How we get options to each update? Maybe use a loop to update each option to the next index? 
-
         .then((question) => {
             const editedOptions = [`${context.option1}`,`${context.option2}`,`${context.option3}`,`${context.option4}`]
             console.log(context.editQuestion)
             context.editedQuestion.options.forEach((option,index)=> {
-                // const optionObj = context.editedQuestion.options.find(option => option.option === optionStr);
                 const optionStr = context[`option${index+1}`]
-                console.log(option)
                 fetch(`/options/${option.id}`,{
                     method: 'PATCH',
                     headers: {

@@ -1,6 +1,5 @@
 import React, { useContext, useMemo, useState } from 'react';
 import UserContext from '../UserContext';
-import { useTable } from 'react-table';
 import Header from '../components/Header';
 import NavBar from '../components/NavBar';
 import AddAssignment from '../components/AddAssignment';
@@ -13,12 +12,9 @@ function Assignments() {
    
     
     const context = useContext(UserContext);
-    const assignments = useMemo(() => context.classAssignments || [], [context.classAssignments]);
     const [addAssignment,setAddAssignment ]= useState(false)
     const [editAssignment,setEditAssignment ]= useState(false)
 
-    console.log(context.classAssignments)
-    context.classAssignments.forEach(assignment=>console.log(assignment.quiz))
 
     function onDelete(assignmentId) {
         fetch(`/assignments/${assignmentId}`, {
@@ -47,97 +43,74 @@ function Assignments() {
       setEditAssignment(true)
 
     }
-
-    const columns = useMemo(() => [
-        {
-            Header: "ID",
-            accessor: "id",
-        },
-        {
-            Header: "Quiz",
-            accessor: "quiz.id",
-        },
-        {
-            Header: "Students",
-            accessor: "student_id",
-        },
-        {
-            id: 'edit',
-            accessor: 'id', 
-            Cell: ({ row }) => {
-                const id = row.values.id;
-                return (
-                    <button className= "mini-action-btn" onClick={()=> onEditAssignment(id)}>
-                        Edit
-                    </button>
-                );
-            }
-        },
-        {
-            id: 'delete',
-            accessor: 'id', 
-            Cell: ({ row }) => {
-                const id = row.values.id;
-                return (
-                    <button className= "mini-action-btn" onClick={() => onDelete(id)}>
-                        Delete
-                    </button>
-                );
-            }
-        },
-    ], []);
-
-    const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } = useTable({ columns, data: assignments });
-    
-
+   
     return (
-        <>
-        <Header/> 
-        <NavBar/>
-          {assignments.length > 0 ? (
-            <div className="student-rooster-table">
-              <table {...getTableProps()}>
-                <thead>
-                  {headerGroups.map((headerGroup) => (
-                    <tr key={headerGroup.id} {...headerGroup.getHeaderGroupProps()}>
-                      {headerGroup.headers.map((column) => (
-                        <th {...column.getHeaderProps()}>
-                          {column.render("Header")}
-                        </th>
-                      ))}
-                    </tr>
-                  ))}
-                </thead>
-                <tbody {...getTableBodyProps()}>
-                  {rows.map((row) => {
-                    prepareRow(row);
-                    return (
-                      <tr {...row.getRowProps()}>
-                        {row.cells.map((cell) => (
-                          <td {...cell.getCellProps()}>
-                            {cell.render("Cell")}
-                          </td>
-                        ))}
-                      </tr>
-                    );
-                  })}
-                </tbody>
-              </table>
-            </div>
-          ) : (
-            <p>No students available.</p>
-          )}
-      {addAssignment?(
       <>
-      <AddAssignment/>
-      <button onClick={doneAddingAssignments} className='action-btn'> Finished </button>
-      </>):(<button className="action-btn" onClick={onAddAssignment}>New Assigment</button>)}
-    {editAssignment?(
-    <>
-    <EditAssignment/> 
-    </>):(null)}
-        </>
-      );
+        <Header />
+        <NavBar />
+    
+        {!context.user.quizzes || !context.classAssignments ? (
+          <div>Loading...</div>
+        ) : (
+          <>
+            {addAssignment ? (
+              <>
+                <AddAssignment />
+                <button onClick={doneAddingAssignments} className="action-btn">
+                  Finished
+                </button>
+              </>
+            ) : (
+              <button className="action-btn" onClick={onAddAssignment}>
+                New Assignment
+              </button>
+            )}
+    
+            {editAssignment && <EditAssignment />}
+    
+            <div>
+              {context.user.quizzes.map((quiz) => {
+                // Collect unique student names
+                const students = context.classAssignments
+                  .filter((assignment) => assignment.quiz_id === quiz.id)
+                  .map((assignment) => {
+                    const student = context.sectionSelected.students.find(
+                      (student) => student.id === assignment.student_id
+                    );
+                    return student ? student.name : 'Unknown';
+                  });
+    
+                // Use a Set to ensure unique student names
+                const uniqueStudents = [...new Set(students)];
+    
+                console.log(`Quiz ID: ${quiz.id}`, uniqueStudents); // Log the unique student names for each quiz
+    
+                return (
+                  <div key={quiz.id}>
+                    <h3>{quiz.title}</h3>
+                    {uniqueStudents.length > 0
+                      ? uniqueStudents.join(', ')
+                      : 'No students assigned'}
+                    <button
+                      className="mini-action-btn"
+                      onClick={() => onEditAssignment(quiz.id)}
+                    >
+                      Edit Assignment
+                    </button>
+                    <button
+                      className="mini-action-btn"
+                      onClick={() => onDelete(quiz.id)}
+                    >
+                      Delete
+                    </button>
+                  </div>
+                );
+              })}
+            </div>
+          </>
+        )}
+      </>
+    );
 }
 
 export default Assignments;

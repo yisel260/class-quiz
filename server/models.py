@@ -107,25 +107,25 @@ class Student(db.Model, SerializerMixin):
     def __repr__(self):
         return f"student:{self.name} password:{self.password} "
     
-class Quiz(db.Model,SerializerMixin):
-    __tablename__ ="quizzes"
+class Quiz(db.Model, SerializerMixin):
+    __tablename__ = "quizzes"
 
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String)
-    description=db.Column(db.String)
-    category=db.Column(db.String)
-    point_value=db.Column(db.Integer)
-    passing_score=db.Column(db.Integer)
+    description = db.Column(db.String)
+    category = db.Column(db.String)
+    point_value = db.Column(db.Integer)
+    passing_score = db.Column(db.Integer)
     retry = db.Column(db.Boolean) 
-    teacher_id=db.Column(db.Integer, db.ForeignKey("teachers.id"))
-    
-    teacher= db.relationship("Teacher", back_populates="quizzes")
-    assignments = db.relationship('Assignment', back_populates='quiz', cascade='all, delete-orphan')
-    
-    questions =db.relationship('Question', back_populates='quiz', cascade='all, delete-orphan')
-    
-    serialize_rules = ('-questions.quiz','-assignments','-teacher')
+    teacher_id = db.Column(db.Integer, db.ForeignKey("teachers.id"))
 
+    teacher = db.relationship("Teacher", back_populates="quizzes")
+
+    assignments = db.relationship('Assignment', back_populates='quiz', cascade='all, delete-orphan')
+
+    questions = db.relationship('Question', back_populates='quiz', cascade='all, delete-orphan')
+
+    serialize_rules = ('-questions.quiz', '-assignments', '-teacher')
 
     def _repr_(self):
         return f"{self.title} , {self.description}"
@@ -169,20 +169,19 @@ class Option(db.Model, SerializerMixin):
         return f"{self.question}" 
     
 
-class Assignment(db.Model,SerializerMixin):
-    __tablename__ = "assignments"
+class Assignment(db.Model, SerializerMixin):
+       __tablename__ = "assignments"
 
-    id = db.Column(db.Integer,primary_key=True)
-    student_id =db.Column(db.Integer, db.ForeignKey("students.id"))
-    quiz_id = db.Column(db.Integer,db.ForeignKey("quizzes.id"))
-    status = db.Column(db.String)
-    score =db.Column(db.Integer)
+       id = db.Column(db.Integer, primary_key=True)
+       student_id = db.Column(db.Integer, db.ForeignKey("students.id"))
+       quiz_id = db.Column(db.Integer, db.ForeignKey("quizzes.id"))
+       status = db.Column(db.String)
+       score = db.Column(db.Integer)
 
-    student=db.relationship('Student',back_populates="assignments")
-   
-    quiz=db.relationship('Quiz',back_populates="assignments")
+       student = db.relationship('Student', back_populates="assignments")
+       quiz = db.relationship('Quiz', back_populates="assignments")
 
-    serialize_rules = ('-assignment.student', '-assignment.quiz')
+       serialize_rules = ('-assignment.student', '-assignment.quiz')
 
 
     

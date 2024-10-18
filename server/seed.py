@@ -133,7 +133,7 @@ if __name__ == '__main__':
             for n in range(2):
                 assignment=Assignment(
                     student_id = student.id,
-                    quiz_id = rc(quizzes).id,
+                    quiz_id = randint(1, 3),
                     status = 'assigned',
                     score = randint(1, 10)
                                 )

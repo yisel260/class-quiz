@@ -1,20 +1,17 @@
-import React,{useContext, useState} from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import UserContext from '../UserContext';
 
-
-function AddAssignment({setAddAssignment}){
-    const context = useContext(UserContext)
-    const [selectedStudents,setSelectedStudents]=useState([])
-
-
-    //display form select quiz and then choose students
-    //set selected quiz to chosen quiz
-    //add each student to an array 
-    //cycle through array and add one assignment for each student with quiz selected id  = quiz_id
-    //update display 
+function AddAssignment({ setAddAssignment }) {
+    const context = useContext(UserContext);
+    useEffect(() => {
+        const assignedStudents = context.classAssignments
+            .filter(assignment => assignment.quiz_id === context.selectedQuiz.id)
+            .map(assignment => assignment.student_id);
+        context.setSelectedStudents(assignedStudents);
+    }, [context.selectedQuiz, context.assignments]); 
 
     const handleStudentChange = (studentId) => {
-        setSelectedStudents(prevSelected => {
+        context.setSelectedStudents(prevSelected => {
             if (prevSelected.includes(studentId)) {
                 return prevSelected.filter(id => id !== studentId);
             } else {
@@ -23,17 +20,24 @@ function AddAssignment({setAddAssignment}){
         });
     };
 
-    function createAssignments(e){
-        console.log('createAssignments called');
-        e.preventDefault()
-        selectedStudents.forEach(studentId => {
+    function createAssignments(e) {
+        e.preventDefault();
+    
+        const alreadyAssignedStudents = context.classAssignments
+            .filter(assignment => assignment.quiz_id === context.selectedQuiz.id)
+            .map(assignment => assignment.student_id);
+    
+        const newlySelectedStudents = context.selectedStudents.filter(
+            studentId => !alreadyAssignedStudents.includes(studentId)
+        );
+    
+        newlySelectedStudents.forEach(studentId => {
             const newAssignment = {
                 student_id: studentId,
                 quiz_id: context.selectedQuiz.id,
                 score: 0,
-                status:"assigned",
-        
-            }
+                status: "assigned",
+            };
             fetch('/assignments', {
                 method: 'POST',
                 headers: {
@@ -41,19 +45,18 @@ function AddAssignment({setAddAssignment}){
                 },
                 body: JSON.stringify(newAssignment),
             })
-           .then(res => res.json())
-           .then(data => {
+            .then(res => res.json())
+            .then(data => {
                 console.log('Success:', data);
             })
-           .catch((error) => {
+            .catch((error) => {
                 console.error('Error:', error);
             });
-            context.getAssignments(context.sectionSelected.id)
-            
-
-        })
-        setAddAssignment(false)
-    }    
+        });
+            context.getAssignments(context.sectionSelected.id);
+        setAddAssignment(false);
+        context.setSelectedStudents([]);
+    }
 
     function selectQuiz(quizId) {
         const quiz = context.quizzes.find(quiz => quiz.id === quizId);
@@ -64,31 +67,32 @@ function AddAssignment({setAddAssignment}){
         }
     }
 
-    console.log(context.selectedQuiz)
-    
-    return(<>
-    <form onSubmit={(e)=>{createAssignments(e)}}type="submit">
-        <label>Select a quiz:</label>
-        <select name="quiz_id" onChange={(e)=>selectQuiz(parseInt(e.target.value))}>
-        {context.user.quizzes.map(quiz =>(
-            <option key={quiz.id} value={quiz.id}>{quiz.title}</option>
-        ))}
-        </select>
-        <br/>
-        <label>Select students:</label>
-        {context.sectionSelected.students.map(student => (
-    <div key={student.id}>
-        <input 
-            type="checkbox" 
-            value={student.id} 
-            checked={selectedStudents.includes(student.id)}
-            onChange={() => handleStudentChange(student.id)}
-        />
-        <label>{student.name}</label>
-    </div>
-        ))}
-        <button>Add Assignment</button>
-    </form>
-    </>)
+    return (
+        <>
+            <form onSubmit={createAssignments}>
+                <label>Select a quiz:</label>
+                <select name="quiz_id" onChange={(e) => selectQuiz(parseInt(e.target.value))}>
+                    {context.user.quizzes.map(quiz => (
+                        <option key={quiz.id} value={quiz.id}>{quiz.title}</option>
+                    ))}
+                </select>
+                <br/>
+                <label>Select students:</label>
+                {context.sectionSelected.students.map(student => (
+                    <div key={student.id}>
+                        <input
+                            type="checkbox"
+                            value={student.id}
+                            disabled={context.selectedStudents.includes(student.id)}
+                            onChange={() => handleStudentChange(student.id)}
+                        />
+                        <label>{student.name}</label>
+                    </div>
+                ))}
+                <button>Add Assignment</button>
+            </form>
+        </>
+    );
 }
-export default AddAssignment
+
+export default AddAssignment;

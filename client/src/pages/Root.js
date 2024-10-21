@@ -1,14 +1,9 @@
-import React, { useEffect,useContext, useState } from "react";
-import LandingPage from "./LandingPage";
-import TeacherHome from "./TeacherHome"
-import StudentHome from "./StudentHome"
+import React, { useEffect,useState } from "react";
 import UserContext from "../UserContext"
 import { Outlet } from "react-router-dom";
-import Header from "../components/Header";
 
 function Root (){
   console.log('root being rendered');
-
 
     const [user,setUser]=useState("")
     const [sections, setSections]=useState("")
@@ -41,6 +36,10 @@ function Root (){
 
     const [classAssignments, setClassAssignments]=useState()
     const [selectedAssignment, setSelectedAssignment]= useState(null)
+
+
+    const [selectedStudents,setSelectedStudents]=useState([])
+
 
     useEffect(() => {
         fetch("/check_session").then((response) => {
@@ -108,7 +107,6 @@ function Root (){
       fetch(`/assignmentsbysection/${sectionId}`)
       .then((res)=>res.json())
       .then((data) =>{
-        console.log(data)
         setClassAssignments(data)
       })
      }
@@ -152,7 +150,7 @@ function Root (){
         onLogOut,
         getQuizzes,
         getQuiz,
-        setMySection,  // use this to set the selected section for a student
+        setMySection,
         mySection,setMySection,
         quizzes, setQuizzes,
         selectedQuiz,setSelectedQuiz,
@@ -164,7 +162,6 @@ function Root (){
         type,setType,
         options,setOptions,
         correct_answer,setCorrectAnswer,
-        // quiz_id,setQuizID,
         option1,setOption1,
         option2,setOption2,
         option3,setOption3,
@@ -179,8 +176,8 @@ function Root (){
         classAssignments, setClassAssignments,
         selectedAssignment, setSelectedAssignment,
         getAssignments,
+        selectedStudents,setSelectedStudents
        
-
         }}>
       <Outlet/>
       </UserContext.Provider>

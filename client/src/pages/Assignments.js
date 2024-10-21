@@ -30,6 +30,7 @@ function Assignments() {
     
 
     function onAddAssignment(){
+      context.setSelectedQuiz(context.quizzes[0])
       setAddAssignment(true)
     }
 
@@ -37,14 +38,34 @@ function Assignments() {
       setAddAssignment(false)
     }
 
-    function onEditAssignment(id){
-      console.log("onEditassigment was called")
-      const assignment =context.classAssignments.filter(assignment => assignment.id === id)
-      console.log(assignment)
-      context.setSelectedAssignment(assignment[0])
-      setEditAssignment(true)
+    function onAddStudentsToAssignment(quiz){
+      context.setSelectedQuiz(quiz)
+      setAddAssignment(true)
+      // const assignment =context.classAssignments.filter(assignment => assignment.id === id)
+      // console.log(assignment)
+      // context.setSelectedAssignment(assignment[0])
+      // setEditAssignment(true)
 
     }
+
+    function deleteAssingment(student,quiz){
+      console.log("delete assignment called")
+      console.log(student)
+      console.log(quiz)
+
+      const assignment = context.classAssignments.find((assignment) => assignment.quiz_id === quiz.id && assignment.student_id === student.id)
+      console.log(assignment)
+      fetch(`/assignments/${assignment.id}`, {
+        method: 'delete',
+      })
+        .then((res) => {
+          if (res.ok) {
+            context.getAssignments(context.sectionSelected.id);
+          }
+        });
+      };
+
+    
    
     return (
       <>
@@ -62,11 +83,7 @@ function Assignments() {
                   Finished
                 </button>
               </>
-            ) : (
-              <button className="action-btn" onClick={onAddAssignment}>
-                New Assignment
-              </button>
-            )}
+            ) : (null)}
     
             {editAssignment && <EditAssignment />}
     
@@ -78,7 +95,7 @@ function Assignments() {
                     const student = context.sectionSelected.students.find(
                       (student) => student.id === assignment.student_id
                     );
-                    return student ? student.name : 'Unknown';
+                    return student ? student : 'Unknown';
                   });
     
                 const uniqueStudents = [...new Set(students)];
@@ -89,15 +106,21 @@ function Assignments() {
                   <div className = "assingment-card" key={quiz.id}>
                     <h3>{quiz.title}</h3>
                     <div id='student-names-container'>{uniqueStudents.length > 0
-                      ? uniqueStudents.join(', ')
+                      ? (<>
+                      {uniqueStudents.map((student)=>{
+                        return <div key={student.id}>
+                          <p> {student.name}</p><button onClick={()=>deleteAssingment(student,quiz)}>delete</button>
+                        </div>
+                      })}
+                      </>)
                       : 'No students assigned'}
                     </div>
                     <br/>
                     <button
                       className="mini-action-btn"
-                      onClick={() => onEditAssignment(quiz.id)}
+                      onClick={() => onAddStudentsToAssignment(quiz)}
                     >
-                      Edit Assignment
+                      Add Students 
                     </button>
                     <button
                       className="mini-action-btn"

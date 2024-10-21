@@ -176,7 +176,7 @@ function Root (){
         questionsDisplayed, setQuestionsDisplayed,
         classAssignments, setClassAssignments,
         selectedAssignment, setSelectedAssignment,
-        // getAssignments, getAssignment,
+        getAssignments,
        
 
         }}>

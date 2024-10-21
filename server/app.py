@@ -435,10 +435,10 @@ class Assignments(Resource):
     def post(self):
         data = request.get_json()
         new_assignment = Assignment(
-            student_id =data.get['student_id'],
-            quiz_id = data.get['quiz_id'],
-            status = data.get['status'],
-            score =data.get['score']
+            student_id =data.get('student_id'),
+            quiz_id = data.get('quiz_id'),
+            status = data.get('status'),
+            score =data.get('score')
         )
         db.session.add(new_assignment)
         db.session.commit()
@@ -664,7 +664,7 @@ api.add_resource(StudentLogIn, '/studentlogin')
 # api.add_resource(PrizesByTeacher, '/prizesbyteacher/<int:teacher_id>')
 api.add_resource(SectionsByTeacher,"/sectionsbyteacher/<int:teacher_id>")
 api.add_resource(Assignments, "/assignments")
-api.add_resource(AssignmentsById , "/assignmentsById/<int:order_id>")
+api.add_resource(AssignmentsById , "/assignments/<int:assignment_id>")
 api.add_resource(AssigmentsBySection, "/assignmentsbysection/<int:section_id>")
 # api.add_resource(OrdersByStudent, "/ordersByStudent/<int:student_id>")
 api.add_resource(Questions, '/questions')

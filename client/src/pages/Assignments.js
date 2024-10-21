@@ -70,7 +70,6 @@ function Assignments() {
     
             <div>
               {context.user.quizzes.map((quiz) => {
-                // Collect unique student names
                 const students = context.classAssignments
                   .filter((assignment) => assignment.quiz_id === quiz.id)
                   .map((assignment) => {
@@ -80,10 +79,10 @@ function Assignments() {
                     return student ? student.name : 'Unknown';
                   });
     
-                // Use a Set to ensure unique student names
                 const uniqueStudents = [...new Set(students)];
     
-                console.log(`Quiz ID: ${quiz.id}`, uniqueStudents); // Log the unique student names for each quiz
+                
+                console.log(`Quiz ID: ${quiz.id}`, uniqueStudents); 
     
                 return (
                   <div key={quiz.id}>

@@ -7,33 +7,83 @@ function AddAssignment(){
     const context = useContext(UserContext)
     const [selectedStudents,setSelectedStudents]=useState([])
 
+
     //display form select quiz and then choose students
     //set selected quiz to chosen quiz
     //add each student to an array 
     //cycle through array and add one assignment for each student with quiz selected id  = quiz_id
     //update display 
 
+    const handleStudentChange = (studentId) => {
+        setSelectedStudents(prevSelected => {
+            if (prevSelected.includes(studentId)) {
+                return prevSelected.filter(id => id !== studentId);
+            } else {
+                return [...prevSelected, studentId];
+            }
+        });
+    };
 
+    function createAssignments(e){
+        console.log('createAssignments called');
+        e.preventDefault()
+        selectedStudents.forEach(studentId => {
+            const newAssignment = {
+                student_id: studentId,
+                quiz_id: context.selectedQuiz.id,
+            }
+            fetch('/assignments', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(newAssignment),
+            })
+           .then(res => res.json())
+           .then(data => {
+                console.log('Success:', data);
+            })
+           .catch((error) => {
+                console.error('Error:', error);
+            });
+            context.getAssignments(context.sectionSelected.id)
 
+        })
+        // context.doneAddingAssignments()  //after all assignments are added close the form  and display success message  or something  else  depending on the outcome
+    }    
+
+    function selectQuiz(quizId) {
+        const quiz = context.quizzes.find(quiz => quiz.id === quizId);
+        if (quiz) {
+            context.setSelectedQuiz(quiz);
+        } else {
+            console.error('Quiz not found');
+        }
+    }
+
+    console.log(context.selectedQuiz)
     return(<>
-    <form>
+    <form onSubmit={(e)=>{createAssignments(e)}}type="submit">
         <label>Select a quiz:</label>
-        <select name="quiz_id" onChange={(e)=>context.setSelectedQuiz(parseInt(e.target.value))}>
+        <select name="quiz_id" onChange={(e)=>selectQuiz(parseInt(e.target.value))}>
         {context.user.quizzes.map(quiz =>(
             <option key={quiz.id} value={quiz.id}>{quiz.title}</option>
         ))}
         </select>
+        <br/>
         <label>Select students:</label>
-        <select multiple name="students" onChange={(e) => {
-           const selectedValues = Array.from(e.target.selectedOptions, option => parseInt(option.value));
-           setSelectedStudents(selectedValues);
-           console.log(selectedStudents)
-       }}>
-        {context.sectionSelected.students.map(student =>(
-            <option key={student.id} value={student.id}>{student.name}</option>
+        {context.sectionSelected.students.map(student => (
+    <div key={student.id}>
+        <input 
+            type="checkbox" 
+            value={student.id} 
+            checked={selectedStudents.includes(student.id)}
+            onChange={() => handleStudentChange(student.id)}
+        />
+        <label>{student.name}</label>
+    </div>
         ))}
-        </select>
-        <button type="submit">Add Assignment</button>
+        <button>Add Assignment</button>
     </form>
     </>)
 }

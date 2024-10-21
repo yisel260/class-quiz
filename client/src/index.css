@@ -203,3 +203,27 @@ td{
 }
 
 
+.assingment-card{
+  text-align: center;
+  border-color: black;
+  border-radius: 12px;
+  border-width: 5px;
+
+}
+
+#student-names-container{
+  flex-wrap: wrap;
+  text-align: center;
+  ;
+}
+
+.assingment-card-container{
+  display: table-cell;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  padding: 10px;
+  margin: 10px;
+  border-radius: 12px;
+  border-width: 5px;
+}

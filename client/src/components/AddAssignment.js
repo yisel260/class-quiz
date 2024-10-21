@@ -2,8 +2,7 @@ import React,{useContext, useState} from 'react';
 import UserContext from '../UserContext';
 
 
-function AddAssignment(){
-
+function AddAssignment({setAddAssignment}){
     const context = useContext(UserContext)
     const [selectedStudents,setSelectedStudents]=useState([])
 
@@ -31,6 +30,9 @@ function AddAssignment(){
             const newAssignment = {
                 student_id: studentId,
                 quiz_id: context.selectedQuiz.id,
+                score: 0,
+                status:"assigned",
+        
             }
             fetch('/assignments', {
                 method: 'POST',
@@ -47,9 +49,10 @@ function AddAssignment(){
                 console.error('Error:', error);
             });
             context.getAssignments(context.sectionSelected.id)
+            
 
         })
-        // context.doneAddingAssignments()  //after all assignments are added close the form  and display success message  or something  else  depending on the outcome
+        setAddAssignment(false)
     }    
 
     function selectQuiz(quizId) {
@@ -62,6 +65,7 @@ function AddAssignment(){
     }
 
     console.log(context.selectedQuiz)
+    
     return(<>
     <form onSubmit={(e)=>{createAssignments(e)}}type="submit">
         <label>Select a quiz:</label>

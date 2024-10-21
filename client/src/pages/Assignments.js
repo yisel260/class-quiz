@@ -9,6 +9,7 @@ import EditAssignment from '../components/EditAssignment';
 // instead of displayign the student asssignments we should display the assignments by quiz instead  and  then the names of the students assigned to it 
 
 function Assignments() {
+   console.log('Assignments being rendered')
    
     
     const context = useContext(UserContext);
@@ -16,16 +17,17 @@ function Assignments() {
     const [editAssignment,setEditAssignment ]= useState(false)
 
 
-    function onDelete(assignmentId) {
-        fetch(`/assignments/${assignmentId}`, {
-            method: 'delete',
-          })
-            .then((res) => {
-              if (res.ok) {
-                context.getAssignments(context.sectionSelected.id);
-              }
-            });
-    }
+    function onDelete(quizId) {
+      console.log("delete assignment called")
+       const assignmentsToDelete = context.classAssignments.filter((assignment) => assignment.quiz_id === quizId)
+        console.log(assignmentsToDelete)
+        assignmentsToDelete.forEach(assignment=>{
+          fetch(`/assignments/${assignment.id}`, {
+            method: 'DELETE',
+          })})
+            context.getAssignments(context.sectionSelected.id);
+            };
+    
 
     function onAddAssignment(){
       setAddAssignment(true)
@@ -55,7 +57,7 @@ function Assignments() {
           <>
             {addAssignment ? (
               <>
-                <AddAssignment />
+                <AddAssignment setAddAssignment={setAddAssignment} />
                 <button onClick={doneAddingAssignments} className="action-btn">
                   Finished
                 </button>
@@ -80,16 +82,17 @@ function Assignments() {
                   });
     
                 const uniqueStudents = [...new Set(students)];
-    
-                
-                console.log(`Quiz ID: ${quiz.id}`, uniqueStudents); 
-    
+
                 return (
-                  <div key={quiz.id}>
+                  <div className="assingment-card-container">
+
+                  <div className = "assingment-card" key={quiz.id}>
                     <h3>{quiz.title}</h3>
-                    {uniqueStudents.length > 0
+                    <div id='student-names-container'>{uniqueStudents.length > 0
                       ? uniqueStudents.join(', ')
                       : 'No students assigned'}
+                    </div>
+                    <br/>
                     <button
                       className="mini-action-btn"
                       onClick={() => onEditAssignment(quiz.id)}
@@ -103,6 +106,8 @@ function Assignments() {
                       Delete
                     </button>
                   </div>
+                  </div>
+
                 );
               })}
             </div>

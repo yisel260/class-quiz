@@ -14,6 +14,8 @@ import { useNavigate} from "react-router-dom"
 
 
 function LandingPage() {
+    console.log('LandingPage being rendered')
+
     const context = useContext(UserContext);
     const navigate = useNavigate();
 

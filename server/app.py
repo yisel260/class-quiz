@@ -465,6 +465,8 @@ class AssignmentsById(Resource):
         assignment = Assignment.query.filter_by(id=assignment_id).first()
 
         assignment.status = data.get('status')
+        assignment.score = data.get('score')
+
 
         db.session.add(assignment)
         db.session.commit()
@@ -504,7 +506,6 @@ class AssigmentsBySection(Resource):
         for student in students:
             for assingment in student.assignments:
                 sectionAssignments.append(assingment)
-
 
         response_dict_list = [n.to_dict() for n in sectionAssignments]
         response = make_response(
@@ -666,6 +667,8 @@ api.add_resource(SectionsByTeacher,"/sectionsbyteacher/<int:teacher_id>")
 api.add_resource(Assignments, "/assignments")
 api.add_resource(AssignmentsById , "/assignments/<int:assignment_id>")
 api.add_resource(AssigmentsBySection, "/assignmentsbysection/<int:section_id>")
+api.add_resource(AssigmentsByStudent, "/assignmentsbystudent/<int:student_id>")
+
 # api.add_resource(OrdersByStudent, "/ordersByStudent/<int:student_id>")
 api.add_resource(Questions, '/questions')
 api.add_resource(QuestionsById, '/questions/<int:question_id>')

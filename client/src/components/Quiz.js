@@ -5,13 +5,13 @@ import UserContext from '../UserContext'
 
 
 
-function Quiz({selectedQuiz, setSelectedQuiz,result, setResult,showResult,setShowResult,currentQuestion,setCurrentQuestion}){
+function Quiz({result, setResult,showResult,setShowResult,currentQuestion,setCurrentQuestion}){
 
     const context = useContext(UserContext)
     const [answerIdx,setAnswerIdx] = useState(null)
     const [answer, setAnswer]=useState(null)
     const [inputAnswer,setInputAnswer]=useState("")
-    const {question, options, correct_answer, type} =selectedQuiz.questions[currentQuestion]
+    const {question, options, correct_answer, type} =context.selectedQuiz.questions[currentQuestion]
     
 
     const OnAnswerClicked = (option, index) => {
@@ -25,7 +25,6 @@ function Quiz({selectedQuiz, setSelectedQuiz,result, setResult,showResult,setSho
 
     }
     const onClickNext = () => {
-        //add answer to array or dictionary or answers?  to store so teachers can see 
         setAnswerIdx(null)
         setInputAnswer("")
         setResult((prev)=>
@@ -40,7 +39,7 @@ function Quiz({selectedQuiz, setSelectedQuiz,result, setResult,showResult,setSho
         })
     
 
-        if( currentQuestion !== selectedQuiz.questions.length - 1){
+        if( currentQuestion !== context.selectedQuiz.questions.length - 1){
             setCurrentQuestion((currentQuestion)=>currentQuestion + 1)
         }else {
             setCurrentQuestion(0);
@@ -57,14 +56,25 @@ function Quiz({selectedQuiz, setSelectedQuiz,result, setResult,showResult,setSho
     }
 
     const onDone=()=>{
-        setResult({
+
+        fetch(`/assignments/${context.selectedAssignment.id}`, {
+            method: 'PATCH',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ 
+                status: "completed" ,
+                score:result.score}),
+        })
+       .then((response) => response.json())
+       setResult({
             score:0,
             correctAnswers:0,
             wrongAnswers:0
         })
         setShowResult(false)
-        setSelectedQuiz(null)
-        //Update assigment Status to "completed"
+        context.setSelectedQuiz(null)
+    }
+
+    const updateAsignment = () => {
     }
     const handleInputChange = (e)=>{
         setInputAnswer(e.target.value)
@@ -78,7 +88,7 @@ function Quiz({selectedQuiz, setSelectedQuiz,result, setResult,showResult,setSho
             {!showResult ? (
                 <div className='quiz-container'>
                     <span>{currentQuestion + 1}</span>
-                    <span>/{selectedQuiz.questions.length}</span>
+                    <span>/{context.selectedQuiz.questions.length}</span>
                     <h3>{question|| 'No question available'}</h3>
                     {type === "multiple-choice" ? (
                         <ul>
@@ -104,23 +114,20 @@ function Quiz({selectedQuiz, setSelectedQuiz,result, setResult,showResult,setSho
                     ) : null}
                     <div>
                         <button disabled={answerIdx === null && !inputAnswer} onClick={onClickNext}>
-                            {currentQuestion === selectedQuiz.questions.length - 1 ? "Finished" : "Next"}
+                            {currentQuestion ===context.selectedQuiz.questions.length - 1 ? "Finished" : "Next"}
                         </button>
                     </div>
                 </div>
             ) : (
                 <div>
                     <h2>Results</h2>
-                    <p>Total Questions:<span>{selectedQuiz.questions.length}</span></p>
+                    <p>Total Questions:<span>{context.selectedQuiz.questions.length}</span></p>
                     <p>Correct Answers:<span>{result.correctAnswers}</span></p>
                     <p>Wrong  Answers:<span>{result.wrongAnswers}</span></p>
                     <p>score:<span>{result.score}</span></p>
 
                     <button onClick={onTryAgain}>Try Again</button>
                     <button onClick={onDone}>All Done</button>
-
-
-
                 </div>
             )}
         </div>

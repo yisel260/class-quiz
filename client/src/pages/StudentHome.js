@@ -7,23 +7,20 @@ import Header from '../components/Header';
 function StudentHome(){
     const context = useContext(UserContext);
     const quizzes =[]
-    const [selectedQuiz,setSelectedQuiz] = useState()
     const [showQuizzes,setShowQuizzes] = useState(true)
     const [showResult,setShowResult]=useState(false)
     const [currentQuestion,setCurrentQuestion] = useState(0)
-
+ console.log(context.studentAssignments)
     const [result, setResult]= useState({
         score:0,
         correctAnswers:0,
         wrongAnswers:0
     })
         
-    context.user.assignments.forEach((assignment) => { 
-                quizzes.push(assignment.quiz);
-        })
+    function selectAssignment(e,assignment){
+        context.setSelectedAssignment(assignment)
         
-    function selectQuiz(e,quiz){
-        setSelectedQuiz(quiz)
+        context.setSelectedQuiz(assignment.quiz)
         setResult({
             score:0,
             correctAnswers:0,
@@ -34,26 +31,34 @@ function StudentHome(){
 
     }
 
-    console.log(selectedQuiz)
     return (
     <>
-        <p> Student Home </p>
         <Header/>
-        {quizzes.map((quiz) =>{
+        {context.studentAssignments.map((assignment) =>{
             return (
                 <>
                 <div 
-                    className={quiz.status == "completed" ? "completed":"not-completed"} 
-                    key={quiz.id} 
-                    onClick= {(e)=>selectQuiz(e,quiz)}>{quiz.title}
+                    className={assignment.status} 
+                    key={assignment.id} 
+                    >
+                        {assignment.quiz.title}
+                        <button onClick={(e) => selectAssignment(e, assignment)}>
+                            {assignment.status === "assigned" ? (
+                            "Start"
+                            ) : (
+                            assignment.score > assignment.quiz.passing_score ? (
+                                "All Done!"
+                            ) : (
+                                "Try Again"
+                            )
+                            )}
+                        </button>
                 </div>
                 </>
             )
             })
         }
-        {selectedQuiz? (<Quiz 
-        selectedQuiz={selectedQuiz} 
-        setSelectedQuiz={setSelectedQuiz} 
+        {context.selectedQuiz? (<Quiz 
         showQuizzes={showQuizzes} 
         setShowQuizzes={setShowQuizzes}
         result={result}

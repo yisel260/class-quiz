@@ -6,7 +6,6 @@ import AddAssignment from '../components/AddAssignment';
 import EditAssignment from '../components/EditAssignment';
 
 
-// instead of displayign the student asssignments we should display the assignments by quiz instead  and  then the names of the students assigned to it 
 
 function Assignments() {
    console.log('Assignments being rendered')
@@ -14,7 +13,6 @@ function Assignments() {
     
     const context = useContext(UserContext);
     const [addAssignment,setAddAssignment ]= useState(false)
-    const [editAssignment,setEditAssignment ]= useState(false)
 
 
     function onDelete(quizId) {
@@ -41,10 +39,7 @@ function Assignments() {
     function onAddStudentsToAssignment(quiz){
       context.setSelectedQuiz(quiz)
       setAddAssignment(true)
-      // const assignment =context.classAssignments.filter(assignment => assignment.id === id)
-      // console.log(assignment)
-      // context.setSelectedAssignment(assignment[0])
-      // setEditAssignment(true)
+ 
 
     }
 
@@ -64,9 +59,7 @@ function Assignments() {
           }
         });
       };
-
-    
-   
+      
     return (
       <>
         <Header />
@@ -84,9 +77,7 @@ function Assignments() {
                 </button>
               </>
             ) : (null)}
-    
-            {editAssignment && <EditAssignment />}
-    
+      
             <div>
               {context.user.quizzes.map((quiz) => {
                 const students = context.classAssignments

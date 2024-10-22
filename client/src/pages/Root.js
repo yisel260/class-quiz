@@ -39,6 +39,7 @@ function Root (){
 
 
     const [selectedStudents,setSelectedStudents]=useState([])
+    const [studentAssignments,setStudentAssignments]=useState([])
 
 
     useEffect(() => {
@@ -78,8 +79,8 @@ function Root (){
             }
           }
         else if (user.role === 'student') {
-           console.log("user is a student") 
-        }
+          console.log(user)
+          getStudentAssignments(user.id) }
     }
 
      function getStudents(sectionId){
@@ -103,11 +104,18 @@ function Root (){
      }
 
      function getAssignments(sectionId){
-      console.log("get Assignmnents called")
       fetch(`/assignmentsbysection/${sectionId}`)
       .then((res)=>res.json())
       .then((data) =>{
         setClassAssignments(data)
+      })
+     }
+
+     function getStudentAssignments(studentId){
+      fetch(`/assignmentsbystudent/${studentId}`)
+      .then((res)=>res.json())
+      .then((data) =>{
+        setStudentAssignments(data)
       })
      }
 
@@ -176,7 +184,9 @@ function Root (){
         classAssignments, setClassAssignments,
         selectedAssignment, setSelectedAssignment,
         getAssignments,
-        selectedStudents,setSelectedStudents
+        selectedStudents,setSelectedStudents,
+        studentAssignments,setStudentAssignments,
+        getStudentAssignments
        
         }}>
       <Outlet/>

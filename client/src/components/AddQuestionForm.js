@@ -7,6 +7,9 @@ import UserContext from '../UserContext';
 function AddQuestionForm(){
 
     const context =useContext(UserContext)
+    const [totalNumberOfQuestions,setTotalNumberOfQuestions] = useState( context.selectedQuiz.questions.length)
+    const [passsingScoreInput, setPassingScoreInput]=useState(context.selectedQuiz.passing_score)
+    console.log (context.selectedQuiz.questions.length)
 
     function handlleAddQuestion(e){
         e.preventDefault()
@@ -39,12 +42,27 @@ function AddQuestionForm(){
             })
     
         })
+        .then(
+            fetch(`/quizzes/${context.selectedQuiz.id}`, {
+                method: 'PATCH',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    title:context.selectedQuiz.title,
+                    description:context.selectedQuiz.description,
+                    category:context.selectedQuiz.category,
+                    point_value: totalNumberOfQuestions + 1,
+                    passing_score:passsingScoreInput,
+                    teacher_id:context.user.id
+                })
+            })
+        )
         .then(()=>{
         context.setQuestion("")
         context.setType("")
         context.setOptions([])
         context.setCorrectAnswer("")
-        // context.setQuizID(context.selectedQuiz.id)
         context.setOption1("")
         context.setOption2("")
         context.setOption3("")
@@ -138,6 +156,10 @@ function AddQuestionForm(){
                     <label>answer choice 4 </label>
                     <input onChange ={handleOption4Change} type='text' id="option-4" value={context.option4}></input><br /><br />
                 </>)}
+
+                <label>passing score : </label>
+                <input onChange={(e)=>setPassingScoreInput(e.target.value)}
+                type="number" min = "1" max={context.selectedQuiz.questions.lenght+1} id="passing-score" value={passsingScoreInput}></input><p>/{context.selectedQuiz.questions.length + 1}</p>
             <input type="submit" value="submit" className = "button" id="submitNewQuiz"/>
             </form>
 

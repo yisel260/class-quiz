@@ -11,7 +11,6 @@ function CreateQuiz(){
 
     const context =useContext(UserContext)
 
-
     const formik = useFormik({
         initialValues: {
             title:"",
@@ -44,47 +43,6 @@ function CreateQuiz(){
         context.setAddingQuestion(true)
     }
 
-    function handlleCreateNewQuiz(e){
-        e.preventDefault()
-        fetch(`/questions`,{
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                question:context.question,
-                type:context.type,
-                correct_answer:context.correct_answer,
-                quiz_id:context.quiz_id,
-            })
-        })
-        .then(res => res.json())
-        .then((question) => {
-            const options = [`${context.option1}`,`${context.option2}`,`${context.option3}`,`${context.option4}`]
-            options.forEach(option => {
-                fetch(`/options`,{
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({
-                        option: option,
-                        question_id: question.id
-                    })
-                })
-            })
-            fetch(`/questions/${question.id}`)
-            .then(res => res.json())
-            .then(question => {
-                context.setNewQuestion(question)
-            })
-        })    
-        // setOptions([])
-        context.setAddingQuestion(false)
-        context.setQuestionsDisplayed([...context.questionsDisplayed, context.newQuestion])
-     }
-  
- 
     return (
         <>
        {context.newQuiz? 
@@ -114,17 +72,13 @@ function CreateQuiz(){
              id='category'
              onChange={formik.handleChange}
              value={formik.values.category}></input>
-            <br/>
-            <br/>
-            <label className="form-label" htmlFor = "point_value">Point value</label>
-            <input type="text"
+           
+            <input type="hidden"
              id='point_value'
              onChange={formik.handleChange}
              value={formik.values.point_value}></input>
-            <br/>
-            <br/>
-            <label className="form-label" htmlFor="passing_score">Passing Score</label>
-            <input type="text"
+           
+            <input type="hidden"
              id='passing_score'
              onChange={formik.handleChange}
              value={formik.values.passing_score}></input>
@@ -151,8 +105,7 @@ function CreateQuiz(){
             </label>
             <br /><br />
 
-            <label className="form-label" htmlFor="teacher_id"> teacher id</label>
-            <input type="text"
+            <input type="hidden"
              id='teacher_id'
              onChange={formik.handleChange}
              value={formik.values.teacher_id}></input>

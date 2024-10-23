@@ -21,6 +21,7 @@ if __name__ == '__main__':
         Quiz.query.delete()
         Question.query.delete()
         Assignment.query.delete()
+        Option.query.delete()
         
         teachers = []
         for n in range(5):
@@ -74,8 +75,8 @@ if __name__ == '__main__':
                     title = fake.sentence(nb_words = 3),
                     description=fake.sentence(nb_words=5),
                     category=rc(categories),
-                    point_value='10',
-                    passing_score='8',
+                    point_value='5',
+                    passing_score='4',
                     retry = fake.boolean(chance_of_getting_true= 50),
                     teacher_id= teacher.id
                 )
@@ -85,14 +86,14 @@ if __name__ == '__main__':
 
         questions = []
         types = ['short-answer', 'multiple-choice']
-        optionslist=['option1','options2','opstion3','option4']
+        optionslist=['option1','option2','option3','option4']
 
         for quiz in quizzes:   
             for n in range(5):
                 question=Question(
                     question=f' {fake.sentence()}?',
                     type = rc(types), 
-                    correct_answer = rc(optionslist),
+                    correct_answer = "option3",
                     quiz_id = quiz.id
                 )
                 questions.append(question)
@@ -100,32 +101,19 @@ if __name__ == '__main__':
             db.session.commit()
             
 
-        options = []
-        for question in questions:   
-            option1=Option(
-                option='option1',
-                question_id = question.id
-                )
-            options.append(option1)
-            option2=Option(
-                option='option2',
-                question_id = question.id
-                )
-            options.append(option2)
-            option3=Option(
-                option='option3',
-                question_id = question.id
-                )
-            options.append(option3)
-            option4=Option(
-                option='option4',
-                question_id = question.id
-                )
-            options.append(option4)
+        for question in questions:
+                options = []  # Reset options list for each question
+                option1 = Option(option='option1', question_id=question.id)
+                options.append(option1)
+                option2 = Option(option='option2', question_id=question.id)
+                options.append(option2)
+                option3 = Option(option='option3', question_id=question.id)
+                options.append(option3)
+                option4 = Option(option='option4', question_id=question.id)
+                options.append(option4)
 
-
-        db.session.add_all(options)
-        db.session.commit()
+                db.session.add_all(options)
+                db.session.commit()
 
 
         assignments=[]

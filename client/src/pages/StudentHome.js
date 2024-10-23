@@ -18,58 +18,55 @@ function StudentHome(){
     })
         
     function selectAssignment(e,assignment){
-        context.setSelectedAssignment(assignment)
-        
-        context.setSelectedQuiz(assignment.quiz)
-        setResult({
-            score:0,
-            correctAnswers:0,
-            wrongAnswers:0
-        })
-        setShowResult(false)
-        setCurrentQuestion(0)
-
+        if (assignment.quiz.retry == true){
+            context.setSelectedAssignment(assignment)
+            context.setSelectedQuiz(assignment.quiz)
+            setResult({
+                score:0,
+                correctAnswers:0,
+                wrongAnswers:0
+            })
+            setShowResult(false)
+            setCurrentQuestion(0)
+    
+        }else{
+            alert("Sorry! You cannot retry this quiz")
+        }
     }
 
     return (
     <>
         <Header/>
         <div id="student-assignment-container">
-        {context.studentAssignments.map((assignment) =>{
-            return (
-                <>
-                <div 
-                    className= "quiz-assignment-card"
-                    key={assignment.id} 
-                    >
-                        {assignment.quiz.title}
-                        <button className=
-                        {assignment.status === "assigned" ? (
-                        "assigned"
-                        ) : (
-                        assignment.score >= assignment.quiz.passing_score ? (
-                            "completed"
-                        ) : (
-                            "attempted"
-                        )
-                        )}
-
-                        onClick={(e) => selectAssignment(e, assignment)}>
-                            {assignment.status === "assigned" ? (
-                            "Start"
-                            ) : (
-                            assignment.score > assignment.quiz.passing_score ? (
-                                "All Done!"
-                            ) : (
-                                "Try Again"
-                            )
-                            )}
-                        </button>
-                </div>
-                </>
-            )
-            })
-        }
+        {context.studentAssignments.map((assignment) => {
+    return (
+        <div
+            className="quiz-assignment-card"
+            key={assignment.id}
+        >
+            {assignment.quiz.title}
+            <p>score: {assignment.score}/{assignment.quiz.questions.length}</p>
+            <button
+                className={
+                    assignment.status === "assigned" ? "assigned" :
+                    (assignment.score >= assignment.quiz.passing_score || assignment.quiz.retry === false) ? "completed" :
+                    "attempted"
+                }
+                onClick={(e) => selectAssignment(e, assignment)}
+            >
+                {assignment.status === "assigned" ? (
+                    "Start"
+                ) : (
+                    assignment.score >= assignment.quiz.passing_score ? (
+                        "All Done!"
+                    ) : (
+                        "Try Again"
+                    )
+                )}
+            </button>
+        </div>
+    );
+})}
         </div>
         {context.selectedQuiz? (<Quiz 
         showQuizzes={showQuizzes} 

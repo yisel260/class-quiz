@@ -121,16 +121,16 @@ function Quiz({result, setResult,showResult,setShowResult,currentQuestion,setCur
                     </div>
                 </div>
             ) : (
-                <div>
+                <div className='results-container'>
                     <h2>Results</h2>
                     <p>Total Questions:<span>{context.selectedQuiz.questions.length}</span></p>
                     <p>Correct Answers:<span>{result.correctAnswers}</span></p>
                     <p>Wrong  Answers:<span>{result.wrongAnswers}</span></p>
                     <p>score:<span>{result.score}</span></p>
 
-                    <button onClick={onTryAgain}>Try Again</button>
-                    <button onClick={onDone}>All Done</button>
-                </div>
+                    <button className='mini-action-btn' onClick={onTryAgain}>Try Again</button>
+                    <button className='mini-action-btn' onClick={onDone}>All Done</button>
+                </div> 
             )}
         </div>
     );

@@ -70,6 +70,7 @@ function Quiz({result, setResult,showResult,setShowResult,currentQuestion,setCur
             correctAnswers:0,
             wrongAnswers:0
         })
+        context.getStudentAssignments(context.user.id)
         setShowResult(false)
         context.setSelectedQuiz(null)
     }
@@ -89,7 +90,7 @@ function Quiz({result, setResult,showResult,setShowResult,currentQuestion,setCur
                 <div className='quiz-container'>
                     <span>{currentQuestion + 1}</span>
                     <span>/{context.selectedQuiz.questions.length}</span>
-                    <h3>{question|| 'No question available'}</h3>
+                    <h3 id='question-displayed'>{question|| 'No question available'}</h3>
                     {type === "multiple-choice" ? (
                         <ul>
                             {options.map((option, index) => (
@@ -108,12 +109,13 @@ function Quiz({result, setResult,showResult,setShowResult,currentQuestion,setCur
                             ))}
                         </ul>
                     ) : type === "short-answer" ? (
-                        <div>
+                        <div id='short-answer-input-container'>
                             <input value = {inputAnswer} onChange= {handleInputChange} rows="4" cols="50"></input>
                         </div>
                     ) : null}
-                    <div>
-                        <button disabled={answerIdx === null && !inputAnswer} onClick={onClickNext}>
+                    <div id='next-btn-container' >
+                        <br />
+                        <button className="action-btn" disabled={answerIdx === null && !inputAnswer} onClick={onClickNext}>
                             {currentQuestion ===context.selectedQuiz.questions.length - 1 ? "Finished" : "Next"}
                         </button>
                     </div>

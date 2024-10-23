@@ -75,14 +75,6 @@ html{
   border-radius: 12px;
 }
 
-/* #student-section{
-;
-}
-
-#teacher-section{
-
-} */
-
 .action-btn{
   background-color: #6FB3B8;;
   font-size: large;
@@ -226,4 +218,64 @@ td{
   margin: 10px;
   border-radius: 12px;
   border-width: 5px;
+}
+
+#student-assignment-container{
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  padding: 15px;
+  margin: 10px;
+  border-radius: 12px;
+  border-width: 5px;
+}
+
+.quiz-assignment-card{
+  background-color:white;
+  text-align: center;
+  padding: 15px;
+  border-radius: 12px;
+  display: inline-block;
+  margin:10px;
+  border-width: 15px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  border-color: yellow;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  font-size: large;
+}
+.assigned{
+  text-align: center;
+  background-color: rgb(115, 115, 209);
+  border-color : rgb(115, 115, 209);;
+  border-radius: 12px;
+  border-width: 5px;
+  font-size:large;}
+
+.attempted{
+  text-align: center;
+  background-color: yellow;
+  border-color : yellow;
+  border-radius: 12px;
+  border-width: 5px;
+  font-size:large;
+}
+.completed{
+  text-align: center;
+  background-color: rgb(77, 168, 77);
+  border-color : rgb(77, 168, 77);
+  border-radius: 12px;
+  border-width: 5px;
+  font-size:large;
+}
+.quiz-container{
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  padding: 15px;
+  margin: 10px;
+  border-radius: 12px;
+  border-width: 5px;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+
 }

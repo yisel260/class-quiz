@@ -34,15 +34,27 @@ function StudentHome(){
     return (
     <>
         <Header/>
+        <div id="student-assignment-container">
         {context.studentAssignments.map((assignment) =>{
             return (
                 <>
                 <div 
-                    className={assignment.status} 
+                    className= "quiz-assignment-card"
                     key={assignment.id} 
                     >
                         {assignment.quiz.title}
-                        <button onClick={(e) => selectAssignment(e, assignment)}>
+                        <button className=
+                        {assignment.status === "assigned" ? (
+                        "assigned"
+                        ) : (
+                        assignment.score >= assignment.quiz.passing_score ? (
+                            "completed"
+                        ) : (
+                            "attempted"
+                        )
+                        )}
+
+                        onClick={(e) => selectAssignment(e, assignment)}>
                             {assignment.status === "assigned" ? (
                             "Start"
                             ) : (
@@ -58,6 +70,7 @@ function StudentHome(){
             )
             })
         }
+        </div>
         {context.selectedQuiz? (<Quiz 
         showQuizzes={showQuizzes} 
         setShowQuizzes={setShowQuizzes}

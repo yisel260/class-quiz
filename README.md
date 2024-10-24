@@ -140,3 +140,35 @@ Many to many relationships:
 
 
 
+## src
+
+#### components 
+
+This folder contains components that I have concidered "pieces of a page". These are components that can be moved and resued from one page to the next and with in each page as needed.  
+
+All of these components work together to accomodate the different features.
+
+- AddAssigment.js - creates a new assignment for each student in the array it is passed
+- AddQuesitonForm.js - addds either a multiple choice or short answer question to precreated quizzes 
+- AddStudentForm.js - adds a new student to a class 
+- CreateClass.js - creates new class or section 
+- EditQuesitionForm.js - fetches selected question, preloads form with previous values and updates question upon form submission
+- EditStudentForm.js - fetches selected student, preloads form with previous values and updates student upon form submission
+- Header - display header also hold LogOut button
+- LoginStudentCard.js - this component displays a card with student name and input field for thier password, it logs the student in upon submission 
+- MyClasses- displays current list of classes in a table also allows displays buttons that allow user to update, delete or create classes 
+- NavBar- displays main navigation bar
+- 
+
+
+
+#### pages 
+This compnents match the routes on navigation bars. It thin of these compnents more as structural. Their job is just to render the "piece" components in an organizes manner so that the user can see and access each. 
+
+Some important files in this folder: 
+
+  - Root.js - This file renders the whole application. States are held here and passed down through a context provider
+  - LandingPage.js - This file renders a different landing page (Langing, TeacherHome or Section) depending on the existance of a matched user or section 
+
+
+

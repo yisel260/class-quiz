@@ -2,17 +2,21 @@ import React from 'react';
 
 function StudentCard({ student }) {
     return (
-        <div id="student-card">
-            <p id="student-name">{student.name}</p>
+        <div className="student-card">
+            <p className="student-name">{student.name}</p>
             {student.assignments.map((assignment, index) => {
                 return (
                     <React.Fragment key={assignment.id}>
-                        <p id='quiz-title'>{assignment.quiz.title}</p>
-                        {assignment.status == "assigned"?( <p id='quiz-status'>{assignment.status}</p>):(<>{assignment.score}</>)}
-                    </React.Fragment>
-                );
-            })}
-            <br />
+                    <p className='quiz-title'>{assignment.quiz.title}</p>
+                    {assignment.status === "assigned" ? (<p>Assigned</p>                    
+                    ) : (
+                    assignment.score >= assignment.quiz.passing_score ? (
+                        <p>Completed</p>
+                    ) : (
+                        <p>Attempted</p>
+                    ))}
+                    <p> score:{assignment.score}/{assignment.quiz.questions.length}</p>
+                    </React.Fragment>)})}
         </div>
     );
 }

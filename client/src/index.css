@@ -103,7 +103,7 @@ form{
   font-size: large;
 }
 
-#student-card{
+.student-card{
   background-color: #badfe7;
   text-align: center;
   padding: 15px;
@@ -113,13 +113,13 @@ form{
   margin:10px;
 }
 
-#student-name{
+.student-name{
   background-color: #badfe7;
   font-weight: bold;
   font-size: large;
 }
 
-#quiz-title{
+.quiz-title{
   background-color: whitesmoke;
   padding: 10px;
   border-radius: 5px;

@@ -10,10 +10,8 @@ function StudentRosterTable() {
     const students = useMemo(() => context.sectionStudents || [], [context.sectionStudents]);
     const [addStudent,setAddStudent ]= useState(false)
     const [editStudent,setEditStudent ]= useState(false)
-    const [selectedStudent,setSelectedStudent] =useState(false)
-
-    console.log(context.sectionStudents)
-
+    const [buttonStatus,setButtonStatus]= useState(false)
+    const [showTable,setShowTable]= useState(true)
 
     function onDelete(studentId) {
         fetch(`/students/${studentId}`, {
@@ -28,11 +26,13 @@ function StudentRosterTable() {
 
     function onAddStudent(){
       setAddStudent(true)
+      setShowTable(false)
     }
 
     function doneAddingStudents(){
       console.log("adding student done fuction callled")
       setAddStudent(false)
+      setShowTable(true)
     }
 
     function onEditStudent(id){
@@ -40,8 +40,10 @@ function StudentRosterTable() {
       console.log(context.sectionSelected.students)
       const student =context.sectionSelected.students.filter(student => student.id === id)
       console.log(student)
-      setSelectedStudent(student[0])
+      context.setSelectedStudent(student[0])
       setEditStudent(true)
+      setButtonStatus(true)
+      setShowTable(false)
 
     }
 
@@ -88,11 +90,12 @@ function StudentRosterTable() {
     
 
     return (
-        <>
-          {students.length > 0 ? (
+      <>
+        {showTable ? (
+          // Render the student table
+          students.length > 0 ? (
             <div className="student-rooster-table">
-{              console.log(getTableProps()) 
-}              <table {...getTableProps()}>
+              <table {...getTableProps()}>
                 <thead>
                   {headerGroups.map((headerGroup) => (
                     <tr key={headerGroup.id} {...headerGroup.getHeaderGroupProps()}>
@@ -122,21 +125,19 @@ function StudentRosterTable() {
             </div>
           ) : (
             <p>No students available.</p>
-          )}
-      {addStudent?(
-      <>
-      <AddStudentForm/>
-      <button onClick={doneAddingStudents} className='action-btn'> Finished </button>
-      </>):(<button className="action-btn" onClick={onAddStudent}>Add Student</button>)}
-      {editStudent?(
-      <>
-      <EditStudentForm 
-      selectedStudent={selectedStudent}
-      editStudent={editStudent}
-      setEditStudent={setEditStudent}/>
-      </>):(null)}
-        </>
-      );
-}
+          )
+        ) : editStudent ? (
+          <EditStudentForm editStudent={editStudent} setEditStudent={setEditStudent} showTable={showTable} setShowTable={setShowTable}/>
+        ) : addStudent ? (
+          <>
+            <AddStudentForm />
+            <button onClick={doneAddingStudents} className='action-btn'>Finished</button>
+          </>
+        ) : (
+          <button className="action-btn" onClick={onAddStudent}>Add Student</button>
+        )}
+      </>
+    );
+  }
 
 export default StudentRosterTable;

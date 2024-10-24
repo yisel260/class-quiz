@@ -49,6 +49,8 @@ This project is set up with a proxy, please make sure to export your port to 555
     cd server
     export_FLASK_RUN_PORT=5555 
 
+### Client 
+
 Install dependencies and  start the application:
 
   cd client
@@ -56,4 +58,84 @@ Install dependencies and  start the application:
   npm start
 
  
+##  Models 
+
+This project uses 7 related models :
+
+  table teachers {
+  id interger [primary key]
+  email string 
+  fname string
+  lname string 
+  school string 
+  role string
+}
+
+table students {
+  id interger [primary key]
+  name string 
+  password string 
+  points interger 
+  section_id interger
+  role string 
+}
+
+
+table sections {
+ id interger 
+ name string 
+ teacher_id integer
+ section_code string
+}
+
+table  quizes{
+  id interger [primary key]
+  title string
+  description string
+  teacher_id interger
+  passing_score interger 
+  category string
+  retry boolean 
+  point_value interger
+}
+
+table assigments{
+  id interger [primary key]
+  student_id interger 
+  quiz_id_id interger 
+  status string
+  score integer
+}
+
+table  questions{
+  id interger [primary key]
+  type string
+  question string  
+  correct_answer string 
+  quiz_id interger
+   
+}
+
+table  options{
+  id interger [primary key]
+  option string
+  question_id string     
+}
+
+
+Some important relationships: 
+
+  One to many relationships: 
+- a teacher has many classes 
+- a section has many students 
+- a teacher has many quizzes 
+- a student has many assingments 
+- a quiz has many questions 
+- a question has many options 
+
+  Many to many relationships: 
+- a student can have many quizzes through assignments 
+- a quiz can have many students assingned 
+
+
 

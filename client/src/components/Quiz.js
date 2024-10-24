@@ -55,28 +55,33 @@ function Quiz({result, setResult,showResult,setShowResult,currentQuestion,setCur
         setShowResult(false)
     }
 
-    const onDone=()=>{
-
+    const onDone = () => {
         fetch(`/assignments/${context.selectedAssignment.id}`, {
             method: 'PATCH',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ 
-                status: "completed" ,
-                score:result.score}),
+                status: "completed",
+                score: result.score 
+            }),
         })
-       .then((response) => response.json())
-       setResult({
-            score:0,
-            correctAnswers:0,
-            wrongAnswers:0
+        .then((response) => response.json())
+        .then(() => {
+            // This block will execute once the fetch request is complete
+            setResult({
+                score: 0,
+                correctAnswers: 0,
+                wrongAnswers: 0
+            });
+            context.getStudentAssignments(context.user.id);
+            setShowResult(false);
+            context.setSelectedQuiz(null);
         })
-        context.getStudentAssignments(context.user.id)
-        setShowResult(false)
-        context.setSelectedQuiz(null)
+        .catch((error) => {
+            console.error('Error updating the assignment:', error);
+        });
     }
 
-    const updateAsignment = () => {
-    }
+    
     const handleInputChange = (e)=>{
         setInputAnswer(e.target.value)
         if (e.target.value === correct_answer){
@@ -94,18 +99,17 @@ function Quiz({result, setResult,showResult,setShowResult,currentQuestion,setCur
                     {type === "multiple-choice" ? (
                         <ul>
                             {options.map((option, index) => (
-                                <>
+                                <div key={option.id} >
                                 <input 
                                     type='radio'
                                     name='answer'
                                     onClick={() => OnAnswerClicked(option, index)} 
-                                    key={option.id} 
                                     value={option}
                                     className={answerIdx === index ? "selectedAnswer" : null}
                                 >
                                 </input>
                                 {option.option} 
-                                </>
+                                </div>
                             ))}
                         </ul>
                     ) : type === "short-answer" ? (

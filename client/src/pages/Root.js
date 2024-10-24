@@ -116,6 +116,7 @@ function Root (){
      }
 
      function getStudentAssignments(studentId){
+      console.log("getStudentAssignments called")
       fetch(`/assignmentsbystudent/${studentId}`)
       .then((res)=>res.json())
       .then((data) =>{
@@ -148,7 +149,7 @@ function Root (){
       .then((res)=>res.json())
       .then((quiz)=> setSelectedQuiz(quiz))
      }
-  
+   
      return (
       <>
       <UserContext.Provider value={{

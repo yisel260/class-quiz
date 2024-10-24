@@ -48,6 +48,7 @@ function LandingPage() {
       if (context.user.role === 'teacher') {
           return <TeacherHome />;
       } else if (context.user.role === 'student') {
+        console.log(context.studentAssingments)
         return <StudentHome />;
       }
     }

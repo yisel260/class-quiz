@@ -18,7 +18,7 @@ function StudentHome(){
     })
         
     function selectAssignment(e,assignment){
-        if (assignment.quiz.retry == true){
+        if (assignment.quiz.retry == true || assignment.status === "assigned"){
             context.setSelectedAssignment(assignment)
             context.setSelectedQuiz(assignment.quiz)
             setResult({

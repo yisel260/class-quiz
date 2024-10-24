@@ -123,7 +123,7 @@ if __name__ == '__main__':
                     student_id = student.id,
                     quiz_id = randint(1, 3),
                     status = 'assigned',
-                    score = randint(1, 5)
+                    score = "0"
                                 )
                 assignments.append(assignment)
             db.session.add_all(assignments)

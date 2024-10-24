@@ -4,7 +4,7 @@
 
 Teachers are increasingly asked to provide individualized instruction for their students. Most teachers agree that this will be helpful for students and do their best to provide instruction at different levels in and different ways for students. However, due to lack of both planning and class time, teachers are not always able to provide more individualized practice to students.  
 
-This tool will be an aid for teachers. They can create “quizzes” which can be used as quizzes or as practice. They can create different quizzes for different students and assign it to a group or to specific students. Students are able to access this practice problems or quizzes on their own time. Teachers will also save time. They can easily create a set of practice problems for math, reading questions or writing prompts.  This set can be reused again and again without printing or copying.  They will also save time grading as most quizzes can be graded automatically.  
+This tool will be an aid for teachers. They can create “quizzes” which can be used as quizzes or as practice. They can create different quizzes for different students and assign it to a group or to specific students. Students are able to access these practice problems or quizzes on their own time. Teachers will also save time. They can easily create a set of practice problems for math, reading questions or writing prompts.  This set can be reused again and again without printing or copying.  They will also save time grading as most quizzes can be graded automatically.  
 
 
 ## Features
@@ -24,7 +24,7 @@ Students can:
 Teachers can : 
 
 - Sign up for an account 
-- Log in to their account with  thier Email and Password
+- Log in to their account with an Email and Password
 - Crate classes and pupulate them with thier students
 - Create student accounts 
 - See, Add, Delete or Update thier classes 
@@ -131,6 +131,7 @@ Some important relationships:
 - a section has many students 
 - a teacher has many quizzes 
 - a student has many assingments 
+- a quiz is assigned to many students
 - a quiz has many questions 
 - a question has many options 
 
@@ -154,11 +155,19 @@ All of these components work together to accomodate the different features.
 - CreateClass.js - creates new class or section 
 - EditQuesitionForm.js - fetches selected question, preloads form with previous values and updates question upon form submission
 - EditStudentForm.js - fetches selected student, preloads form with previous values and updates student upon form submission
-- Header - display header also hold LogOut button
+- Header - displays header also holds LogOut button
 - LoginStudentCard.js - this component displays a card with student name and input field for thier password, it logs the student in upon submission 
-- MyClasses- displays current list of classes in a table also allows displays buttons that allow user to update, delete or create classes 
-- NavBar- displays main navigation bar
-- 
+- MyClasses.js- displays current list of classes in a table also allows displays buttons that allow user to update, delete or create classes 
+- NavBar.js- displays main navigation bar
+- Quiz.js- Displays and runs quiz features. This compoment shows each question to the students 
+- QuizDisplay.js- displays quiz information as well as buttons that allows user to edit quiz and questions
+- QuizTable.js- Displays a table with all the user quizzes with buttons to display the quizzes (then they can be updated) 
+- SectionSelector.js- Renders a downdown menu with all ths teacher's sections and sets section selected to the appropropiate section 
+- StudentCard.js - Renders a card for each student with their assignments , status and scores
+- StudentRoster.js - Renders a table with all students in each  section and buttons that allow deletion and updates 
+- TeacherLogIn.js - Renders a form for teachers to log in 
+- TeacherSignUp.js - Renders a form for teachers to sign up 
+- UpdateClass.js - Renders a form with preloaded values so sections can be updated 
 
 
 

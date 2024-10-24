@@ -16,27 +16,26 @@ function EditQuestionForm(){
     context.setOption4(context.editedQuestion.options[3].option)  
     context.setShortAnswerAnswer(context.editedQuestion.short_answer_answer)}, [])
 
-    function handlleAddQuestion(e){
-        e.preventDefault()
-        fetch(`/questions/${context.editedQuestion.id}`,{
+    function handlleAddQuestion(e) {
+        e.preventDefault();
+    
+        fetch(`/questions/${context.editedQuestion.id}`, {
             method: 'PATCH',
             headers: {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({
-                question:context.question,
-                type:context.type,
-                correct_answer:context.correct_answer,
-                quiz_id:context.selectedQuiz.id,
+                question: context.question,
+                type: context.type,
+                correct_answer: context.correct_answer,
+                quiz_id: context.selectedQuiz.id,
             })
         })
         .then(res => res.json())
         .then((question) => {
-            const editedOptions = [`${context.option1}`,`${context.option2}`,`${context.option3}`,`${context.option4}`]
-            console.log(context.editQuestion)
-            context.editedQuestion.options.forEach((option,index)=> {
-                const optionStr = context[`option${index+1}`]
-                fetch(`/options/${option.id}`,{
+            const optionPromises = context.editedQuestion.options.map((option, index) => {
+                const optionStr = context[`option${index + 1}`];
+                return fetch(`/options/${option.id}`, {
                     method: 'PATCH',
                     headers: {
                         'Content-Type': 'application/json',
@@ -45,25 +44,30 @@ function EditQuestionForm(){
                         option: optionStr,
                         question_id: question.id
                     })
-                })
-            })
+                });
+            });
     
+            return Promise.all(optionPromises);
         })
-        .then(()=>{
-        context.setQuestion("")
-        context.setType("")
-        context.setOptions([])
-        context.setCorrectAnswer("")
-        // context.setQuizID(context.selectedQuiz.id)
-        context.setOption1("")
-        context.setOption2("")
-        context.setOption3("")
-        context.setOption4("")
-        context.setShortAnswerAnswer("")
-        context.getQuestions(context.selectedQuiz.id)})
-        context.setAddingQuestion(false)
-        context.setEditedQuestion(null)
-     }
+        .then(() => {
+            context.setQuestion("");
+            context.setType("");
+            context.setOptions([]);
+            context.setCorrectAnswer("");
+            context.setOption1("");
+            context.setOption2("");
+            context.setOption3("");
+            context.setOption4("");
+            context.setShortAnswerAnswer("");
+            context.setAddingQuestion(false);
+            context.setEditedQuestion(null);
+    
+            context.getQuestions(context.selectedQuiz.id);
+        })
+        .catch(error => {
+            console.error("Error updating question or options:", error);
+        });
+    }
 
      function handleTypeChange(e){
         console.log(`handling type change ${e.target.value}`)
@@ -133,26 +137,28 @@ function EditQuestionForm(){
 
             {context.type === "short-answer"? (<> 
             <label> Correct Answer </label>
-            <input onChange={handleShortAnswerChange} type='text' id="short-answer-correct_answer" value={context.correct_answer}></input>
+            <input required="true" onChange={handleShortAnswerChange} type='text' id="short-answer-correct_answer" value={context.correct_answer}></input>
             </>):(
                 <>
-                <input onChange={handleCorrectAnswerChange} type="radio" id="correct_answer" name="correct_answer" value={context.option1}/>
+                Please select the correct answer by marking an option: <br/>
+                <br/>
+                <input checked={context.option1 == context.correct_answer}required="true" onChange={handleCorrectAnswerChange} type="radio" id="correct_answer" name="correct_answer" value={context.option1}/>
                     <label>answer choice 1 </label>
                     <input onChange ={handleOption1Change}type='text' id="option-1" value={context.option1}></input><br /><br />
 
-                <input onChange={handleCorrectAnswerChange} type="radio" id="correct_answer" name="correct_answer" value={context.option2}/>
+                <input checked={context.option2 == context.correct_answer}required="true" onChange={handleCorrectAnswerChange} type="radio" id="correct_answer" name="correct_answer" value={context.option2}/>
                     <label>answer choice 2 </label>
                     <input onChange ={handleOption2Change} type='text' id="option-2" value={context.option2}></input><br /><br />
 
-                <input onChange={handleCorrectAnswerChange} type="radio" id="correct_answer" name="correct_answer" value={context.option3}/>
+                <input checked={context.option3 == context.correct_answer} required="true" onChange={handleCorrectAnswerChange} type="radio" id="correct_answer" name="correct_answer" value={context.option3}/>
                     <label>answer choice 3 </label>
                     <input onChange ={handleOption3Change} type='text' id="option-3" value={context.option3}></input><br /><br />
 
-                <input onChange={handleCorrectAnswerChange} type="radio" id="correct_answer" name="correct_answer" value={context.option4}/>
+                <input checked={context.option4 == context.correct_answer} required="true" onChange={handleCorrectAnswerChange} type="radio" id="correct_answer" name="correct_answer" value={context.option4}/>
                     <label>answer choice 4 </label>
                     <input onChange ={handleOption4Change} type='text' id="option-4" value={context.option4}></input><br /><br />
                 </>)}
-            <input type="submit" value="submit" className = "button" id="submitNewQuiz"/>
+            <input className="mini-action-btn" type="submit" value="Save Question" id="submitNewQuiz"/>
             </form>
 
 

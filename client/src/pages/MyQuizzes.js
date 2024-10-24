@@ -1,4 +1,4 @@
-import React,{useContext,useState} from 'react';
+import React,{useContext,useState, useEffect} from 'react';
 import UserContext from '../UserContext';
 import { useTable } from 'react-table';
 import QuizDisplay from '../components/QuizDisplay';
@@ -6,10 +6,6 @@ import EditQuiz from './EditQuiz';
 import CreateQuiz from './CreateQuiz';
 function MyQuizes(){
     const context = useContext(UserContext);
-    const [showQuiz,setShowQuiz] = useState(false)
-    const [editQuiz, setEditQuiz] = useState(false)
-
-
     const myQuizzes = React.useMemo(() => context.quizzes , [context.quizzes]);
     const columns = React.useMemo(() => [
         {
@@ -40,10 +36,10 @@ function MyQuizes(){
             Header: "Allow Retry",
             accessor: "retry",
             Cell: ({row})=>{
-                if (row === true) 
-                    return (<p>Yes</p>)
+                if (row.values.retry === true) 
+                    return (<p>no</p>)
                 else
-                return (<p>No</p>)
+                return (<p>yes</p>)
             }
         },
         {
@@ -59,34 +55,20 @@ function MyQuizes(){
             }
         },
     ], []);
-    context.setNewQuiz(null)
+   
+    useEffect(() => {
+        context.setNewQuiz(null);
+    }, []);
 
     const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } = useTable({ columns, data: myQuizzes });
 
-    function onDelete() {
-        fetch(`/quizzes/${context.selectedQuiz.id}`, {
-            method: 'delete',
-          })
-            .then((res) => {
-              if (res.ok) {
-                context.getQuizzes(context.user.id);
-                context.setSelectedQuiz(null)
-                setShowQuiz(false)
-              }
-            });
-    }
+
 
     function handleShowQuiz(id){
         context.getQuiz(id)
-        setShowQuiz(true)
-        setEditQuiz(false)
+        context.setShowQuiz(true)
+        context.setEditQuiz(false)
 
-    }
-
-    function onEditClick(){
-        setEditQuiz(true)
-        setShowQuiz(false)
-        // context.editQuiz(context.selectedQuiz.id)
     }
 
     return (
@@ -125,14 +107,14 @@ function MyQuizes(){
     ):(
         <p>No Quizzes added yet</p>
     )}
-    {showQuiz?(<>
-    <button className= "mini-action-btn" onClick={()=>onEditClick(context.selectedQuiz.id)}>Edit</button>
-    <button className= "mini-action-btn" onClick={()=>onDelete(context.setSelectedQuiz.id)}>Delete</button>
+    <br/>
+    {context.showQuiz?(<>
+    <br/>
     <QuizDisplay/>
     </>):(null)}
 
-    {editQuiz?(<>
-    <EditQuiz setEditQuiz={setEditQuiz}/>
+    {context.editQuiz?(<>
+    <EditQuiz />
     </>):(null)}
     </>)}
     </>);

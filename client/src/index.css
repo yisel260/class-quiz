@@ -290,3 +290,115 @@ td{
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
   text-align: center;
 }
+
+#quiz-display-container{
+  background-color: #badfe7;
+  padding: 15px;
+  border-radius: 12px;
+  margin:10px;
+  font-size: large;
+  text-align: center;
+}
+
+.quiz-display-question-container{
+  margin: 10px;
+  border-radius: 12px;
+  padding: 10px;
+  background-color: white;
+  border-width: 5px;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  text-align: center;
+}
+.correct{
+  background-color: rgb(124, 184, 124);
+  color: white;
+  border-radius: 12px;
+  border-width: 5px;
+  border-color: rgb(124, 184, 124);
+  font-size: large;
+  padding: 10px;
+  margin: 10px;
+  text-align: center;
+  transition: background-color 0.3s ease;
+}
+
+.incorrect{
+  background-color:white;
+}
+
+form{
+  align-items: center;
+  margin-top: 20px;
+  padding: 20px;
+  background-color:#badfe7;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  border-radius: 12px;
+  font-size:large ;
+}
+
+input{
+  padding: 10px;
+  margin: 5px;
+  border-radius: 5px;
+  border-width: 1px;
+  border-color: #6FB3B8;
+  font-size: medium;
+}
+
+label{
+  font-size: large;
+  margin-bottom: 10px;
+  
+}
+/* .student-names-container{
+  display:table-cell;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  padding: 15px;
+  margin: 10px;
+  border-radius: 12px;
+  border-width: 5px;
+  background-color: red;
+  width: 80%;
+} */
+
+
+.assignment-card {
+  background-color: white;
+  text-align: center;
+  padding: 15px;
+  border-radius: 12px;
+  margin: 10px auto; 
+  border-width: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  border-color: yellow;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  font-size: large;
+  }
+
+  .assignments-by-quiz-container{
+    background-color:#66acc7;
+    display: inline-block;
+    justify-content: center;
+    padding: 15px;
+    margin: 10px;
+    border-radius: 12px;
+    border-width: 5px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    font-size: large;
+    text-align: center;
+  }
+
+  .asignment-quiz-title{
+    font-size: x-large;
+    margin-bottom: 10px;
+  }
+
+  .container{
+    display: flex;
+    align-items: flex-start ;
+    padding-top: 5px;
+    flex-wrap: wrap; 
+  }

@@ -7,29 +7,29 @@ import UserContext from '../UserContext';
 function AddQuestionForm(){
 
     const context =useContext(UserContext)
-    const [totalNumberOfQuestions,setTotalNumberOfQuestions] = useState( context.selectedQuiz.questions.length)
-    const [passsingScoreInput, setPassingScoreInput]=useState(context.selectedQuiz.passing_score)
-    console.log (context.selectedQuiz.questions.length)
 
-    function handlleAddQuestion(e){
-        e.preventDefault()
-        fetch(`/questions`,{
+    function handlleAddQuestion(e) {
+        e.preventDefault();
+        console.log("adding new question");
+    
+        fetch(`/questions`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({
-                question:context.question,
-                type:context.type,
-                correct_answer:context.correct_answer,
-                quiz_id:context.selectedQuiz.id,
+                question: context.question,
+                type: context.type,
+                correct_answer: context.correct_answer,
+                quiz_id: context.selectedQuiz.id,
             })
         })
         .then(res => res.json())
         .then((question) => {
-            const options = [`${context.option1}`,`${context.option2}`,`${context.option3}`,`${context.option4}`]
-            options.forEach(option => {
-                fetch(`/options`,{
+            const options = [`${context.option1}`, `${context.option2}`, `${context.option3}`, `${context.option4}`];
+    
+            const optionPromises = options.map(option => {
+                return fetch(`/options`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -38,39 +38,44 @@ function AddQuestionForm(){
                         option: option,
                         question_id: question.id
                     })
-                })
-            })
+                });
+            });
     
+            return Promise.all(optionPromises);
         })
-        .then(
-            fetch(`/quizzes/${context.selectedQuiz.id}`, {
+        .then(() => {
+            return fetch(`/quizzes/${context.selectedQuiz.id}`, {
                 method: 'PATCH',
                 headers: {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({
-                    title:context.selectedQuiz.title,
-                    description:context.selectedQuiz.description,
-                    category:context.selectedQuiz.category,
-                    point_value: totalNumberOfQuestions + 1,
-                    passing_score:passsingScoreInput,
-                    teacher_id:context.user.id
+                    title: context.selectedQuiz.title,
+                    description: context.selectedQuiz.description,
+                    category: context.selectedQuiz.category,
+                    point_value: context.totalNumberOfQuestions + 1,
+                    passing_score: context.passsingScoreInput,
+                    teacher_id: context.user.id
                 })
-            })
-        )
-        .then(()=>{
-        context.setQuestion("")
-        context.setType("")
-        context.setOptions([])
-        context.setCorrectAnswer("")
-        context.setOption1("")
-        context.setOption2("")
-        context.setOption3("")
-        context.setOption4("")
-        context.setShortAnswerAnswer("")
-        context.getQuestions(context.selectedQuiz.id)})
-        context.setAddingQuestion(false)
-     }
+            });
+        })
+        .then(() => {
+            context.setQuestion("");
+            context.setType("");
+            context.setOptions([]);
+            context.setCorrectAnswer("");
+            context.setOption1("");
+            context.setOption2("");
+            context.setOption3("");
+            context.setOption4("");
+            context.setShortAnswerAnswer("");
+            context.getQuestions(context.selectedQuiz.id);
+            context.setAddingQuestion(false);
+        })
+        .catch(error => {
+            console.error("Error adding question or options:", error);
+        });
+    }
 
      function handleTypeChange(e){
         console.log(`handling type change ${e.target.value}`)
@@ -158,9 +163,10 @@ function AddQuestionForm(){
                 </>)}
 
                 <label>passing score : </label>
-                <input onChange={(e)=>setPassingScoreInput(e.target.value)}
-                type="number" min = "1" max={context.selectedQuiz.questions.lenght+1} id="passing-score" value={passsingScoreInput}></input><p>/{context.selectedQuiz.questions.length + 1}</p>
-            <input type="submit" value="submit" className = "button" id="submitNewQuiz"/>
+                <input onChange={(e)=>context.setPassingScoreInput(e.target.value)}
+                type="number" min = "1" max={context.selectedQuiz.questions.length+1} id="passing-score" value={context.passsingScoreInput}></input>
+                <p>/{context.selectedQuiz.questions.length + 1}</p>
+            <input className="mini-action-btn" type="submit" value="Add Question"  id="submitNewQuiz"/>
             </form>
 
 

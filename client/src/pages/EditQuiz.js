@@ -5,59 +5,42 @@ import AddQuestionForm from "../components/AddQuestionForm";
 import EditQuestionForm from '../components/EditQuestionForm';
 
 
-function EditQuiz({setEditQuiz}){
+function EditQuiz({setEditQuiz,setShowQuiz}){
 
     const context =useContext(UserContext)
-    const [addQuestion,setAddQuestion]=useState(false)
-    const [editedQuestion, setEditedQuestion] = useState(null)
-
-    function deleteQuestion(id) {
-        fetch(`/questions/${id}`, {
-            method: 'delete',
-          })
-            .then((res) => {
-              if (res.ok) {
-                context.getQuestions(context.selectedQuiz.id);
-                console.log(context.selectedQuiz.id)
-                context.setSelectedQuestion(null)
-              }
-            });
-    }
 
     const formik = useFormik({
         initialValues: {
-            title:`${context.selectedQuiz.title}`,
-            description:`${context.selectedQuiz.description}`,
-            category:`${context.selectedQuiz.category}` ,
-            point_value:`${context.selectedQuiz.point_value}`,
-            passing_score:`${context.selectedQuiz.passing_score}`,
-            retry:context.selectedQuiz.retry,
-            teacher_id:`${context.user.id}`,
+            title: `${context.selectedQuiz.title}`,
+            description: `${context.selectedQuiz.description}`,
+            category: `${context.selectedQuiz.category}`,
+            point_value: `${context.selectedQuiz.point_value}`,
+            passing_score: `${context.selectedQuiz.passing_score}`,
+            retry: context.selectedQuiz.retry,
+            teacher_id: `${context.user.id}`,
         },
-        onSubmit:(values,{resetForm})=>{
-            fetch (`/quizzes/${context.selectedQuiz.id}`,{
+        onSubmit: (values, { resetForm }) => {
+            values.retry = values.retry === "true";
+    
+            fetch(`/quizzes/${context.selectedQuiz.id}`, {
                 method: "PATCH",
                 headers: {
                     "Content-Type": "application/json",
                 },
-                body: JSON.stringify(values,null,2),
+                body: JSON.stringify(values, null, 2),
             })
-            .then((res)=>res.json())
-            .then((data)=>{
-                console.log(data);
-                // setNewQuiz(data)
-                // setQuizId(data.id)
-                context.getQuizzes(context.user.id)
-                context.setSelectedQuiz(data)
-            })
+                .then((res) => res.json())
+                .then((data) => {
+                    context.getQuizzes(context.user.id);
+                    context.setSelectedQuiz(data);
+                });
             resetForm();
-            setEditQuiz(false)
-        }
-    })
+            context.setEditQuiz(false);
+            context.setShowQuiz(true)
+        },
+    });
 
-    function onAddQuestionClick(){
-        setAddQuestion(true)
-    }
+    
     return( 
         <>
         
@@ -82,75 +65,51 @@ function EditQuiz({setEditQuiz}){
          id='category'
          onChange={formik.handleChange}
          value={formik.values.category}></input>
-        <br/>
-        <br/>
-        <label className="form-label" htmlFor = "point_value">Point value</label>
-        <input type="text"
+       
+        <input type="hidden"
          id='point_value'
          onChange={formik.handleChange}
          value={formik.values.point_value}></input>
         <br/>
         <br/>
         <label className="form-label" htmlFor="passing_score">Passing Score</label>
-        <input type="text"
-         id='passing_score'
-         onChange={formik.handleChange}
-         value={formik.values.passing_score}></input>
+        <input onChange={formik.handleChange}
+                type="number" min = "1" 
+                max={context.selectedQuiz.questions.length} 
+                id="passing_score" value={formik.values.passing_score}>
+                    
+                </input><p>/{context.selectedQuiz.questions.length}</p>
        
       
        <p role="group" aria-labelledby="my-radio-group">Allow students to retry?</p>
-        <label>
-            <input
-                type="radio"
-                name="picked"
-                value={true}
-                onChange={formik.handleChange}
-            />
-            Yes
-        </label>
-        <label>
-            <input
-                type="radio"
-                name="picked"
-                value={false}
-                onChange={formik.handleChange}
-            />
-            No
-        </label>
+            <label>
+                <input
+                    type="radio"
+                    name="retry"
+                    value="true"
+                    checked={formik.values.retry === true}
+                    onChange={() => formik.setFieldValue('retry', true)}
+                />
+                Yes
+            </label>
+            <label>
+                <input
+                    type="radio"
+                    name="retry"
+                    value="false"
+                    checked={formik.values.retry === false}
+                    onChange={() => formik.setFieldValue('retry', false)}
+                />
+                No
+            </label>
         <br /><br />
-
-        <label className="form-label" htmlFor="teacher_id"> teacher id</label>
-        <input type="text"
+        <input type="hidden"
          id='teacher_id'
          onChange={formik.handleChange}
          value={formik.values.teacher_id}></input>
-        <input className='action-btn' type="submit" value = "save quiz"/>
-        </form>
+         <input className='action-btn' type="submit" value = "save quiz"/>
+            </form>
 
-         {context.selectedQuiz.questions.map((question) => {
-         if (context.editedQuestion && question.id === context.editedQuestion.id) {
-            return(<EditQuestionForm/>)}
-         else {
-            return (
-                <div key = {question.id}>
-                       <p>{question.question}</p>
-                       {question.options.map((option)=>{
-                       return(
-                           <>
-                           <p key={option.id}>{option.option}</p>
-                           </>
-                       )
-                       })}
-                        <button  onClick={()=>deleteQuestion(question.id)}>Delete Question</button>
-                        <button onClick={()=>context.setEditedQuestion(question)}>Edit Question</button>
-                       
-                   </div>)
-        }
-        })}
-            <button onClick={onAddQuestionClick}>add Question</button>
-            {addQuestion? (<>
-            <AddQuestionForm/>
-            </>):(null)}
         </>)
 } 
 

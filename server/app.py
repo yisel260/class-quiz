@@ -398,7 +398,7 @@ class QuizById(Resource):
         quiz.passing_score=data.get('passing_score')
         quiz.retry = data.get('retry')
         quiz.teacher_id=data.get('teacher_id')
-
+        print(quiz.passing_score)
         db.session.add(quiz)
         db.session.commit()
 

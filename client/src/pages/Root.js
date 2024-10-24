@@ -40,7 +40,11 @@ function Root (){
 
     const [selectedStudents,setSelectedStudents]=useState([])
     const [studentAssignments,setStudentAssignments]=useState([])
+    const [totalNumberOfQuestions,setTotalNumberOfQuestions] = useState( selectedQuiz?.questions.length||null)
+    const [passsingScoreInput, setPassingScoreInput]=useState(selectedQuiz?.passing_score || null)
 
+    const [showQuiz,setShowQuiz] = useState(false)
+    const [editQuiz, setEditQuiz] = useState(false)
 
     useEffect(() => {
         fetch("/check_session").then((response) => {
@@ -186,7 +190,11 @@ function Root (){
         getAssignments,
         selectedStudents,setSelectedStudents,
         studentAssignments,setStudentAssignments,
-        getStudentAssignments
+        getStudentAssignments,
+        totalNumberOfQuestions,setTotalNumberOfQuestions,
+        passsingScoreInput, setPassingScoreInput,
+        showQuiz,setShowQuiz,
+        editQuiz, setEditQuiz
        
         }}>
       <Outlet/>

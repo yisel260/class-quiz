@@ -31,14 +31,14 @@ function AddAssignment({ setAddAssignment }) {
             studentId => !alreadyAssignedStudents.includes(studentId)
         );
     
-        newlySelectedStudents.forEach(studentId => {
+        const fetchPromises = newlySelectedStudents.map(studentId => {
             const newAssignment = {
                 student_id: studentId,
                 quiz_id: context.selectedQuiz.id,
                 score: 0,
                 status: "assigned",
             };
-            fetch('/assignments', {
+            return fetch('/assignments', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -53,9 +53,15 @@ function AddAssignment({ setAddAssignment }) {
                 console.error('Error:', error);
             });
         });
-            context.getAssignments(context.sectionSelected.id);
-        setAddAssignment(false);
-        context.setSelectedStudents([]);
+    
+        Promise.all(fetchPromises)
+            .then(() => {
+                context.getAssignments(context.sectionSelected.id);
+            })
+            .finally(() => {
+                setAddAssignment(false);
+                context.setSelectedStudents([]);
+            });
     }
 
     function selectQuiz(quizId) {

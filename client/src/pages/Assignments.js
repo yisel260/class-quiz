@@ -16,21 +16,29 @@ function Assignments() {
 
 
     function onDelete(quizId) {
-      console.log("delete assignment called")
-       const assignmentsToDelete = context.classAssignments.filter((assignment) => assignment.quiz_id === quizId)
-        console.log(assignmentsToDelete)
-        assignmentsToDelete.forEach(assignment=>{
-          fetch(`/assignments/${assignment.id}`, {
-            method: 'DELETE',
-          })})
-            context.getAssignments(context.sectionSelected.id);
-            };
+      console.log("delete assignment called");
+      const assignmentsToDelete = context.classAssignments.filter(
+          (assignment) => assignment.quiz_id === quizId
+      );
+      console.log(assignmentsToDelete);
+  
+      const fetchPromises = assignmentsToDelete.map((assignment) => {
+          return fetch(`/assignments/${assignment.id}`, {
+              method: 'DELETE',
+          });
+      });
+  
+      Promise.all(fetchPromises)
+          .then(() => {
+              context.getAssignments(context.sectionSelected.id);
+          })
+          .catch((error) => {
+              console.error('Error deleting assignments:', error);
+          });
+  }
     
 
-    function onAddAssignment(){
-      context.setSelectedQuiz(context.quizzes[0])
-      setAddAssignment(true)
-    }
+    
 
     function doneAddingAssignments(){
       setAddAssignment(false)
@@ -45,9 +53,6 @@ function Assignments() {
 
     function deleteAssingment(student,quiz){
       console.log("delete assignment called")
-      console.log(student)
-      console.log(quiz)
-
       const assignment = context.classAssignments.find((assignment) => assignment.quiz_id === quiz.id && assignment.student_id === student.id)
       console.log(assignment)
       fetch(`/assignments/${assignment.id}`, {
@@ -78,7 +83,7 @@ function Assignments() {
               </>
             ) : (null)}
       
-            <div>
+            <div className='container'>
               {context.user.quizzes.map((quiz) => {
                 const students = context.classAssignments
                   .filter((assignment) => assignment.quiz_id === quiz.id)
@@ -92,25 +97,25 @@ function Assignments() {
                 const uniqueStudents = [...new Set(students)];
 
                 return (
-                  <div className="assingment-card-container">
-
-                  <div className = "assingment-card" key={quiz.id}>
-                    <h3>{quiz.title}</h3>
-                    <div id='student-names-container'>{uniqueStudents.length > 0
+                  
+                  <div className="assignments-by-quiz-container"key={quiz.id}>
+                    <h3 className='asignment-quiz-title'>{quiz.title}</h3>
+                    <div className='student-names-container'>{uniqueStudents.length > 0
                       ? (<>
                       {uniqueStudents.map((student)=>{
-                        return <div key={student.id}>
-                          <p> {student.name}</p><button onClick={()=>deleteAssingment(student,quiz)}>delete</button>
+                        return <div className='assignment-card' key={student.id}>
+                          <p> {student.name}</p><button className='mini-action-btn' onClick={()=>deleteAssingment(student,quiz)}>delete</button>
                         </div>
                       })}
                       </>)
-                      : 'No students assigned'}
+                      : <div className='assignment-card' >No students assigned</div>}
                     </div>
                     <br/>
                     <button
                       className="mini-action-btn"
                       onClick={() => onAddStudentsToAssignment(quiz)}
                     >
+                    
                       Add Students 
                     </button>
                     <button
@@ -120,8 +125,7 @@ function Assignments() {
                       Delete
                     </button>
                   </div>
-                  </div>
-
+  
                 );
               })}
             </div>

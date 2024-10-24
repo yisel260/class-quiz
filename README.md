@@ -62,7 +62,7 @@ Install dependencies and  start the application:
 
 This project uses 7 related models :
 
-  table teachers {
+ ` table teachers {
   id interger [primary key]
   email string 
   fname string
@@ -121,7 +121,7 @@ table  options{
   option string
   question_id string     
 }
-
+`
 
 Some important relationships: 
 
@@ -133,7 +133,7 @@ Some important relationships:
 - a quiz has many questions 
 - a question has many options 
 
-  Many to many relationships: 
+Many to many relationships: 
 - a student can have many quizzes through assignments 
 - a quiz can have many students assingned 
 

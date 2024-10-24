@@ -3,7 +3,6 @@ import UserContext from '../UserContext';
 import Header from '../components/Header';
 import NavBar from '../components/NavBar';
 import AddAssignment from '../components/AddAssignment';
-import EditAssignment from '../components/EditAssignment';
 
 
 

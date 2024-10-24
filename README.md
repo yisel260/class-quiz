@@ -62,7 +62,8 @@ Install dependencies and  start the application:
 
 This project uses 7 related models :
 
- ` table teachers {
+```js
+  table teachers {
   id interger [primary key]
   email string 
   fname string
@@ -121,7 +122,7 @@ table  options{
   option string
   question_id string     
 }
-`
+```
 
 Some important relationships: 
 

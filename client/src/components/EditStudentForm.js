@@ -3,7 +3,7 @@ import { useFormik } from "formik";
 import * as yup from "yup";
 import UserContext from "../UserContext";
 
-function EditStudentForm({ setEditStudent, setShowTable }) {
+function EditStudentForm() {
   const context = useContext(UserContext);
   console.log(context.selectedStudent);
 
@@ -37,8 +37,8 @@ function EditStudentForm({ setEditStudent, setShowTable }) {
         .then((data) => {
           console.log(data);
           context.getStudents(context.sectionSelected.id);
-          setEditStudent(false);
-          setShowTable(true);
+          context.setEditStudent(false);
+          context.setShowTable(true);
         });
       resetForm();
     },

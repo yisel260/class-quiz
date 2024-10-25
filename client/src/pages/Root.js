@@ -37,7 +37,7 @@ function Root (){
     const [classAssignments, setClassAssignments]=useState()
     const [selectedAssignment, setSelectedAssignment]= useState(null)
 
-
+    const [addingStudent,setAddingStudent]=useState(false)
     const [selectedStudents,setSelectedStudents]=useState([])
     const [studentAssignments,setStudentAssignments]=useState([])
     const [totalNumberOfQuestions,setTotalNumberOfQuestions] = useState( selectedQuiz?.questions.length||null)
@@ -45,6 +45,7 @@ function Root (){
 
     const [showQuiz,setShowQuiz] = useState(false)
     const [editQuiz, setEditQuiz] = useState(false)
+    const [showTable, setShowTable] = useState(true)
 
     useEffect(() => {
         fetch("/check_session").then((response) => {
@@ -87,7 +88,7 @@ function Root (){
           getStudentAssignments(user.id) }
     }
 
-     function getStudents(sectionId){
+    function getStudents(sectionId){
       console.log("getstudents called")
       console.log(sectionId)
       fetch(`/studentsbysection/${sectionId}`)
@@ -183,6 +184,7 @@ function Root (){
         addingQuiz, setAddingQuiz,
         editedQuestion, setEditedQuestion,
         addingQuestion,setAddingQuestion,
+        addingStudent,setAddingStudent,
         newQuestion, setNewQuestion,
         newQuiz, setNewQuiz,
         questionsDisplayed, setQuestionsDisplayed,
@@ -195,7 +197,8 @@ function Root (){
         totalNumberOfQuestions,setTotalNumberOfQuestions,
         passsingScoreInput, setPassingScoreInput,
         showQuiz,setShowQuiz,
-        editQuiz, setEditQuiz
+        editQuiz, setEditQuiz,
+        showTable, setShowTable
        
         }}>
       <Outlet/>

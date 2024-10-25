@@ -84,7 +84,7 @@ return(
         <label htmlFor='teacher_id'></label>
         <input 
         type='hidden'
-        name='name'
+        name='teacher_id'
         value={formik.values.teacher_id}
         onChange={formik.handleChange}
          />

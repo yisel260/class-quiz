@@ -8,10 +8,7 @@ import EditStudentForm from './EditStudentForm';
 function StudentRosterTable() {
     const context = useContext(UserContext);
     const students = useMemo(() => context.sectionStudents || [], [context.sectionStudents]);
-    const [addStudent,setAddStudent ]= useState(false)
     const [editStudent,setEditStudent ]= useState(false)
-    const [buttonStatus,setButtonStatus]= useState(false)
-    const [showTable,setShowTable]= useState(true)
 
     function onDelete(studentId) {
         fetch(`/students/${studentId}`, {
@@ -25,14 +22,14 @@ function StudentRosterTable() {
     }
 
     function onAddStudent(){
-      setAddStudent(true)
-      setShowTable(false)
+      context.setAddingStudent(true)
+      context.setShowTable(false)
     }
 
     function doneAddingStudents(){
       console.log("adding student done fuction callled")
-      setAddStudent(false)
-      setShowTable(true)
+      context.setAddingStudent(false)
+      context.setShowTable(true)
     }
 
     function onEditStudent(id){
@@ -42,8 +39,7 @@ function StudentRosterTable() {
       console.log(student)
       context.setSelectedStudent(student[0])
       setEditStudent(true)
-      setButtonStatus(true)
-      setShowTable(false)
+      context.setShowTable(false)
 
     }
 
@@ -91,8 +87,7 @@ function StudentRosterTable() {
 
     return (
       <>
-        {showTable ? (
-          // Render the student table
+        {context.showTable ? (
           students.length > 0 ? (
             <div className="student-rooster-table">
               <table {...getTableProps()}>
@@ -122,19 +117,21 @@ function StudentRosterTable() {
                   })}
                 </tbody>
               </table>
+              <button className="action-btn" onClick={onAddStudent}>Add Student</button>
+
             </div>
+            
           ) : (
             <p>No students available.</p>
           )
         ) : editStudent ? (
-          <EditStudentForm editStudent={editStudent} setEditStudent={setEditStudent} showTable={showTable} setShowTable={setShowTable}/>
-        ) : addStudent ? (
+          <EditStudentForm editStudent={editStudent} setEditStudent={setEditStudent}/>
+        ) : context.addingStudent ? (
           <>
             <AddStudentForm />
             <button onClick={doneAddingStudents} className='action-btn'>Finished</button>
           </>
-        ) : (
-          <button className="action-btn" onClick={onAddStudent}>Add Student</button>
+        ) : (null
         )}
       </>
     );

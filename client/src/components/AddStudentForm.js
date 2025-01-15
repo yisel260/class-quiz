@@ -1,18 +1,18 @@
 import React,{useContext} from "react";
 import { useFormik } from "formik";
-import * as yup from "yup";
+// import * as yup from "yup";
 import UserContext from "../UserContext";
 
-function AddStudentForm({}){
+function AddStudentForm(){
   const context = useContext(UserContext)
   console.log(context.sectionSelected)
-    const formSchema= yup.object().shape(
-    {
-      name: yup.string().required("You must enter a student name").max(20),
-      password: yup.string().required("You must enter a pasword").max(20),
-      section_id: yup.number().required(),
-      role: yup.string().required()
-    })
+    // const formSchema= yup.object().shape(
+    // {
+    //   name: yup.string().required("You must enter a student name").max(20),
+    //   password: yup.string().required("You must enter a pasword").max(20),
+    //   section_id: yup.number().required(),
+    //   role: yup.string().required()
+    // })
 
   const formik = useFormik({
       initialValues: {
@@ -56,7 +56,6 @@ return (
           value={formik.values.name}
           />
           <p style={{ color: "red" }}> {formik.errors.name}</p>
-
 
           <label htmlFor="password">Password: </label>
           <input

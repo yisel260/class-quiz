@@ -199,7 +199,6 @@ function Root (){
         showQuiz,setShowQuiz,
         editQuiz, setEditQuiz,
         showTable, setShowTable
-       
         }}>
       <Outlet/>
       </UserContext.Provider>

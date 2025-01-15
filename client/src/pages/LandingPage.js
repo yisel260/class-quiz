@@ -6,10 +6,10 @@ import TeacherLogin from'../components/TeacherLogin';
 import TeacherHome from './TeacherHome';
 import StudentHome from './StudentHome';
 import { useFormik } from 'formik';
-import { useOutletContext } from 'react-router-dom';
 import UserContext from '../UserContext';
 import Section from './Section';
 import { useNavigate} from "react-router-dom"
+import Hero from "../components/Hero";
 
 
 
@@ -58,6 +58,7 @@ function LandingPage() {
       return (
           <>
               <main>
+                 <Hero/>
                   <h1 className='banners' id='welcome'>Welcome to Class Quiz!</h1>
                   <div className="login-sections" id="student-section">
                   <h2 className='section-banner'>I am a student:</h2>

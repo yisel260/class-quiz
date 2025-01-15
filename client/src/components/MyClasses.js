@@ -14,7 +14,7 @@ function MyClasses(){
         })
         .then(res=>{
             if (res.ok){
-                const newSectionList = context.sections.filter(section => section.id!=sectionId)
+                const newSectionList = context.sections.filter(section => section.id!==sectionId)
                 context.setSections(newSectionList)
                 context.setSectionSelected(newSectionList[0])
                 context.setSectionStudents(newSectionList[0].students)
@@ -43,6 +43,7 @@ function MyClasses(){
               <br/>
               <div>
               <StudentRosterTable />
+              
               </div>
             </>
           ) : (

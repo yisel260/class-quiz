@@ -59,7 +59,6 @@ function LandingPage() {
           <>
               <main>
                  <Hero/>
-                  <h1 className='banners' id='welcome'>Welcome to Class Quiz!</h1>
                   <div className="login-sections" id="student-section">
                   <h2 className='section-banner'>I am a student:</h2>
                       <form className='forms' id='student-login-form' onSubmit={formik.handleSubmit}>
